@@ -9,6 +9,7 @@ An English grammar website for adult learners (A1 to C1), set in everyday Adelai
 | `src/index.html` | Page shell: head, navigation and include markers |
 | `src/styles.css` | All styles, including dark mode and reduced motion |
 | `src/app.js` | Routing, pages, Tense Studio, the lesson engine and audio |
+| `src/voices.js` | Accent choice and studio voices (Kokoro in a web worker) |
 | `src/lessons/*.js` | Lesson content for each open grammar area (one file per area) |
 | `tools/build.py` | Joins everything into one self-contained file |
 | `docs/index.html` | The built site. GitHub Pages serves this folder |
@@ -31,6 +32,6 @@ This writes `docs/index.html`. Commit the built file with your source changes so
 
 ## Known limits
 
-- Audio uses the browser's built-in voices, so quality depends on the device.
+- Audio has an accent choice (Australian, British, American) in the 🔊 menu. British and American can use studio voices: [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) (Apache 2.0) running in the browser through [kokoro-js](https://www.npmjs.com/package/kokoro-js), about 90 MB downloaded once. Australian uses the best Australian voice on the device, because no free open model speaks Australian English yet.
 - Progress is saved in each learner's browser only.
 - Lessons, answer keys and video picks were written and checked by Claude. A teacher should review them.

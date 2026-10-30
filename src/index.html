@@ -16,7 +16,8 @@
 <a href="#/worksheets/writing" style="--i:2"><span class="e">✍️</span><span><b>Writing</b><small>Guided writing tasks</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/speaking" style="--i:3"><span class="e">🎤</span><span><b>Speaking</b><small>Prompts to say out loud</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/listening" style="--i:4"><span class="e">🎧</span><span><b>Listening</b><small>Hear it, then answer</small></span><span class="t n">Soon</span></a></div></div>
-<a href="#/library" data-r="library">Library</a></nav><button class="burger" id="bg" aria-label="Open menu">☰</button></header>
+<a href="#/library" data-r="library">Library</a></nav><button class="vbtn" id="vbtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="vp" aria-label="Accent and voices">🔊 <span id="vflag">🇦🇺</span></button><button class="burger" id="bg" aria-label="Open menu">☰</button>
+<div class="vp" id="vp" role="dialog" aria-label="Accent and voices" hidden><b>Accent for all audio</b><div class="vseg" role="group" aria-label="Accent"><button type="button" data-a="au" aria-pressed="false">🇦🇺 Australian</button><button type="button" data-a="uk" aria-pressed="false">🇬🇧 British</button><button type="button" data-a="us" aria-pressed="false">🇺🇸 American</button></div><div class="vpq" id="vpq"></div><button type="button" class="vtry" onclick="vTry()">▶ Hear a woman and a man</button></div></header>
 <main id="app"></main><canvas id="cf"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
