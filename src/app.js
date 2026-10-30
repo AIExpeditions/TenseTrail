@@ -149,7 +149,7 @@ var GC=[
 {id:"adj",sx:1,e:"🎨",n:"Adjectives and adverbs",d:"Describe, compare and add emphasis.",c:"#ffd9e8",i:"Adverbs of frequency|A1|c;Comparative adjectives|A2;Superlative adjectives|A2|c;Adjectives and prepositions|A2;Adjectives ending in -ed and -ing|A2;Modifying comparatives|B1;Adjectives: gradable and non-gradable|B1;Intensifiers: so and such|B1;Using as and like|B1"},
 {id:"preps",sx:1,e:"🧭",n:"Prepositions and linking words",d:"Place, time and connecting ideas.",c:"#b9e6ff",i:"Linking words: and, but, because, so|A1|c;Prepositions of place: in, on, at|A2;Prepositions of time: at, in, on|A2;Contrasting ideas: although, despite|B1;Contrasting ideas (advanced)|C1;Avoiding repetition in a text|C1"},
 {id:"sentences",sx:1,e:"🏗️",n:"Sentences and questions",d:"Word order, questions and longer sentences.",c:"#d8ccff",i:"Basic word order and commands|A1|c;Question forms|A2;There is and there are|A2;Question tags|B1;Relative clauses: defining|B1;Relative clauses: non-defining|B1;Participle clauses|C1;Emphasis: cleft sentences, inversion and auxiliaries|C1;Inversion after negative adverbials|C1;Ellipsis|C1"},
-{id:"writing",e:"✒️",n:"Writing and usage",d:"Punctuation and everyday conventions.",c:"#bff2de",i:"Punctuation basics|A1|c;Capital letters and apostrophes|B1;British and American English|B1"}];
+{id:"writing",sx:1,e:"✒️",n:"Writing and usage",d:"Punctuation and everyday conventions.",c:"#bff2de",i:"Punctuation basics|A1|c;Capital letters and apostrophes|B1;British and American English|B1"}];
 function items(c){return c.i.split(";").map(function(s){var p=s.split("|");return{n:p[0],l:p[1],core:p[2]=="c"}})}
 var gl="All";
 function glv(l){gl=l;gmapDraw()}
@@ -424,6 +424,7 @@ function skillCards(){var S=[["✏️","General Grammar","12 tenses with lessons
 /*@include lessons/nouns.js*/
 /*@include lessons/adj.js*/
 /*@include lessons/preps.js*/
+/*@include lessons/writing.js*/
 /* ---- Sentences and questions: engine ---- */
 var SXK="tt_sx_v1",SXI=[1,3,7,14,30],SXT=0,SXS=null,SXDAY=864e5;
 function sxH(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
@@ -509,7 +510,7 @@ function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).
 function sxShuf2(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
 
 var NUMW=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"];
-var XA={sentences:{x:SX,l:SXL,g:SXG,k:"tt_sx_v1",d:"tt_sx_d",n:"Sentences and questions"},modals:{x:MX,l:MXL,g:MXG,k:"tt_md_v1",d:"tt_md_d",n:"Modal verbs"},conditionals:{x:CX,l:CXL,g:CXG,k:"tt_cd_v1",d:"tt_cd_d",n:"Conditionals and wishes"},passive:{x:PX,l:PXL,g:PXG,k:"tt_ps_v1",d:"tt_ps_d",n:"Passive and reported speech"},patterns:{x:VX,l:VXL,g:VXG,k:"tt_vp_v1",d:"tt_vp_d",n:"Verb patterns and phrasal verbs"},nouns:{x:NX,l:NXL,g:NXG,k:"tt_nn_v1",d:"tt_nn_d",n:"Nouns, pronouns and articles"},adj:{x:AX,l:AXL,g:AXG,k:"tt_aj_v1",d:"tt_aj_d",n:"Adjectives and adverbs"},preps:{x:RX,l:RXL,g:RXG,k:"tt_pr_v1",d:"tt_pr_d",n:"Prepositions and linking words"}},SXA="sentences",SXN="Sentences and questions",SXD="tt_sx_d";
+var XA={sentences:{x:SX,l:SXL,g:SXG,k:"tt_sx_v1",d:"tt_sx_d",n:"Sentences and questions"},modals:{x:MX,l:MXL,g:MXG,k:"tt_md_v1",d:"tt_md_d",n:"Modal verbs"},conditionals:{x:CX,l:CXL,g:CXG,k:"tt_cd_v1",d:"tt_cd_d",n:"Conditionals and wishes"},passive:{x:PX,l:PXL,g:PXG,k:"tt_ps_v1",d:"tt_ps_d",n:"Passive and reported speech"},patterns:{x:VX,l:VXL,g:VXG,k:"tt_vp_v1",d:"tt_vp_d",n:"Verb patterns and phrasal verbs"},nouns:{x:NX,l:NXL,g:NXG,k:"tt_nn_v1",d:"tt_nn_d",n:"Nouns, pronouns and articles"},adj:{x:AX,l:AXL,g:AXG,k:"tt_aj_v1",d:"tt_aj_d",n:"Adjectives and adverbs"},preps:{x:RX,l:RXL,g:RXG,k:"tt_pr_v1",d:"tt_pr_d",n:"Prepositions and linking words"},writing:{x:WX,l:WXL,g:WXG,k:"tt_wr_v1",d:"tt_wr_d",n:"Writing and usage"}},SXA="sentences",SXN="Sentences and questions",SXD="tt_sx_d";
 function sxUse(id){var a=XA[id];if(!a||SX===a.x)return;SX=a.x;SXL=a.l;SXG=a.g;SXK=a.k;SXD=a.d;SXN=a.n;SXA=id;SXGN=[]}
 /* ---- Sentences and questions: dialogue players, mini lessons, generator ---- */
 function sxDlHtml(id,title,sp,ln,lab){SXR[id]={sp:sp,ln:ln,lab:lab||"dialogue"};return'<div class="sxdlg" id="sxb-'+id+'"><div class="sxdt"><b>'+sxH(title)+'</b><button class="btn sxpl" id="sxp-'+id+'" onclick="sxDlTog(\''+id+'\')">▶ Play the '+(lab||"dialogue")+'</button></div>'+ln.map(function(l,i){var s=sp[l[0]];return'<div class="sxl '+(l[0]?"r":"l")+'" onclick="sxDl(\''+id+'\','+i+',false)" style="--i:'+i+'"><span class="av">'+(s[1]=="she"?"👩🏼":"👨🏼")+'</span><div><small>'+s[0]+'</small><p>'+sxM(l[1])+'</p></div></div>'}).join("")+'</div>'}
