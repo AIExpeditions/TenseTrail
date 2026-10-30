@@ -18,14 +18,17 @@ var NVLOC={"config.json":'{"model_type":"style_text_to_speech_2"}',"tokenizer_co
 function nvCore(P,KJS){var tts=null,busy=0,jobs=[],HF="https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/main/",NPM="https://cdn.jsdelivr.net/npm/",of=self.fetch.bind(self);
  var get=function(u,i){return of(u,i).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r})};
  var join=function(urls,type){return Promise.all(urls.map(function(u){return get(u).then(function(r){return r.arrayBuffer()})})).then(function(b){return new Response(new Blob(b),{headers:{"content-type":type,"content-length":String(b.reduce(function(s,x){return s+x.byteLength},0))}})})};
- var pieces=function(pre,n){var a=[];for(var i=0;i<n;i++)a.push(pre+i+".bin");return a};
+ /* copies beside the page are base64 text, the only kind of data file the Claude preview serves */
+ var b64=function(t){var s=atob(t.trim()),u=new Uint8Array(s.length);for(var i=0;i<s.length;i++)u[i]=s.charCodeAt(i);return u.buffer};
+ var joinTxt=function(urls,type){return Promise.all(urls.map(function(u){return get(u).then(function(r){return r.text()}).then(b64)})).then(function(b){return new Response(new Blob(b),{headers:{"content-type":type,"content-length":String(b.reduce(function(s,x){return s+x.byteLength},0))}})})};
+ var pieces=function(pre,n,ext){var a=[];for(var i=0;i<n;i++)a.push(pre+i+(ext||".bin"));return a};
  /* each file can come from its usual host, from copies published next to the page (P.base), or from jsDelivr */
  var alts=function(s){var f=s.slice(HF.length).split("?")[0],m=/^voices\/(\w+)\.bin$/.exec(f),B=P.base,O="application/octet-stream";
-  if(/ort-wasm-simd-threaded\.jsep\.wasm$/.test(s))return[function(){return join(pieces(B+"ort.part",2),"application/wasm")}];
+  if(/ort-wasm-simd-threaded\.jsep\.wasm$/.test(s))return[function(){return joinTxt(pieces(B+"ort.part",2,".txt"),"application/wasm")}];
   if(s.indexOf(HF)!=0)return null;
   if(P.loc[f])return[function(){return new Response(P.loc[f],{headers:{"content-type":"application/json"}})}];
-  if(f=="onnx/model_quantized.onnx")return[function(){return join(pieces(B+"model.part",7),O)},function(){return join(pieces(NPM+"kokoro-q8-shards@1.0.0/kokoro-q8.part",6),O)}];
-  if(m)return[function(){return get(B+"voices/"+m[1]+".bin")},function(){return get(NPM+"kokoro-js@1.2.1/voices/"+m[1]+".bin")}];
+  if(f=="onnx/model_quantized.onnx")return[function(){return joinTxt(pieces(B+"model.part",9,".txt"),O)},function(){return join(pieces(NPM+"kokoro-q8-shards@1.0.0/kokoro-q8.part",6),O)}];
+  if(m)return[function(){return joinTxt([B+"voices/"+m[1]+".txt"],O)},function(){return get(NPM+"kokoro-js@1.2.1/voices/"+m[1]+".bin")}];
   return[]};
  self.fetch=function(u,i){var s=typeof u=="string"?u:(u&&u.url)||String(u||""),a=alts(s);if(!a)return of(u,i);
   return get(s,i).catch(function(e){return a.reduce(function(p,fn){return p.catch(function(){return fn()})},Promise.reject(e))})};
