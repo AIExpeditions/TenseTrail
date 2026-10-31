@@ -330,3 +330,5 @@ span.lv{background:var(--lc,var(--line));color:#17324d;border:0;padding:3px 12px
 @media(max-width:700px){.ph.photo{padding-top:74px}.ph.photo .wrap{padding:0 12px}.phbox{aspect-ratio:auto;height:440px;border-radius:24px}.phbox .bgp{object-position:62% center}.phbox:after{background:linear-gradient(0deg,rgba(10,22,32,.7) 0%,rgba(10,22,32,.1) 50%,transparent 70%)}.ph.photo .pan{left:12px;right:12px;bottom:12px;padding:16px 18px;max-width:none}.skpimg{width:96px;height:64px}.skitems figure{width:104px}}
 @media(prefers-reduced-motion:reduce){.phbox .bgp{animation:none}.skcard .skimg{transition:none}}
 .ph.photo+.s{padding-top:30px}
+.thbtn{margin-right:6px;padding:7px 9px}.thbtn .th-sun{display:none}.isdark .thbtn .th-sun{display:block}.isdark .thbtn .th-moon{display:none}.thbtn:hover{transform:rotate(-12deg)}
+:root[data-theme="dark"]{color-scheme:dark}:root[data-theme="light"]{color-scheme:light}

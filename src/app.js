@@ -679,3 +679,8 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/audio.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
+
+function thDark(){var t=document.documentElement.dataset.theme;return t?t=="dark":matchMedia("(prefers-color-scheme: dark)").matches}
+function thSync(){var d=thDark(),b=document.getElementById("thbtn");document.documentElement.classList.toggle("isdark",d);if(b){b.setAttribute("aria-label",d?"Switch to light mode":"Switch to dark mode");b.title=d?"Switch to light mode":"Switch to dark mode"}}
+function thTog(){var n=thDark()?"light":"dark";document.documentElement.dataset.theme=n;try{localStorage.setItem("tt_theme",n)}catch(e){}thSync()}
+try{matchMedia("(prefers-color-scheme: dark)").addEventListener("change",thSync)}catch(e){}thSync();
