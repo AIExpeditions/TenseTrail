@@ -94,7 +94,7 @@ var MX=[
  pr:"You come home and your kitchen is a mess. What happened? Write four guesses with must have, might have, could have and can't have.",
  md:"Someone must have cooked pasta, because there's sauce everywhere. My flatmate might have had friends over. It can't have been my sister, because she's in Sydney. The cat could have knocked over the cups.",
  ck:["After have I used the past participle.","I used can't have for something that didn't happen.","I used might have or could have for a possibility."],
- vd:["c-o3Vxy3kZA","Modals of Speculation/Deduction in Past (Must Have, Might Have, Can't Have)","Short English Lessons with Alex Rodrigo",""]},
+ vd:["hBogiz8JWWo","An Introduction to Past Modals: must have, should have, would have, and could have","Learn English with Bob the Canadian",""]},
 
 {t:"The future: degrees of certainty",lv:"B1",e:"🔮",
  nt:["It'll [[definitely rain]] tomorrow.","The Crows [[are likely to win]].","I [[probably won't come]] tonight.","Prices [[are bound to go]] up."],
@@ -110,7 +110,7 @@ var MX=[
  pr:"Write five predictions about your next year. Use will definitely, probably won't, be likely to, might and be bound to.",
  md:"I'll definitely finish my English course. I'm likely to move to a bigger flat. I probably won't buy a car. I might visit my family overseas. My English is bound to get better!",
  ck:["Probably and definitely come after will but before won't.","I used to after likely and bound.","I used the base verb after will, won't and might."],
- vd:["3Eue8XvXIfk","English Grammar Rules: Future: Predictions & Probability","SmartClass by Robotel",""]},
+ vd:["15gAhQ0q0Mc","How to use \"Bound to\" - English Grammar","Learn English with Papa Teach Me",""]},
 
 {t:"Past modals: should have, could have, would have",lv:"B2",e:"🔁",
  nt:["I [[should have brought]] a jacket.","You [[shouldn't have eaten]] so much.","We [[could have taken]] the train.","I [[would have called]], but my phone died."],
@@ -126,7 +126,7 @@ var MX=[
  pr:"Think about a mistake you made or a chance you missed. Write about it with should have, shouldn't have, could have and would have.",
  md:"Last year I didn't apply for a job at the council. I should have applied, because it was perfect for me. I could have got it. I would have applied, but I was scared. I shouldn't have listened to my fears.",
  ck:["After have I used the past participle.","I used shouldn't have for something that was a bad idea.","I wrote have, not of."],
- vd:["owbioRFS0DQ","Past Modals - Should Have, Could Have, Would Have (Intermediate English Grammar)","Virtually Fluent",""]},
+ vd:["56Gsym70j-A","Using Would Have, Could Have, Should Have - English Grammar Lesson","Oxford Online English",""]},
 
 {t:"Modals: probability",lv:"C1",e:"🎲",
  nt:["They [[should be]] home by now.","Prices [[may well rise]] next year.","That'll [[be]] the courier. I'm expecting a parcel.","You [[can't possibly have finished]] already!"],
@@ -142,7 +142,7 @@ var MX=[
  pr:"Write about the news or your plans. Make five predictions or assumptions using should, may well, will have, can't possibly and should have.",
  md:"The new hospital should open next year. House prices may well keep rising. My cousin will have finished her exams by now. The council can't possibly fix every road this year. My parcel should have arrived yesterday.",
  ck:["I used have + past participle for the past.","I used the base verb after may well and should.","I used can't possibly for something impossible."],
- vd:["qFwXCeFEqmo","Advanced probability in English","English with Benen",""]}
+ vd:["ZXN3wROCpfs","'May', 'might' and 'could' - 6 Minute Grammar","BBC Learning English",""]}
 ];
 /* ---- Modal verbs: mini lessons ---- */
 var MXL=[

@@ -94,7 +94,7 @@ var CX=[
  pr:"Write a short formal email to a manager or landlord about a problem. Use at least three inverted conditionals: Should you..., Had I..., Were it not for...",
  md:"Dear Ms Nguyen, the heater in my flat has stopped working. Had I known it was faulty, I would have reported it earlier. Should you need access, I am home after 5 pm. Were it not for the cold weather, this would not be urgent. Kind regards, Sam",
  ck:["I dropped if each time I inverted.","My negatives use Had I not, not Hadn't I.","After should, I used the base verb."],
- vd:["o79UMotZsdQ","Inverted Conditionals for Cambridge C1 Advanced - Advanced English Grammar","i-Speak English",""]},
+ vd:["4K0npnSYjJE","English Grammar - Inversion: \"Had I known...\", \"Should you need...\"","Adam’s English Lessons · engVid",""]},
 
 {t:"Unreal time",lv:"C1",e:"🕰️",
  nt:["[[It's time we left]].","[[I'd rather you didn't]] smoke here.","He talks [[as if he were]] the boss.","[[Suppose you lost]] your job. What would you do?"],
@@ -110,7 +110,7 @@ var CX=[
  pr:"Write a polite note to your flatmates or family. Use It's time we..., I'd rather you..., and What if we...?",
  md:"Hi everyone, I think it's time we made a cleaning roster. I'd rather you didn't leave shoes in the hallway, because people trip over them. What if we took turns cooking on weekends? I'd rather cook on Sundays, if that's OK.",
  ck:["After It's time + subject, I used the past simple.","After I'd rather + another person, I used the past simple.","After I'd rather for myself, I used the base verb."],
- vd:["q6nk-I_nYeg","HOW TO USE THE UNREAL PAST in English | It's time in English | I'd rather in English | I wish","Jenny Mayolin English",""]}
+ vd:["QMAcLQ7joQo","English grammar - UNREAL PAST (if, if only, wish, it's time)","Your English Web",""]}
 ];
 /* ---- Conditionals and wishes: mini lessons ---- */
 var CXL=[

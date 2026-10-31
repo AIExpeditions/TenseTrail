@@ -46,7 +46,7 @@ var SX=[
  pr:"Describe your street or your suburb. Write four sentences with there is or there are. Include one negative sentence.",
  md:"There is a small park near my flat. There are two cafés and a bakery on my street. There isn't a train station, but there are buses. There aren't any big shops.",
  ck:["I used is with one thing and are with plural nouns.","One sentence is negative.","I used any in the negative."],
- vd:["LoxIXOrX6Ms","There Is There Are in English with examples and exercise | Beginner Grammar","Think & Learn",""]},
+ vd:["buj0TVeyj7k","When to Use 'There is' or 'There are' in English","EnglishTonight",""]},
 
 {t:"Question tags",lv:"B1",e:"🏷️",
  nt:["It's a lovely day, [[isn't it]]?","You like pies, [[don't you]]?","You haven't been to Hahndorf, [[have you]]?","Let's grab a coffee, [[shall we]]?"],
@@ -78,7 +78,7 @@ var SX=[
  pr:"Describe three things or people around you. Use who, which, that or where in each sentence, and no commas.",
  md:"I have a neighbour who plays the drums. The café where I study is near the river. The bike that I ride was cheap.",
  ck:["Each sentence tells us which one.","I used who for people and that or which for things.","I did not use commas."],
- vd:["kB2z9L5w7ho","How to use relative clauses - a Mini English Lesson","British Council | English",""]},
+ vd:["1iC_rULeuZc","Defining relative clauses - 6 Minute Grammar","BBC Learning English",""]},
 
 {t:"Relative clauses: non-defining",lv:"B1",e:"➕",
  nt:["Adelaide, [[which is the capital of South Australia]], has lots of festivals.","My sister, [[who lives in Perth]], is visiting.","We went to Hahndorf, [[where we ate German sausages]].","He got the job, [[which surprised everyone]]."],
@@ -158,7 +158,7 @@ var SX=[
  pr:"Write a short text message conversation (four lines) between two friends. Use ellipsis at least three times, such as Fancy..., Can't, Love to.",
  md:"A: Fancy a walk? B: Love to, but can't. Working. A: Tomorrow then? B: Sure!",
  ck:["I left out words that are easy to guess.","I kept the auxiliary or to when needed.","The messages still make sense."],
- vd:["I3kLvqjruE0","Lesson on ELLIPSIS - leaving out words (Italians are more cunning than I am)","Englishing",""]}
+ vd:["K5l-sdHmEH4","Informal English with ellipsis","Canguro English",""]}
 ];
 /* ---- Sentences and questions: lesson data (mini lessons) and generator scenes ---- */
 var SXRC=["#bff2de","#ffc9c2","#ffe08a","#d8ccff","#b9e6ff"],SXR={},SXAT=0,SXGN=[],sxCur=0,SXE=0;
