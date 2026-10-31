@@ -4,8 +4,8 @@
 var ACC={
  uk:{re:/en[-_]GB/i,n:"British",fl:"🇬🇧",lang:"en-GB",hi:["Hello! This is my voice. How are you doing?","Hello there! This is my voice. How are you doing?"]},
  us:{re:/en[-_]US/i,n:"American",fl:"🇺🇸",lang:"en-US",hi:["Hi there! This is my voice. How's it going?","Hey! This is my voice. How's it going?"]}};
-var VACC=(function(){try{var a=localStorage.getItem("tt_acc2");return ACC[a]?a:"uk"}catch(e){return"uk"}})();
-var NVP=(function(){try{return localStorage.getItem("tt_nv2")!="0"}catch(e){return true}})();
+var VACC="uk";
+var NVP=true;
 /* two voices per gender, so two women or two men in one dialogue sound different */
 var NVV={uk:{f:["bf_emma","bf_isabella"],m:["bm_george","bm_fable"]},us:{f:["af_heart","af_bella"],m:["am_michael","am_fenrir"]}};
 var NVN={bf_emma:"Emma",bf_isabella:"Isabella",bm_george:"George",bm_fable:"Fable",af_heart:"Heart",af_bella:"Bella",am_michael:"Michael",am_fenrir:"Fenrir"};
