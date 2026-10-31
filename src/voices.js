@@ -4,8 +4,8 @@
 var ACC={au:{re:/en[-_]AU/i,n:"Australian",fl:"🇦🇺",lang:"en-AU",hi:["G'day! This is my voice. How ya going?","G'day mate! This is my voice. How ya going?"]},
  uk:{re:/en[-_]GB/i,n:"British",fl:"🇬🇧",lang:"en-GB",hi:["Hello! This is my voice. How are you doing?","Hello there! This is my voice. How are you doing?"]},
  us:{re:/en[-_]US/i,n:"American",fl:"🇺🇸",lang:"en-US",hi:["Hi there! This is my voice. How's it going?","Hey! This is my voice. How's it going?"]}};
-var VACC=(function(){try{var a=localStorage.getItem("tt_acc");return ACC[a]?a:"au"}catch(e){return"au"}})();
-var NVP=(function(){try{return localStorage.getItem("tt_nv")=="1"}catch(e){return false}})();
+var VACC=(function(){try{var a=localStorage.getItem("tt_acc2");return ACC[a]?a:"uk"}catch(e){return"uk"}})();
+var NVP=(function(){try{return localStorage.getItem("tt_nv2")!="0"}catch(e){return true}})();
 /* two voices per gender, so two women or two men in one dialogue sound different */
 var NVV={uk:{f:["bf_emma","bf_isabella"],m:["bm_george","bm_fable"]},us:{f:["af_heart","af_bella"],m:["am_michael","am_fenrir"]}};
 var NVN={bf_emma:"Emma",bf_isabella:"Isabella",bm_george:"George",bm_fable:"Fable",af_heart:"Heart",af_bella:"Bella",am_michael:"Michael",am_fenrir:"Fenrir"};
@@ -55,7 +55,7 @@ function nvGen(text,voice,speed,pr){var k=voice+"|"+speed+"|"+text,c=NV.cache.ge
 function nvPre(text,g,alt,rate){if(nvOn())nvGen(text,nvVoice(g,alt),nvSpd(rate),0).catch(function(){})}
 function nvAC(){try{if(!NV.ac)NV.ac=new(window.AudioContext||window.webkitAudioContext)();if(NV.ac.state=="suspended")NV.ac.resume()}catch(e){}return NV.ac}
 function nvStop(){var s=NV.src;NV.src=null;NV.tms.forEach(clearTimeout);NV.tms=[];if(s){s.onended=null;try{s.stop()}catch(e){}}}
-function vCancel(){try{speechSynthesis.cancel()}catch(e){}nvStop()}
+function vCancel(){try{speechSynthesis.cancel()}catch(e){}nvStop();if(typeof apStop=="function")apStop()}
 function nvTalk(text,o){var live=function(){return!o.alive||o.alive()},fb=0,ac=nvAC(),t=setTimeout(function(){fb=1;if(live())vTalkWeb(text,o)},30000);
  if(!ac){clearTimeout(t);vTalkWeb(text,o);return}
  nvGen(text,nvVoice(o.g,o.alt),nvSpd(o.rate),1).then(function(d){clearTimeout(t);if(!fb&&live())nvPlay(d,text,o)},function(){clearTimeout(t);if(!fb&&live())vTalkWeb(text,o)})}
@@ -64,13 +64,13 @@ function nvPlay(d,text,o){nvStop();var ac=nvAC(),b=ac.createBuffer(1,d.pcm.lengt
  s.onended=function(){if(NV.src!=s)return;NV.src=null;NV.tms.forEach(clearTimeout);NV.tms=[];if((!o.alive||o.alive())&&o.onend)o.onend()};
  if(o.onstart)o.onstart(null);s.start()}
 /* the accent panel in the header */
-function vAcc(a){if(!ACC[a]||a==VACC)return;VACC=a;try{localStorage.setItem("tt_acc",a)}catch(e){}cvKill();vNote("");vLoad();if(NVP&&a!="au")nvStart();nvUi();vUi()}
-function nvSet(on){NVP=on;try{localStorage.setItem("tt_nv",on?"1":"0")}catch(e){}if(on)nvStart();nvUi();vUi();cvVoices(1)}
-function vTry(){cvKill();var my=++SAYT,h=ACC[VACC].hi,al=function(){return my==SAYT};vTalk(h[0],{v:vFor("f").v,g:"f",alive:al,onend:function(){setTimeout(function(){if(al())vTalk(h[1],{v:vFor("m").v,g:"m",alive:al})},350)}})}
+function vAcc(a){if(!ACC[a]||a==VACC)return;VACC=a;try{localStorage.setItem("tt_acc2",a)}catch(e){}cvKill();vNote("");vLoad();if(NVP&&a!="au")nvStart();nvUi();vUi()}
+function nvSet(on){NVP=on;try{localStorage.setItem("tt_nv2",on?"1":"0")}catch(e){}if(on)nvStart();nvUi();vUi();cvVoices(1)}
+function vTry(btn){var lab="\u25B6 Hear a woman and a man";if(btn&&btn.dataset.pl){cvKill();SAYT++;delete btn.dataset.pl;btn.textContent=lab;return}cvKill();var my=++SAYT,h=ACC[VACC].hi,al=function(){return my==SAYT},fin=function(){if(btn&&my==SAYT){delete btn.dataset.pl;btn.textContent=lab}};if(btn){btn.dataset.pl=1;btn.textContent="\u23F9 Stop"}vTalk(h[0],{v:vFor("f").v,g:"f",alive:al,onfail:fin,onend:function(){setTimeout(function(){if(al())vTalk(h[1],{v:vFor("m").v,g:"m",onend:fin,onfail:fin,alive:al})},350)}})}
 function nvUi(){var f=$("#vflag");if(f)f.textContent=ACC[VACC].fl;$$("#vp [data-a]").forEach(function(b){b.classList.toggle("on",b.dataset.a==VACC);b.setAttribute("aria-pressed",b.dataset.a==VACC)});var q=$("#vpq");if(!q)return;var h;
- if(VACC=="au")h='<p>No free studio voice speaks Australian English yet, so TenseTrail uses the best Australian voice on your device. For the most natural sound, open the site in Microsoft Edge (Natasha and William), or on an iPhone or Mac add Karen or Lee (Premium) in Settings, Accessibility, Spoken Content.</p>';
+ if(VACC=="au")h='<button class="btn vst" onclick="vAcc(\'uk\');nvSet(true)">✨ Use natural studio voices</button><p>No free studio voice speaks Australian English yet, so this setting uses the Australian voice on your device, which can sound robotic. The studio voices are British and sound natural. For the most natural sound, open the site in Microsoft Edge (Natasha and William), or on an iPhone or Mac add Karen or Lee (Premium) in Settings, Accessibility, Spoken Content.</p>';
  else if(!NVP)h='<button class="btn vst" onclick="nvSet(true)">✨ Turn on studio voices</button><p>Natural '+ACC[VACC].n+' voices that run on your device. About 90 MB, downloaded once and kept for next time.</p>';
- else if(NV.st=="ready")h='<p class="vok">✨ Studio voices are on: '+NVN[nvVoice("f")]+' and '+NVN[nvVoice("m")]+'.</p><button class="lk" onclick="nvSet(false)">Use my device\'s voice instead</button>';
+ else if(NV.st=="ready"||(VACC=="uk"&&NV.st!="err"))h='<p class="vok">✨ Studio voices are on: '+NVN[nvVoice("f")]+' and '+NVN[nvVoice("m")]+'.'+(VACC=="uk"?' Lesson audio is recorded in advance, so it plays straight away.':'')+'</p><button class="lk" onclick="nvSet(false)">Use my device\'s voice instead</button>';
  else if(NV.st=="err")h='<p>Studio voices could not load here, so your device\'s '+ACC[VACC].n+' voice is speaking.</p><button class="lk" onclick="NV.st=\'off\';nvStart()">Try again</button> · <button class="lk" onclick="nvSet(false)">Turn off</button>';
  else h='<div class="vbar"><i style="width:'+Math.round(NV.p)+'%"></i></div><p>Getting studio voices ready'+(NV.p?' ('+Math.round(NV.p)+'%)':'')+'. Your device\'s voice speaks until then.</p><button class="lk" onclick="nvSet(false)">Cancel</button>';
  q.innerHTML=h}
@@ -78,4 +78,4 @@ function nvUi(){var f=$("#vflag");if(f)f.textContent=ACC[VACC].fl;$$("#vp [data-
  b.onclick=function(e){e.stopPropagation();p.hidden=!p.hidden;b.setAttribute("aria-expanded",String(!p.hidden));if(!p.hidden){nvUi();var on=$("#vp .on");if(on)on.focus()}};
  p.onclick=function(e){e.stopPropagation();var a=e.target.closest&&e.target.closest("[data-a]");if(a)vAcc(a.dataset.a)};
  document.addEventListener("click",shut);document.addEventListener("keydown",function(e){if(e.key=="Escape"&&!p.hidden){shut();b.focus()}});
- nvUi();if(NVP&&VACC!="au")setTimeout(nvStart,1200)})();
+ nvUi();if(NVP&&VACC=="us")setTimeout(nvStart,1200)})();

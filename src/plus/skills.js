@@ -29,7 +29,7 @@ function skTime(n,b){var el=$("#skt"+n);if(!el)return;if(!b.dataset.t0){b.datase
  var s=(Date.now()-b.dataset.t0)/1000,w=skWc(el.textContent),wpm=Math.round(w/Math.max(s,5)*60);delete b.dataset.t0;el.classList.remove("timing");SKS["w"+n]=wpm;b.textContent="⏱ Time me again";
  var o=$("#skwpm"+n);if(o)o.innerHTML='<b>'+wpm+' words a minute</b> ('+w+' words in '+Math.round(s)+' seconds).'+(n==2&&SKS.w1?' First read: '+SKS.w1+'. '+(wpm>SKS.w1?"You read it faster the second time. That is fluency growing.":"Reading more carefully is fine too. Speed comes with practice."):n==1?' Remember this number. You will read again in step 6.':'')}
 function skEasy(i,b){var R=SKT[i].r,el=$("#skt1"),on=b.getAttribute("aria-pressed")!="true";b.setAttribute("aria-pressed",on);b.textContent=on?"↩ Back to the original":"🪄 Easier version";el.innerHTML=(on?R.easy:R.txt).map(function(p){return'<p>'+skSents(p)+'</p>'}).join("");el.classList.toggle("easy",on)}
-function skRA(sel,btn,rate){var sp=$$(sel+" .sks");if(btn.dataset.on){cvKill();SXT++;skRAend(sel,btn);return}cvKill();var my=++SXT,i=0;btn.dataset.on=1;btn.dataset.lab=btn.dataset.lab||btn.textContent;btn.textContent="⏸ Stop";
+function skRA(sel,btn,rate){var sp=$$(sel+" .sks");if(btn.dataset.on){cvKill();SXT++;skRAend(sel,btn);return}cvKill();var my=++SXT,i=0;btn.dataset.on=1;btn.dataset.lab=btn.dataset.lab||btn.textContent;btn.textContent="⏹ Stop";
  var go=function(){if(my!=SXT)return;sp.forEach(function(s,j){s.classList.toggle("on",j==i)});if(i>=sp.length){skRAend(sel,btn);return}var f=vFor("f");
   vTalk(sp[i].textContent,{v:f.v,g:"f",rate:rate||.92,alive:function(){return my==SXT},onend:function(){i++;go()},onfail:function(){skRAend(sel,btn);vNote("Audio is not available on this device right now. You can still read everything on the page.")}})};go()}
 function skRAend(sel,btn){$$(sel+" .sks.on").forEach(function(s){s.classList.remove("on")});delete btn.dataset.on;btn.textContent=btn.dataset.lab||"▶ Listen"}
@@ -72,7 +72,7 @@ function skR(T,i){var R=T.r,id="r"+i,h='';
  h+=sxSec(7,"Respond","Use ideas and words from the text. Write, or switch to Speak.",fbWidget("sk"+id,{task:R.resp[0],topic:R.ti,level:T.lv,min:R.resp[1],store:"tt_skf_"+id}));
  return h+skRem("r",i)}
 /* ===== Listening ===== */
-function skPlay(i,rate,btn){var L=SKT[i].l;if(btn.dataset.on){cvKill();SXT++;skPEnd(btn);return}cvKill();$$(".skplay[data-on]").forEach(skPEnd);var my=++SXT,j=0,bar=btn.closest(".skpl").querySelector(".skpb i"),st=btn.closest(".skpl").querySelector(".skpn");btn.dataset.on=1;btn.dataset.lab=btn.dataset.lab||btn.textContent;btn.textContent="⏸ Stop";
+function skPlay(i,rate,btn){var L=SKT[i].l;if(btn.dataset.on){cvKill();SXT++;skPEnd(btn);return}cvKill();$$(".skplay[data-on]").forEach(skPEnd);var my=++SXT,j=0,bar=btn.closest(".skpl").querySelector(".skpb i"),st=btn.closest(".skpl").querySelector(".skpn");btn.dataset.on=1;btn.dataset.lab=btn.dataset.lab||btn.textContent;btn.textContent="⏹ Stop";
  var go=function(){if(my!=SXT)return;if(bar)bar.style.width=Math.round(j/L.ln.length*100)+"%";if(st)st.textContent=j<L.ln.length?"Line "+(j+1)+" of "+L.ln.length:"Finished";if(j>=L.ln.length){skPEnd(btn);return}var ln=L.ln[j],g=L.sp[ln[0]][1]=="she"?"f":"m";
   vTalk(ln[1],{v:vFor(g).v,g:g,rate:rate,pitch:g=="f"?1.05:.95,alive:function(){return my==SXT},onend:function(){j++;setTimeout(go,rm?150:380)},onfail:function(){skPEnd(btn);vNote("Audio is not available on this device right now. Open Read along in step 6 to read the conversation.")}})};go()}
 function skPEnd(btn){if(!btn.dataset.on)return;delete btn.dataset.on;btn.textContent=btn.dataset.lab}
@@ -103,11 +103,11 @@ function skRpSend(){var R=SKRP;if(!R)return;var inp=$("#skrpt"),v=inp.value.trim
 function skRpReset(){SKRP=null;skRpMicStop();$("#skrp").innerHTML="";$("#skrpend").innerHTML="";$("#skrpin").hidden=true;$("#skrpgo").hidden=false}
 function skRpMic(){var b=$("#skrpm"),t=$("#skrpt");if(!FBSR||!b)return;if(b.rec){skRpMicStop();return}cvKill();var r=new FBSR(),base=t.value?t.value.replace(/\s*$/," "):"";r.lang={au:"en-AU",uk:"en-GB",us:"en-US"}[typeof VACC=="string"?VACC:"au"]||"en-AU";r.interimResults=true;r.continuous=true;b.rec=r;
  r.onresult=function(e){var x="";for(var i=0;i<e.results.length;i++)x+=e.results[i][0].transcript;t.value=base+x};r.onerror=function(e){t.placeholder=e.error=="not-allowed"||e.error=="service-not-allowed"?"The microphone is blocked here. Type your answer instead.":"No speech heard. Try again, or type."};
- r.onend=function(){b.rec=null;b.textContent="🎤 Speak";b.classList.remove("rec")};try{r.start();b.textContent="■ Stop";b.classList.add("rec")}catch(e){}}
+ r.onend=function(){b.rec=null;b.textContent="🎤 Speak";b.classList.remove("rec")};try{r.start();b.textContent="⏹ Stop";b.classList.add("rec")}catch(e){}}
 function skRpMicStop(){var b=$("#skrpm");if(b&&b.rec){try{b.rec.stop()}catch(e){}}}
 var SKRD=null;
 function skRound(i,n,secs,b){if(SKRD){clearInterval(SKRD.t);try{SKRD.r&&SKRD.r.stop()}catch(e){}var was=SKRD.n;SKRD=null;$$(".skrd button").forEach(function(x){x.textContent=x.dataset.lab});if(was==n)return}
- var o={n:n,end:Date.now()+secs*1000,tx:""},c=$("#skrc"+n);SKRD=o;b.dataset.lab=b.dataset.lab||b.textContent;b.textContent="■ Stop";cvKill();
+ var o={n:n,end:Date.now()+secs*1000,tx:""},c=$("#skrc"+n);SKRD=o;b.dataset.lab=b.dataset.lab||b.textContent;b.textContent="⏹ Stop";cvKill();
  if(FBSR){try{var r=new FBSR();r.lang={au:"en-AU",uk:"en-GB",us:"en-US"}[typeof VACC=="string"?VACC:"au"]||"en-AU";r.continuous=true;r.interimResults=true;r.onresult=function(e){var x="";for(var k=0;k<e.results.length;k++)x+=e.results[k][0].transcript;o.tx=x};r.onend=function(){if(SKRD===o)try{r.start()}catch(e){}};r.start();o.r=r}catch(e){}}
  var tick=function(){var left=Math.max(0,Math.ceil((o.end-Date.now())/1000));c.textContent=left+" s";c.style.setProperty("--p",Math.round((1-left/secs)*100));if(left<=0){clearInterval(o.t);SKRD=null;try{o.r&&o.r.stop()}catch(e){}b.textContent=b.dataset.lab;var w=skWc(o.tx);c.textContent="✓";$("#skrw"+n).textContent=o.r?(w?w+" words · "+Math.round(w/secs*60)+" a minute":"No words heard"):"Done";ttLog()}};o.t=setInterval(tick,250);tick()}
 function skS(T,i){var S=T.s,id="s"+i,P=skGet("tt_skp_"+id,[]),h='',rounds=T.lv=="A1"||T.lv=="A2"?[60,45,30]:[90,60,45],pg2=S.task.sp[1]=="she"?"f":"m";

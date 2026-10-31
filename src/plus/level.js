@@ -49,8 +49,8 @@ function lvDraw(){var s=LV,c=s.cur,it=LVI[c.i],n=s.res.length,pr=Math.max(n/LVMA
  h+='<p class="sxst2">'+sxH(it.q).replace("___",'<span class="sxbl">  </span>')+'</p><div class="sxos">'+c.o.map(function(j,k){return'<button class="sxo" onclick="lvAns('+j+')"><kbd>'+(k+1)+'</kbd> '+sxH(it.o[j])+'</button>'}).join("")+'<button class="sxo lvdk" onclick="lvAns(-1)"><kbd>0</kbd> I don’t know</button></div>';
  h+='<div class="lvft"><button class="lnk" onclick="lvQuit()">Save and stop for now</button></div></div>';
  $("#lvbox").innerHTML=h;lvTop()}
-function lvPlay(){var c=LV&&LV.cur;if(!c)return;var it=LVI[c.i];if(c.pl>=2)return;c.pl++;cvKill();var my=++SXT,b=$("#lvpl"),n=$("#lvpn");if(n)n.textContent=c.pl>=2?"That was your last play.":"One more play left.";if(b){b.disabled=true;b.textContent="🔊 Playing…"}
- var done=function(){if(b){b.disabled=c.pl>=2;b.textContent=c.pl>=2?"No plays left":"▶ Play again"}};
+function lvPlay(){var c=LV&&LV.cur;if(!c)return;var it=LVI[c.i];if(c.on){c.on=0;cvKill();SXT++;if(c.done)c.done();return}if(c.pl>=2)return;c.pl++;cvKill();var my=++SXT,b=$("#lvpl"),n=$("#lvpn");if(n)n.textContent=c.pl>=2?"That was your last play.":"One more play left.";if(b){b.disabled=false;b.textContent="\u23F9 Stop"}c.on=1;
+ var done=c.done=function(){c.on=0;if(b){b.disabled=c.pl>=2;b.textContent=c.pl>=2?"No plays left":"▶ Play again"}};
  (function nx(k){if(my!=SXT){done();return}if(k>=it.au.length){done();return}var ln=it.au[k],f=vFor(ln[0]);vTalk(ln[2],{v:f.v,g:ln[0],rate:LVI[c.i].l<"B"?.88:.97,alive:function(){return my==SXT},onend:function(){setTimeout(function(){nx(k+1)},350)},onfail:function(){done();if(n)n.textContent="Audio is not available on this device. Choose I don’t know to skip this question."}})})(0)}
 function lvAns(j){var s=LV;if(!s||!s.cur)return;var c=s.cur;cvKill();SXT++;s.res.push({i:c.i,ok:j==0,c:j,ms:Date.now()-c.t});var e=lvEst(s.mu,s.res);s.th=e.th;s.se=e.se;s.cur=null;lvAsk()}
 function lvQuit(){lvSaveRun();cvKill();SXT++;LV=null;$("#lvbox").innerHTML=lvIntro();obs()}

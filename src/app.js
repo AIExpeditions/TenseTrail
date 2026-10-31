@@ -75,7 +75,7 @@ function vAlt(g,cur){var ok=function(x){return!VBAD[x.v.name]&&x.v!=cur};return(
 function vKey(){return VK+(VACC=="au"?"":"_"+VACC)}
 function vNote(m){VMSG=m;var n=$("#vnote");if(n)n.textContent=m}
 /* one reliable speaking function: keeps references (stops garbage collection), waits after cancel, detects voices that never start or never finish, and falls back to a working voice */
-function vTalk(text,o){if(nvOn())nvTalk(text,o);else vTalkWeb(text,o)}
+function vTalk(text,o){if(window.VREC){VREC(text,o);return}if(apTalk(text,o))return;if(nvOn())nvTalk(text,o);else vTalkWeb(text,o)}
 function vTalkWeb(text,o){var SS=window.speechSynthesis;if(!SS||!window.SpeechSynthesisUtterance){if(o.onfail)o.onfail("unsupported");return}var tries=0;
  (function go(v){var u=new SpeechSynthesisUtterance(text),st=0,fin=0,t1=0,t2=0,t0=Date.now(),live=function(){return!o.alive||o.alive()},clear=function(){clearTimeout(t1);clearTimeout(t2)},
   end=function(){if(fin)return;if(!st&&Date.now()-t0<350){fail("no-audio");return}fin=1;clear();if(live()&&o.onend)o.onend()},
@@ -88,7 +88,8 @@ function vTalkWeb(text,o){var SS=window.speechSynthesis;if(!SS||!window.SpeechSy
   t1=setTimeout(function(){if(!st)fail("no-start")},6500);
   try{SS.resume()}catch(e){}
   setTimeout(function(){if(fin||!live())return;try{SS.speak(u)}catch(e){fail("throw")}},70)})(o.v)}
-function say(t){vCancel();var my=++SAYT,parts=String(t).split(/(?<=[.!?])\s+/).filter(function(x){return x.trim()}),f=vFor("f");(function nx(i){if(i>=parts.length||my!=SAYT)return;vTalk(parts[i],{v:f.v,g:"f",alive:function(){return my==SAYT},onend:function(){nx(i+1)}});if(parts[i+1])nvPre(parts[i+1],"f",0)})(0)}
+function sayOff(){$$(".sayon").forEach(function(e){e.classList.remove("sayon");if(e.dataset.lab)e.innerHTML=e.dataset.lab})}
+function say(t,el){if(el&&el.classList.contains("sayon")){vCancel();SAYT++;sayOff();return}vCancel();sayOff();var my=++SAYT,parts=String(t).split(/(?<=[.!?])\s+/).filter(function(x){return x.trim()}),f=vFor("f");if(el){el.dataset.lab=el.dataset.lab||el.innerHTML;el.innerHTML="\u23F9";el.classList.add("sayon");el.setAttribute("aria-label","Stop")}(function nx(i){if(i>=parts.length||my!=SAYT){if(my==SAYT)sayOff();return}vTalk(parts[i],{v:f.v,g:"f",alive:function(){return my==SAYT},onend:function(){nx(i+1)},onfail:function(){if(my==SAYT)sayOff()}});if(parts[i+1])nvPre(parts[i+1],"f",0)})(0)}
 function vLabel(v){return v.name.replace(/Microsoft |Online \(Natural\) - |\(Natural\)|- English.*|English \(Australia\)|\(Australia\)/g,"").replace(/\s+/g," ").trim()+(/Natural|Neural|Online|Premium|Enhanced/i.test(v.name)?" ✨":"")}
 function vSetG(g,n){var prev=VSV[g]||"";VSV[g]=n;try{localStorage.setItem(vKey(),JSON.stringify(VSV))}catch(e){}CVT++;vCancel();if(cv){cv.play=0;cv.paused=0;cv.talk=0;cvMark(-1);cvUi()}var x=VL.filter(function(o){return o.v.name==n})[0],my=++SAYT;vNote("");
  vTalk(ACC[VACC].hi[g=="f"?0:1],{v:x?x.v:null,g:g,noalt:1,alive:function(){return my==SAYT},onfail:function(){VSV[g]=prev;try{localStorage.setItem(vKey(),JSON.stringify(VSV))}catch(e){}vNote("That voice did not respond on this device (it may be a download or network voice that is not ready), so I kept your previous choice. Voices marked ⚠ do not work here. Try another one.");if(cv)cvAssign(cv);vUi();cvVoices(1)}});
@@ -343,7 +344,8 @@ var FEM=/female|samantha|ava|allison|karen|moira|tessa|libby|sonia|aria|jenny|zi
 function vGen(v){var n=v.name;if(/\bfemale\b/i.test(n))return"f";if(MAL.test(n))return"m";if(FEM.test(n))return"f";return/Google/i.test(n)?"f":"?"}
 function cvAssign(c){if(!c)return;var g0=c.A[1]=="she"?"f":"m",g1=c.B[1]=="she"?"f":"m",a=vFor(g0),b=vFor(g1,g0==g1&&a.v?[a.v]:[]);if(!b.v)b=vFor(g1);var mk=function(o,g){var q=o.v?vGen(o.v):"?";return{v:o.v,mis:!o.user&&q!="?"&&q!=g}};c.vo=[mk(a,g0),mk(b,g1)]}
 function cvVoices(k){if(cv)cvAssign(cv);vUi();var e=$("#cvvo");if(!e||!cv)return;var f=function(o){return o.v?vLabel(o.v).replace(" ✨",""):"default"};if(nvOn()){var two=cv.A[1]==cv.B[1];e.textContent=cv.A[0]+" speaks with the "+NVN[nvVoice(cv.A[1]=="she"?"f":"m")]+" voice and "+cv.B[0]+" with the "+NVN[nvVoice(cv.B[1]=="she"?"f":"m",two)]+" voice.";return}e.textContent=VL.length?cv.A[0]+" speaks with the "+f(cv.vo[0])+" voice and "+cv.B[0]+" with the "+f(cv.vo[1])+" voice. Women and men each have their own voice, so you can change both above.":""}
-function cvKill(){CVT++;SAYT++;vCancel();}
+function cvKill(){CVT++;SAYT++;vCancel();apUi()}
+function apUi(){$$("[data-pl]").forEach(function(b){delete b.dataset.pl;sxOn(b,0)});$$("[data-on][data-lab]").forEach(function(b){delete b.dataset.on;b.textContent=b.dataset.lab});sayOff()}
 function cvMark(i){var ch=$("#cvchat");if(!ch)return;$$(".cb.on",ch).forEach(function(b){b.classList.remove("on")});$$(".w.now",ch).forEach(function(w){w.classList.remove("now")});if(i<0)return;var b=$('.cb[data-i="'+i+'"]',ch);if(!b)return;b.classList.add("on");var top=b.offsetTop-ch.offsetTop-12;try{ch.scrollTo({top:Math.max(0,top),behavior:rm?"auto":"smooth"})}catch(e){ch.scrollTop=Math.max(0,top)}}
 function cvUi(){var p=$("#cvplay"),pi=$("#cvpi");if(!p||!cv)return;p.textContent=cv.play?"⏸ Pause":(cv.at>=0&&cv.at<cv.lines.length-1&&cv.paused?"▶ Resume":"▶ Play conversation");p.classList.toggle("go",!!cv.play);var f=$("#cvf");if(f)f.classList.toggle("talk",!!cv.talk);if(pi)pi.style.width=(cv.at<0?0:(cv.at+(cv.talk?.5:1))/cv.lines.length*100)+"%"}
 /* lively moments */
@@ -437,7 +439,8 @@ function sxCap(t){return t.charAt(0).toUpperCase()+t.slice(1)}
 function sxDate(ts){var d=new Date(ts),n=new Date(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();if(ts<=Date.now())return"today";var diff=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()-t0)/SXDAY);return diff<=1?"tomorrow":"in "+diff+" days"}
 addEventListener("hashchange",function(){SXT++;SXS=null});
 /* audio */
-function sxSay(t,g,el){cvKill();var my=++SXT;$$(".sxs.on").forEach(function(b){b.classList.remove("on")});if(el)el.classList.add("on");var off=function(){if(el)el.classList.remove("on")},f=vFor(g||"f");
+function sxOn(el,on){if(!el)return;el.classList.toggle("on",!!on);var ic=el.classList.contains("sxs");if(on){if(!el.dataset.lab){el.dataset.lab=el.innerHTML;el.dataset.al=el.getAttribute("aria-label")||""}el.innerHTML=ic?"\u23F9":"\u23F9 Stop";el.setAttribute("aria-label","Stop")}else if(el.dataset.lab){el.innerHTML=el.dataset.lab;if(el.dataset.al)el.setAttribute("aria-label",el.dataset.al);else el.removeAttribute("aria-label");delete el.dataset.lab;delete el.dataset.al}}
+function sxSay(t,g,el){if(el&&el.classList.contains("on")&&el.dataset.pl){cvKill();SXT++;delete el.dataset.pl;sxOn(el,0);return}cvKill();var my=++SXT;$$("[data-pl]").forEach(function(b){delete b.dataset.pl;sxOn(b,0)});if(el){el.dataset.pl=1;sxOn(el,1)}var off=function(){if(el&&my==SXT){delete el.dataset.pl;sxOn(el,0)}},f=vFor(g||"f");
  vTalk(sxC(t),{v:f.v,g:g||"f",rate:.9,alive:function(){return my==SXT},onend:off,onfail:function(){off();vNote("Audio is not available on this device right now. You can still read everything on the page.")}})}
 function sxEx(k,i,el){sxSay(SX[k].ex[i],"f",el)}
 function sxNt(k,i,el){sxSay(SX[k].nt[i],"f",el)}
@@ -514,7 +517,7 @@ function sxDiff(want,got){var w=sxExp(want).split(" "),g=sxExp(got).split(" "),n
  return'<span class="sxdf">'+out.map(function(x){return x[1]?'<span>'+sxH(x[0])+'</span>':'<mark>'+sxH(x[0])+'</mark>'}).join(" ")+'</span>'}
 function sxTy(){var s=SXS,it=s.items[s.i];if(s.lock)return;var inp=$("#sxin"),v=inp.value;if(!sxNorm(v)){$("#sxf").innerHTML='<div class="sxfb hint"><b>Type your answer first.</b></div>';return}
  var want=it.t=="fix"?it.d[1]:it.d[0],ok=sxExp(v)==sxExp(want);inp.disabled=true;sxFb(ok,it,it.t=="fix"?it.d[2]:(ok?"Every word is right.":"Highlighted words were missing or different."));if(!ok&&it.t=="dc"){var f=$("#sxf .sxfb p");if(f)f.insertAdjacentHTML("beforebegin",'<p>Words to check: '+sxDiff(want,v)+'</p>')}}
-function sxDcPlay(b){var s=SXS;if(!s)return;var it=s.items[s.i];if(s.dcn>=3&&!s.lock)return;s.dcn++;var n=$("#sxdcn");if(n&&!s.lock)n.textContent=s.dcn>=3?"No more plays left. Type what you heard.":"Plays left: "+(3-s.dcn)+".";if(s.dcn>=3&&!s.lock)b.disabled=true;sxSay(it.d[0],s.dcn%2?"f":"m",b);var i=$("#sxin");if(i)i.focus({preventScroll:true})}
+function sxDcPlay(b){var s=SXS;if(!s)return;if(b.dataset.pl){cvKill();SXT++;delete b.dataset.pl;sxOn(b,0);return}var it=s.items[s.i];if(s.dcn>=3&&!s.lock)return;s.dcn++;var n=$("#sxdcn");if(n&&!s.lock)n.textContent=s.dcn>=3?"No more plays left. Type what you heard.":"Plays left: "+(3-s.dcn)+".";if(s.dcn>=3&&!s.lock)b.disabled=true;sxSay(it.d[0],s.dcn%2?"f":"m",b);var i=$("#sxin");if(i)i.focus({preventScroll:true})}
 function sxJump(n){var e=$("#sxst"+n);if(e)scrollTo({top:e.getBoundingClientRect().top+scrollY-130,behavior:rm?"auto":"smooth"})}
 function sxMic(){var b=$("#sxmic"),t=$("#sxsp");if(!FBSR||!b)return;if(b.rec){try{b.rec.stop()}catch(e){}return}cvKill();var r=new FBSR(),base=t.value?t.value.replace(/\s*$/," "):"";r.lang={au:"en-AU",uk:"en-GB",us:"en-US"}[VACC]||"en-AU";r.interimResults=true;r.continuous=true;b.rec=r;
  r.onresult=function(e){var x="";for(var i=0;i<e.results.length;i++)x+=e.results[i][0].transcript;t.value=base+x};r.onerror=function(e){t.placeholder=e.error=="not-allowed"||e.error=="service-not-allowed"?"The microphone is blocked here. Type your answer instead.":"No speech heard. Try again, or type."};
@@ -540,14 +543,14 @@ var XA={sentences:{x:SX,l:SXL,g:SXG,k:"tt_sx_v1",d:"tt_sx_d",n:"Sentences and qu
 function sxUse(id){var a=XA[id];if(!a||SX===a.x)return;SX=a.x;SXL=a.l;SXG=a.g;SXK=a.k;SXD=a.d;SXN=a.n;SXA=id;SXGN=[]}
 /* ---- Sentences and questions: dialogue players, mini lessons, generator ---- */
 function sxDlHtml(id,title,sp,ln,lab){SXR[id]={sp:sp,ln:ln,lab:lab||"dialogue"};return'<div class="sxdlg" id="sxb-'+id+'"><div class="sxdt"><b>'+sxH(title)+'</b><button class="btn sxpl" id="sxp-'+id+'" onclick="sxDlTog(\''+id+'\')">▶ Play the '+(lab||"dialogue")+'</button></div>'+ln.map(function(l,i){var s=sp[l[0]];return'<div class="sxl '+(l[0]?"r":"l")+'" onclick="sxDl(\''+id+'\','+i+',false)" style="--i:'+i+'"><span class="av">'+(s[1]=="she"?"👩🏼":"👨🏼")+'</span><div><small>'+s[0]+'</small><p>'+sxM(l[1])+'</p></div></div>'}).join("")+'</div>'}
-function sxDl(id,i,chain){cvKill();var my=++SXT,r=SXR[id];if(!r)return;var ln=r.ln[i],g=r.sp[ln[0]][1]=="she"?"f":"m";
+function sxDl(id,i,chain){if(!chain&&SXP==id+":"+i){cvKill();SXT++;SXP="";sxDlEnd(id);return}cvKill();var my=++SXT,r=SXR[id];if(!r)return;SXP=chain?"":id+":"+i;var ln=r.ln[i],g=r.sp[ln[0]][1]=="she"?"f":"m";
  $$(".sxdlg").forEach(function(bx){var me=bx.id=="sxb-"+id;$$(".sxl",bx).forEach(function(e,j){e.classList.toggle("on",me&&j==i)});if(!me)sxDlLab(bx.id.slice(4))});
- var b=$("#sxp-"+id);if(b&&chain)b.textContent="⏸ Stop";
+ var b=$("#sxp-"+id);if(b&&chain)b.textContent="\u23F9 Stop";
  var done=function(){if(my!=SXT)return;if(chain&&i<r.ln.length-1)setTimeout(function(){if(my==SXT)sxDl(id,i+1,true)},380);else sxDlEnd(id)};
  var two=r.sp[0][1]==r.sp[1][1],nx=r.ln[i+1]; vTalk(sxC(ln[1]),{v:vFor(g).v,g:g,alt:two&&ln[0]==1,rate:.92,pitch:g=="f"?1.05:.95,alive:function(){return my==SXT},onend:done,onfail:function(){vNote("Audio is not available on this device right now. You can still read the dialogue.");sxDlEnd(id)}});
  if(chain&&nx)nvPre(sxC(nx[1]),r.sp[nx[0]][1]=="she"?"f":"m",two&&nx[0]==1,.92)}
 function sxDlLab(id){var r=SXR[id],b=$("#sxp-"+id);if(b&&r)b.textContent="▶ Play the "+r.lab}
-function sxDlEnd(id){$$("#sxb-"+id+" .sxl").forEach(function(e){e.classList.remove("on")});sxDlLab(id)}
+var SXP="";function sxDlEnd(id){SXP="";$$("#sxb-"+id+" .sxl").forEach(function(e){e.classList.remove("on")});sxDlLab(id)}
 function sxDlTog(id){var b=$("#sxp-"+id);if(b&&b.textContent.indexOf("Stop")>=0){cvKill();SXT++;sxDlEnd(id)}else sxDl(id,0,true)}
 /* mini lesson */
 function sxChip(k,c){return'<span class="sxchip" style="--rc:'+SXRC[c]+'">'+sxH(SXL[k].rl[c])+'</span>'}
@@ -632,8 +635,8 @@ function learn(ti){var d=L[ti],c=G[Math.floor(ti/4)].c,rule=(d.f[0].match(/\((.*
 function bset(k,v){bs[k]=+v;bdraw()}
 function bdraw(){var it=bs.s==4,vs=[];BV.forEach(function(v,i){if(it?i>=12:i!=12)vs.push(i)});if(vs.indexOf(bs.v)<0)bs.v=vs[0];
  $("#bvb").innerHTML=vs.map(function(i){return'<option value="'+i+'"'+(i==bs.v?" selected":"")+'>'+BV[i][0]+'</option>'}).join("");
- var f=forms(gs.ti,bs.s,bs.v);$$("#bsub button").forEach(function(b,i){b.classList.toggle("on",i==bs.s)});$("#bo").innerHTML=["Positive","Negative","Question"].map(function(l,i){return'<p style="--i:'+i+'"><b>'+l+'</b><span>'+f[i]+'</span><button aria-label="Listen" data-s="'+esc(f[i].replace(/<[^>]+>/g,""))+'" onclick="say(this.dataset.s)">🔊</button></p>'}).join("")}
-function uc(b){b.classList.toggle("on");if(b.classList.contains("on"))say(b.dataset.s)}
+ var f=forms(gs.ti,bs.s,bs.v);$$("#bsub button").forEach(function(b,i){b.classList.toggle("on",i==bs.s)});$("#bo").innerHTML=["Positive","Negative","Question"].map(function(l,i){return'<p style="--i:'+i+'"><b>'+l+'</b><span>'+f[i]+'</span><button aria-label="Listen" data-s="'+esc(f[i].replace(/<[^>]+>/g,""))+'" onclick="say(this.dataset.s,this)">🔊</button></p>'}).join("")}
+function uc(b){b.classList.toggle("on");if(b.classList.contains("on"))say(b.dataset.s);else{vCancel();SAYT++}}
 function sheet(){return'<div class="ctl"><select id="wt" aria-label="Tense">'+Array.apply(null,Array(12)).map(function(_,i){return'<option value="'+i+'">'+nm(i)+'</option>'}).join("")+'</select><select id="wn" aria-label="Questions"><option>10</option><option selected>15</option><option>20</option></select><button class="btn" onclick="mk()">Generate</button><button class="btn ghost" onclick="pr()">Save as PDF</button><span class="chips" role="tablist"><button class="chip on" id="t1" onclick="tab(1)">Quiz</button><button class="chip" id="t2" onclick="tab(2)">Answer key</button></span><span id="ms" style="color:var(--mut);font-weight:700" aria-live="polite"></span></div><div id="ws"><div id="wq1"></div><div id="wq2" hidden></div></div>'}
 function practice(){var k=gs.mx<0?"c":"m",id=gs.mx<0?gs.ti:gs.mx,o=P[k][id];if(qz&&qz.k==k&&qz.id==id)return qhtml();
  return'<div class="done"><h2>'+(gs.mx<0?nm(gs.ti)+" practice":G[id].n+" mixed quiz")+'</h2><p class="sub" style="margin:10px auto 20px">15 questions, one at a time, with a kind clue after every answer. '+(gs.mx<0?"":"These mix all four "+G[id].n.toLowerCase()+" tenses.")+'</p><p>Best score: <b>'+(o?o.b+" / 15":"not tried yet")+'</b></p><div class="row"><button class="btn" onclick="qs()">'+(o?"Try again":"Let&rsquo;s begin")+'</button></div></div>'}
@@ -656,7 +659,7 @@ function obs(){var io=new IntersectionObserver(function(es){es.forEach(function(
 function after(r){clearInterval(hit);$$(".sp").forEach(split);obs();pillTo(act());
  if($("#hi")){var i=0;hit=setInterval(function(){i=(i+1)%HI.length;var e=$("#hi");if(!e)return;e.style.animation="none";e.offsetWidth;e.style.animation="";e.textContent=HI[i]},2400)}
  if(r.n=="worksheets"&&r.a=="grammar"&&XA[r.b]&&r.c!==undefined&&r.c!==""&&$(".sxbar")){ttSeen(r.b,+r.c);fbInit("w");sxBar()}
- skAfter(r);
+ skAfter(r);if(typeof apPre=="function")apPre(r);
  if(r.n=="worksheets"&&r.a=="grammar"){if(r.b=="studio")gdraw();else if(!r.b)gmapDraw();var hr=$(".cr.hl");if(hr)setTimeout(function(){hr.scrollIntoView({behavior:"smooth",block:"center"})},600)}}
 function render(){var r=route(),f=PAGES[r.n]||PAGES.home,run=function(){app.innerHTML=f(r);scrollTo(0,0);after(r)};if(document.startViewTransition&&!rm&&started)document.startViewTransition(run);else run();started=1}
 addEventListener("hashchange",render);addEventListener("hashchange",cvKill);addEventListener("pagehide",cvKill);addEventListener("resize",function(){pillTo(act())});
@@ -672,5 +675,6 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/teach.js*/
 /*@include plus/skilldata.js*/
 /*@include plus/skills.js*/
+/*@include plus/audio.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
