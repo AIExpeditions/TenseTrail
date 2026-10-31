@@ -304,7 +304,7 @@ function cvGrp(k,t,s,a,pr){var u=cvSub(s),th=u.th,w=pr||u.w,r;
  else{var Be=s=="I"?"Am":th?"Is":"Are",Hv=th?"Has":"Have",Dd=th?"Does":"Do",Wa=u.wa=="was"?"Was":"Were";r=[Dd+" "+w+" "+a[0],Be+" "+w+" "+a[4],Hv+" "+w+" "+a[3],Hv+" "+w+" been "+a[4],"Did "+w+" "+a[0],Wa+" "+w+" "+a[4],"Had "+w+" "+a[3],"Had "+w+" been "+a[4],"Will "+w+" "+a[0],"Will "+w+" be "+a[4],"Will "+w+" have "+a[3],"Will "+w+" have been "+a[4]][t];if(k=="q")r=r.charAt(0).toLowerCase()+r.slice(1)}
  return"[["+r+"]]"}
 function cvAux(k,t,s){var u=cvSub(s),th=u.th;if(k=="A")return"[["+["do"+(th?"es":""),u.be,u.hv,u.hv,"did",u.wa,"had","had","will","will","will","will"][t]+"]]";var bn=s=="I"?"am not":th?"isn't":"aren't";return"[["+[th?"doesn't":"don't",bn,th?"hasn't":"haven't",th?"hasn't":"haven't","didn't",u.wa=="was"?"wasn't":"weren't","hadn't","hadn't","won't","won't","won't","won't"][t]+"]]"}
-function cvGen(ti,sc,lv,seed){var R=seed==null?Math.random:cvSeed(seed),pk=function(a){return a[Math.floor(R()*a.length)]},sh=function(a){return a.slice().sort(function(){return R()-.5})},S=SC[sc],A=pk(NL),C=pk(NL.filter(function(x){return x[0]!=A[0]})),B=pk(NS),ep=sh(S.eps).slice(0,3),tm=sh(MKT[ti]),
+function cvGen(ti,sc,lv,seed){var R=seed==null?Math.random:cvSeed(seed),pk=function(a){return a[Math.floor(R()*a.length)]},sh=function(a){return a.slice().sort(function(){return R()-.5})},S=SC[sc],A=pk(NL),C=pk(NL.filter(function(x){return x[0]!=A[0]})),B=pk(NS.filter(function(x){return x[1]!=A[1]})),ep=sh(S.eps).slice(0,3),tm=sh(MKT[ti]),
  gp=pk(S.gr[lv]).split("|"),used={rx:sh(S.rx[lv]),bye:sh(S.bye[lv])},ri=0,bi=0,
  cp=function(s){return s.charAt(0).toUpperCase()+s.slice(1)},
  rep=function(t){return t.replace(/\{([^{}]+)\}/g,function(m,k){var x;
