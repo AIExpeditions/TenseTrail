@@ -173,19 +173,118 @@ a.cr{color:inherit}.sxe{font-size:1.3rem}.sxst{margin-left:auto;font-size:.8rem;
 .sxl p{font-size:1.25rem;line-height:1.5}.sxl small{font-size:.9rem}.sxl .av{font-size:1.9rem}.sxdt b{font-size:1.1rem}
 .sxgwrap{margin-top:16px}.sxgn{animation:up2 .5s var(--sp) both;margin-top:14px}
 @media(prefers-reduced-motion:reduce){.sxck2,.sxnote,.sxchip,.sxpanel.sxpin,.sxgn{animation:none;transition:none}.sxtl i{animation:none!important}}
+/* ---- practice: new item types ---- */
+.sxbad{display:inline-block;padding:4px 12px;border-radius:12px;background:color-mix(in srgb,var(--coral) 16%,var(--card));text-decoration:underline wavy var(--coral);text-underline-offset:5px}
+.sxin.sxw{width:100%;max-width:640px;display:block;margin:10px 0}
+.sxdf mark{background:color-mix(in srgb,var(--sun) 60%,transparent);color:inherit;border-radius:5px;padding:0 3px}
+.lnk{border:0;background:none;color:var(--teal);font-weight:800;padding:6px 0;text-decoration:underline;text-underline-offset:3px}
+.btn.sm{padding:9px 16px;font-size:.92rem;box-shadow:0 4px 0 var(--line)}
+.sxtools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin:6px 0 4px}.sxtr{display:flex;gap:8px;flex-wrap:wrap}
+.sxbar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:12;display:flex;gap:4px;align-items:center;overflow-x:auto;scrollbar-width:none;margin:10px 0 18px;padding:6px;border-radius:99px;background:color-mix(in srgb,var(--card) 88%,transparent);backdrop-filter:blur(12px);border:1px solid var(--line);box-shadow:0 8px 24px rgba(20,60,90,.08)}
+.sxbar::-webkit-scrollbar{display:none}.sxbn{font-weight:800;font-size:.8rem;color:var(--mut);padding:0 10px;white-space:nowrap}
+.sxbar button{flex:0 0 auto;display:flex;gap:6px;align-items:center;border:0;background:none;border-radius:99px;padding:6px 12px;font-size:.88rem;font-weight:700;color:var(--mut);transition:.3s var(--ease)}
+.sxbar button b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--line);color:var(--ink);font-size:.75rem}
+.sxbar button.dn b{background:var(--mint);color:#0b3b36}.sxbar button.on{background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--ink)}.sxbar button.on b{background:var(--teal);color:#fff}
+@media(max-width:700px){.sxbar button span{display:none}.sxbar button.on span{display:inline}.sxbn{display:none}}
+.sxs.rec,.btn.rec,.fbrd.rec{animation:recp 1.2s ease-in-out infinite;background:var(--coral)!important;color:#fff!important;border-color:var(--coral)!important}
+@keyframes recp{50%{box-shadow:0 0 0 8px color-mix(in srgb,var(--coral) 25%,transparent)}}
+.fbra{flex-basis:100%;margin:2px 0 6px 46px;font-size:.92rem}.sxrow{flex-wrap:wrap}.fbtip{margin-top:8px}
+/* ---- feedback widget ---- */
+.fbw{border:1.5px solid var(--line);border-radius:22px;padding:16px;background:var(--bg)}
+.fbmode{display:inline-flex;gap:4px;padding:4px;border-radius:99px;background:var(--card);border:1px solid var(--line);margin-bottom:10px}
+.fbmode button{border:0;background:none;border-radius:99px;padding:7px 14px;font-weight:800;color:var(--mut)}.fbmode button.on{background:var(--teal);color:#fff}
+.fbtask{font-weight:700;margin:4px 0 10px}.fbsp{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:10px}
+.fbbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-top:8px}.fbbtns{display:flex;flex-wrap:wrap;gap:8px}.fbbtns .btn{padding:11px 18px}
+.fbq,.fbai{margin-top:14px;padding:16px 18px;border-radius:18px;background:var(--card);border:1.5px solid var(--line);animation:up2 .4s var(--sp) both}
+.fbq ul{list-style:none;padding:0;margin:8px 0}.fbq li{display:flex;gap:10px;margin:6px 0}.fbh{font-weight:900;margin:12px 0 4px}
+.fbis li{display:block;padding:8px 12px;border-left:4px solid var(--sun);background:color-mix(in srgb,var(--sun) 12%,transparent);border-radius:8px}
+.fbtop{display:flex;gap:14px;align-items:center}.fbcr{display:grid;gap:8px;margin:12px 0;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.fbcr>div{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center;padding:10px;border-radius:14px;background:var(--bg)}.fbcr small{grid-column:1/-1;color:var(--mut);line-height:1.4}
+.fbco{list-style:none;padding:0;margin:6px 0;display:grid;gap:8px}.fbco li{padding:10px 12px;border-radius:14px;background:var(--bg)}.fbco p{color:var(--mut);font-size:.92rem;margin-top:4px}
+.fbq1 s{color:#c2410c;text-decoration-thickness:2px}.fbq1 ins{text-decoration:none;color:#047857;font-weight:800}.fbty{margin-left:8px;font-size:.75rem;padding:2px 8px;border-radius:99px;background:var(--line)}
+.fbl{margin:4px 0;padding-left:20px}.fbtg{margin:8px 0;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--mint) 20%,transparent)}.fbrw{margin:8px 0;font-size:1.05rem;line-height:1.6}.fbnote{margin-top:10px;font-size:.85rem}
+.fbth{display:flex;gap:10px;align-items:center;color:var(--mut)}.fbdot{width:12px;height:12px;border-radius:50%;background:var(--teal);animation:recp 1.1s infinite}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .fbq1 s{color:#fca5a5}:root:not([data-theme="light"]) .fbq1 ins{color:#86efac}}:root[data-theme="dark"] .fbq1 s{color:#fca5a5}:root[data-theme="dark"] .fbq1 ins{color:#86efac}
+/* ---- Find Your Level ---- */
+.lvi{background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:clamp(18px,4vw,34px);margin:0 0 18px}
+.lvsteps{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-bottom:16px}.lvsteps div{display:flex;gap:10px;align-items:flex-start;padding:12px;border-radius:18px;background:var(--bg)}
+.lvsteps b{flex:0 0 30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--sun);color:#17324d}
+.lvh{padding-left:20px;margin:0 0 16px}.lvh li{margin:6px 0}.lvsa{display:grid;gap:8px;margin-top:12px}.lvsa .sxo{display:flex;gap:10px;align-items:center}
+.lvq .sxo kbd{display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:7px;border:1px solid var(--line);font:800 .78rem Nunito,sans-serif;color:var(--mut);margin-right:6px}
+.lvdk{border-style:dashed!important;color:var(--mut)}.lvft{margin-top:14px;text-align:right}
+.lvp{padding:14px 16px;border-radius:16px;background:var(--bg);border-left:5px solid var(--teal);margin:10px 0;line-height:1.6}.lvp.sm{font-size:.9rem;padding:8px 12px}
+.lvau{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:10px 0}
+.lvbig{display:flex;gap:18px;align-items:center;flex-wrap:wrap}.lvl{display:grid;place-items:center;min-width:96px;height:96px;padding:0 8px;border-radius:28px;background:var(--lc);color:#17324d;font-weight:900;font-size:2.2rem;animation:pop .7s var(--sp) both}
+.fbtop .lvl{min-width:64px;height:64px;font-size:1.5rem;border-radius:20px}
+.lvkick{color:var(--mut);font-weight:800;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em}.lvbig h2 small{font-size:1rem;color:var(--mut)}
+.lvmeter{margin:22px 0 8px}.lvbar{position:relative;height:14px;border-radius:99px;background:linear-gradient(90deg,#bff2de,#b9e6ff,#ffe08a,#ffc9c2,#d8ccff,#f9c6e3)}
+.lvbar i{position:absolute;top:-4px;bottom:-4px;border:2px solid var(--ink);border-radius:99px;opacity:.5}.lvbar b{position:absolute;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;background:var(--ink);border:4px solid var(--card);box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.lvticks{display:grid;grid-template-columns:repeat(6,1fr);text-align:center;font-size:.8rem;font-weight:800;color:var(--mut);margin-top:6px}
+.lvconf{margin:6px 0 14px}.lvres h3{margin:24px 0 10px}
+.lvsk{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}.lvs{padding:12px 14px;border-radius:16px;background:var(--bg);display:grid;gap:2px;border-top:4px solid var(--line)}
+.lvs.up{border-top-color:#34d399}.lvs.dn{border-top-color:var(--coral)}.lvs.eq{border-top-color:var(--teal)}.lvs small{color:var(--mut)}
+.lvrec{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.lvrev{padding-left:22px}.lvrev li{margin:12px 0;padding-left:6px}.lvrev li.ok::marker{color:#059669}.lvrev li.no::marker{color:var(--coral)}
+.lvhist{display:grid;gap:8px}.lvhist div{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.lvhist small{color:var(--mut)}
+.lvhow p{margin:8px 0}
+/* ---- search ---- */
+.sbtn{margin-right:6px}.sbl{margin-left:4px}@media(max-width:600px){.sbl{display:none}}
+body.srop{overflow:hidden}
+.srch{position:fixed;inset:0;z-index:60;background:rgba(8,24,40,.45);backdrop-filter:blur(6px);display:flex;justify-content:center;align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 70px) 16px 16px;animation:fadein .2s}
+.srch[hidden]{display:none}@keyframes fadein{from{opacity:0}}
+.srbox{width:min(640px,100%);max-height:calc(100dvh - 100px);display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 30px 70px rgba(5,25,45,.35);overflow:hidden;animation:vpin .3s var(--ease)}
+.srin{display:flex;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);color:var(--mut)}
+.srin input{flex:1;min-width:0;border:0;background:none;font:700 1.1rem Nunito,system-ui,sans-serif;color:var(--ink);outline:none}
+.srx{border:1px solid var(--line);background:var(--bg);border-radius:8px;font-size:.75rem;font-weight:800;padding:4px 8px;color:var(--mut)}
+.srr{overflow-y:auto;padding:8px 10px 10px;overscroll-behavior:contain}.srh{font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);margin:10px 8px 6px}
+.sri{display:flex;gap:12px;align-items:center;padding:10px 12px;border-radius:14px;transition:background .2s}.sri.on,.sri:hover{background:color-mix(in srgb,var(--teal) 12%,transparent)}
+.sri.top{border:2px solid color-mix(in srgb,var(--teal) 40%,transparent)}.sre{font-size:1.4rem;width:30px;text-align:center}.srt{flex:1;min-width:0}.srt b{display:block}.srt small{color:var(--mut)}
+.sri mark{background:color-mix(in srgb,var(--sun) 55%,transparent);color:inherit;border-radius:4px;padding:0 2px}
+.srdym{margin:8px;padding:10px 12px;border-radius:12px;background:color-mix(in srgb,var(--sun) 20%,transparent)}.srdym button{border:0;background:none;font-weight:900;color:var(--teal);text-decoration:underline;padding:0}
+.srlv{display:block;margin:14px 8px 4px;padding:12px 14px;border-radius:14px;background:var(--bg)}.srft{margin:0;padding:8px 16px;border-top:1px solid var(--line);font-size:.8rem;color:var(--mut)}
+@media(max-width:600px){.srch{padding:calc(env(safe-area-inset-top,0px) + 10px) 8px 8px}.srbox{max-height:calc(100dvh - 20px)}.srft{display:none}}
+.srfake{display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:14px 18px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--mut);font-weight:700;margin:0 0 16px;transition:.3s var(--ease)}.srfake:hover{border-color:var(--teal)}.srfake i{color:var(--ink)}
+/* ---- dashboard, area tools ---- */
+.ttd,.tttools{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin:0 0 20px}
+.tttools{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.ttc{display:flex;flex-direction:column;gap:6px;align-items:flex-start;padding:16px;border-radius:22px;background:var(--card);border:1.5px solid var(--line)}
+.ttc small{font-weight:900;font-size:.75rem;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}.ttc span{color:var(--mut);font-size:.92rem}.ttc span a{color:var(--teal);font-weight:800}
+.ttc .btn{margin-top:auto;padding:11px 20px}.ttgo{background:linear-gradient(135deg,color-mix(in srgb,var(--sun) 30%,var(--card)),var(--card))}.ttn{font-size:1.8rem}
+.ttring{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--teal) calc(var(--p)*1%),var(--line) 0)}.ttring b{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--card);font-size:.9rem}
+.ttc select{font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:2px 4px}
+.ttmiss{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0}.ttcert{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;justify-content:center;margin:16px 0}
+.ttcert label{display:grid;gap:4px;text-align:left;font-weight:800}.ttcert input{font:inherit;padding:10px 14px;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-width:220px}
+/* ---- presentation ---- */
+.prs0{position:fixed;inset:0;z-index:70;background:var(--bg);display:flex;flex-direction:column;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}.prs0[hidden]{display:none}
+.prin{flex:1;overflow:auto;display:flex;flex-direction:column;justify-content:center;padding:clamp(20px,5vw,70px) clamp(18px,7vw,110px);animation:up2 .45s var(--sp) both;font-size:clamp(1.1rem,2.4vw,1.7rem)}
+.prin h1{font-size:clamp(2rem,6vw,4.2rem)}.prin h2{font-size:clamp(1.5rem,4vw,3rem);margin-bottom:18px}.prk{color:var(--teal);font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:.8em;margin-bottom:12px}
+.prs{color:var(--mut);margin-top:14px}.prb{line-height:1.5}.prl{padding-left:1.2em;line-height:1.6}.prl li{margin:.4em 0}.prl.sm{font-size:.85em}
+.prin mark{background:color-mix(in srgb,var(--sun) 55%,transparent);color:inherit;border-radius:6px;padding:0 4px}
+.prx,.prv{font-size:clamp(1.4rem,3.6vw,2.6rem);font-weight:800}.prx span{color:var(--coral)}.prv span{color:#059669}.prx{text-decoration:line-through;text-decoration-color:var(--coral);opacity:.9}
+.prd p{margin:.45em 0}.pro{line-height:1.7}.pro li.ok{color:#059669;font-weight:900}.pro li.dim{opacity:.4}
+.prbar{display:flex;gap:8px;align-items:center;padding:10px 16px;border-top:1px solid var(--line);background:var(--card)}.prbar button{border:1px solid var(--line);background:var(--bg);border-radius:99px;padding:8px 16px;font-weight:800}.prbar button:disabled{opacity:.4}.prsp{flex:1}
+/* ---- printing fallback ---- */
+#ttpr{display:none}
+@media print{body.ttpr>*:not(#ttpr){display:none!important}body.ttpr #ttpr{display:block;color:#000;font:12pt/1.5 Georgia,serif}#ttpr h1{font-size:20pt}#ttpr h2{font-size:14pt;margin-top:14pt}#ttpr .o{margin-left:18pt}#ttpr .ln{border-bottom:1px solid #999;height:18pt}#ttpr .pb{break-before:page}#ttpr .cert{text-align:center;border:3px double #0fa3a3;padding:40pt}}
+[hidden]{display:none!important}
+@media(max-width:600px){.srex{display:none}}
+span.lv{background:var(--lc,var(--line));color:#17324d;border:0;padding:3px 12px;border-radius:99px;font-weight:900}
+.btn.ghost{color:var(--ink)}
 </style></head><body>
 <header class="nav" id="nav"><a class="logo" href="#/"><span>🌱</span>TenseTrail</a>
 <nav id="menu" aria-label="Main"><i id="pill"></i>
 <a href="#/students" data-r="students">Students</a><a href="#/teachers" data-r="teachers">Teachers</a><a href="#/skills" data-r="skills">Skills</a><a href="#/path" data-r="path">Guided path</a>
 <div class="dd" id="dd" data-r="worksheets"><button class="ddb" id="ddb" aria-haspopup="true" aria-expanded="false" aria-controls="ddm">English Skills <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1.5l5 5 5-5"/></svg></button>
 <div class="ddm" id="ddm"><i id="hl"></i>
+<a href="#/level" style="--i:0"><span class="e">🎯</span><span><b>Find Your Level</b><small>Adaptive placement test, A1 to C2</small></span><span class="t">New</span></a>
 <a href="#/worksheets/grammar" style="--i:0"><span class="e">✏️</span><span><b>Grammar Studio</b><small>10 areas, 81 lessons</small></span><span class="t">Open</span></a><hr>
 <a href="#/worksheets/reading" style="--i:1"><span class="e">📖</span><span><b>Reading</b><small>Short texts and questions</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/writing" style="--i:2"><span class="e">✍️</span><span><b>Writing</b><small>Guided writing tasks</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/speaking" style="--i:3"><span class="e">🎤</span><span><b>Speaking</b><small>Prompts to say out loud</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/listening" style="--i:4"><span class="e">🎧</span><span><b>Listening</b><small>Hear it, then answer</small></span><span class="t n">Soon</span></a></div></div>
-<a href="#/library" data-r="library">Library</a></nav><button class="vbtn" id="vbtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="vp" aria-label="Accent and voices">🔊 <span id="vflag">🇦🇺</span></button><button class="burger" id="bg" aria-label="Open menu">☰</button>
+<a href="#/library" data-r="library">Library</a></nav><button class="vbtn sbtn" id="sbtn" onclick="srOpen()" aria-label="Search lessons" title="Search (press /)"><svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg><span class="sbl">Search</span></button><button class="vbtn" id="vbtn" aria-haspopup="dialog" aria-expanded="false" aria-controls="vp" aria-label="Accent and voices">🔊 <span id="vflag">🇦🇺</span></button><button class="burger" id="bg" aria-label="Open menu">☰</button>
 <div class="vp" id="vp" role="dialog" aria-label="Accent and voices" hidden><b>Accent for all audio</b><div class="vseg" role="group" aria-label="Accent"><button type="button" data-a="au" aria-pressed="false">🇦🇺 Australian</button><button type="button" data-a="uk" aria-pressed="false">🇬🇧 British</button><button type="button" data-a="us" aria-pressed="false">🇺🇸 American</button></div><div class="vpq" id="vpq"></div><button type="button" class="vtry" onclick="vTry()">▶ Hear a woman and a man</button></div></header>
+<div class="srch" id="srch" role="dialog" aria-modal="true" aria-label="Search lessons" hidden onclick="if(event.target===this)srClose()"><div class="srbox"><div class="srin"><svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg><input id="srq" type="search" autocomplete="off" autocapitalize="none" spellcheck="false" enterkeyhint="go" placeholder="Search lessons, e.g. present perfect" aria-label="Search lessons" aria-controls="srr" oninput="srDraw()" onkeydown="srKey(event)"><button class="srx" onclick="srClose()" aria-label="Close search">Esc</button></div><div class="srr" id="srr"></div><p class="srft">Spelling mistakes are fine. Use ↑ ↓ and Enter.</p></div></div>
 <main id="app"></main><canvas id="cf"></canvas>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
@@ -685,8 +784,8 @@ function pg(e,t,l,b){return'<section class="ph"><div class="mesh"><i></i><i></i>
 function cards(a){return'<div class="g3">'+a.map(function(c,i){return'<div class="cd rv" style="--i:'+i+';--jc:'+c[3]+'"><div class="ic">'+c[0]+'</div><h3>'+c[1]+'</h3><p>'+c[2]+'</p></div>'}).join("")+'</div>'}
 var SOON='<p class="soon rv" style="margin-top:34px">✨ This page is growing. The Grammar Studio is open now.</p><a class="btn rv" href="#/worksheets/grammar">Open the Grammar Studio</a>';
 function tg(mode){var h="";G.forEach(function(g){h+='<h2 class="gh rv" style="--c:'+g.c+'"><i></i>'+g.n+' tenses</h2><div class="'+(mode=="path"?"pth":"g4")+'">'+g.t.map(function(t,k){var d=L[t];return'<a class="tc rv" style="--i:'+k+';--c:'+g.c+'" href="#/worksheets/grammar/studio/'+t+'"><span class="no">'+(t+1)+'</span><h3>'+nm(t)+(best("c",t)>=12?" ✓":"")+'</h3><p>'+(mode=="path"?d.m:d.f[0].split(" (")[0])+'</p></a>'}).join("")+'</div>'});return h}
-function skillCards(){var S=[["✏️","Grammar Studio","10 areas, 81 lessons from A1 to C1, with practice and worksheets.","grammar","#ffd9a8"],["📖","Reading","Short texts with friendly questions.","reading","#b9e6ff"],["✍️","Writing","Guided tasks for emails and messages.","writing","#d8ccff"],["🎤","Speaking","Prompts to say out loud with confidence.","speaking","#ffc9c2"],["🎧","Listening","Hear it, understand it, answer it.","listening","#bff2de"]];
- return'<div class="jg">'+S.map(function(s,i){return'<a class="jc rv" style="--i:'+i+';--jc:'+s[4]+'" href="#/worksheets/'+s[3]+'"><div class="ic">'+s[0]+'</div><h3>'+s[1]+(i?'<span class="tag n">Soon</span>':'<span class="tag">Open</span>')+'</h3><p>'+s[2]+'</p><span class="go">Explore →</span></a>'}).join("")+"</div>"}
+function skillCards(){var S=[["🎯","Find Your Level","An adaptive placement test from A1 to C2, with a skills profile and where to start.","#/level","#fff0a8"],["✏️","Grammar Studio","10 areas, 81 lessons from A1 to C1, with practice and worksheets.","grammar","#ffd9a8"],["📖","Reading","Short texts with friendly questions.","reading","#b9e6ff"],["✍️","Writing","Guided tasks for emails and messages.","writing","#d8ccff"],["🎤","Speaking","Prompts to say out loud with confidence.","speaking","#ffc9c2"],["🎧","Listening","Hear it, understand it, answer it.","listening","#bff2de"]];
+ return'<div class="jg">'+S.map(function(s,i){return'<a class="jc rv" style="--i:'+i+';--jc:'+s[4]+'" href="'+(s[3][0]=="#"?s[3]:"#/worksheets/"+s[3])+'"><div class="ic">'+s[0]+'</div><h3>'+s[1]+(i>1?'<span class="tag n">Soon</span>':'<span class="tag">'+(i?"Open":"New")+'</span>')+'</h3><p>'+s[2]+'</p><span class="go">Explore →</span></a>'}).join("")+"</div>"}
 /* ---- Sentences and questions: concept data ---- */
 var SX=[
 {t:"Basic word order and commands",lv:"A1",e:"🧱",
@@ -2500,18 +2599,19 @@ function sxSay(t,g,el){cvKill();var my=++SXT;$$(".sxs.on").forEach(function(b){b
 function sxEx(k,i,el){sxSay(SX[k].ex[i],"f",el)}
 function sxNt(k,i,el){sxSay(SX[k].nt[i],"f",el)}
 /* page pieces */
-function sxSec(n,t,sub,b){return'<section class="sxc rv"><div class="sxh"><span class="sxn">'+n+'</span><div><h3>'+t+'</h3>'+(sub?'<p class="sxsub">'+sub+'</p>':'')+'</div></div>'+b+'</section>'}
+function sxSec(n,t,sub,b){return'<section class="sxc rv" id="sxst'+n+'"><div class="sxh"><span class="sxn">'+n+'</span><div><h3>'+t+'</h3>'+(sub?'<p class="sxsub">'+sub+'</p>':'')+'</div></div>'+b+'</section>'}
 function sxPage(k){var c=SX[k],S=sxLoad().c[k]||{},h='<a class="back" href="#/worksheets/grammar/'+SXA+'">\u2190 '+sxH(SXN)+'</a>';
  h+='<div class="sxdots">'+SX.map(function(x,i){var s=sxLoad().c[i];return'<a class="'+(i==k?"on":"")+(s&&s.best!=null?" dn":"")+'" href="#/worksheets/grammar/'+SXA+'/'+i+'" title="'+sxH(x.t)+'" style="--lc:'+LC[x.lv]+'">'+(i+1)+'</a>'}).join("")+'</div>';
  h+='<div class="sxlv"><span class="lv" style="--lc:'+LC[c.lv]+'">'+c.lv+'</span> <span>About 15 minutes. Do the steps in order.</span></div>';
- h+=sxSec(1,"Notice","Read each sentence, then listen. "+sxH(c.nq),'<div class="sxnt">'+c.nt.map(function(t,i){return'<div class="sxrow"><button class="sxs" onclick="sxNt('+k+','+i+',this)" aria-label="Listen">\uD83D\uDD0A</button><p>'+sxM(t)+'</p></div>'}).join("")+'</div>');
+ h+='<div class="sxtools"><button class="lnk" onclick="sxJump(5)">Already know it? Skip to the practice ↓</button><span class="sxtr"><button class="btn ghost sm" onclick="prOpen('+k+')">📽️ Present</button><button class="btn ghost sm" onclick="ttSheet('+k+',this)">🖨️ Worksheet PDF</button></span></div><p class="sxsub" id="ttms" aria-live="polite"></p>';
+ h+='<nav class="sxbar" aria-label="Lesson steps"><span class="sxbn" id="sxbn">Step 1 of 8</span>'+["Notice","Rule","Mistakes","Real life","Practise","Write","Watch","Remember"].map(function(t,i){return'<button onclick="sxJump('+(i+1)+')" data-s="'+(i+1)+'"'+(i?'':' class="on"')+'><b>'+(i+1)+'</b><span>'+t+'</span></button>'}).join("")+'</nav>';
+ h+=sxSec(1,"Notice","Read each sentence, then listen. "+sxH(c.nq),'<div class="sxnt">'+c.nt.map(function(t,i){return'<div class="sxrow"><button class="sxs" onclick="sxNt('+k+','+i+',this)" aria-label="Listen">\uD83D\uDD0A</button><p>'+sxM(t)+'</p>'+(FBSR?'<button class="sxs fbrd" onclick="fbRead(SX['+k+'].nt['+i+'],this)" aria-label="Read it aloud and check">\uD83C\uDFA4</button>':'')+'</div>'}).join("")+'</div>'+(FBSR?'<p class="sxsub fbtip">Tap \uD83C\uDFA4 and read a sentence aloud. The computer shows which words it understood.</p>':''));
  h+=sxSec(2,"The rule","Four short steps: the idea, see it move, everyday talk, then speak. Go at your own pace.",sxLes(k));
  h+=sxSec(3,"Common mistakes","Red light: do not say this. Green light: say this instead. Tap the speaker to hear the correct one.",'<div class="sxms">'+c.ms.map(function(m,i){return'<div class="sxm"><div class="sxmr bad"><span class="sxtl r" aria-hidden="true"><i></i><i></i><i></i></span><div><small>Not this</small><p>'+sxH(m[0])+'</p></div></div><div class="sxmr good"><span class="sxtl g" aria-hidden="true"><i></i><i></i><i></i></span><div><small>Say this</small><p>'+sxH(m[1])+'</p></div><button class="sxs" onclick="sxSay(SX['+k+'].ms['+i+'][1],\'f\',this)" aria-label="Listen to the correct sentence">\uD83D\uDD0A</button></div><small class="sxmw">'+sxH(m[2])+'</small></div>'}).join("")+'</div>');
  var d=c.dl;
  h+=sxSec(4,"Hear it in real life","Follow the text as you listen. Tap any line to hear it again. The highlighted words are today\u2019s grammar.",sxDlHtml("d"+k,d.ti,d.sp,d.ln,"dialogue")+'<div class="sxgwrap"><button class="btn" id="sxgbtn" onclick="sxGen('+k+')">\u2728 Generate another example</button><span class="sxsub"> A fresh conversation with the same grammar and level.</span></div><div id="sxgen"></div>');
- h+=sxSec(5,"Practise","Nine short questions: choose, build and type. You get feedback after each one.",'<div id="sxp"><button class="btn" onclick="sxStart('+k+')">Start practice</button>'+(S.best!=null?' <span class="sxbest">Your best: '+S.best+' / 9</span>':'')+'</div>');
- var dr="";try{dr=localStorage.getItem(SXD+k)||""}catch(e){}
- h+=sxSec(6,"Write it down","Now write your own sentences. This step builds fluency.",'<p class="sxpr">'+sxH(c.pr)+'</p><textarea class="sxta" id="sxta" rows="4" placeholder="Write here\u2026" oninput="sxDraft('+k+')">'+sxH(dr)+'</textarea><div class="sxck">'+c.ck.map(function(x,i){return'<label><input type="checkbox" onchange="sxCk()"> '+sxH(x)+'</label>'}).join("")+'</div><p class="sxwin" id="sxwin" hidden>\uD83C\uDF89 Great! You checked your own writing.</p><button class="btn ghost" onclick="sxModel('+k+')">Show a model answer</button><p class="sxmod" id="sxmod" hidden></p>');
+ h+=sxSec(5,"Practise","Twenty short questions in six styles: choose, spot the correct sentence, type the missing word, build, correct the mistake, and listen and type. You get feedback after each one.",'<div id="sxp"><button class="btn" onclick="sxStart('+k+')">Start practice</button>'+(S.best!=null?' <span class="sxbest">Your best: '+S.best+' / '+(S.n||9)+'</span>':'')+'</div>');
+ h+=sxSec(6,"Write it down","Write your own sentences, or switch to Speak and say them. Then check your work.",fbWidget("w",{task:c.pr,k:k,topic:c.t,level:c.lv,rule:c.rm,store:SXD+k})+'<p class="fbh">Checklist</p><div class="sxck">'+c.ck.map(function(x,i){return'<label><input type="checkbox" onchange="sxCk()"> '+sxH(x)+'</label>'}).join("")+'</div><p class="sxwin" id="sxwin" hidden>\uD83C\uDF89 Great! You checked your own writing.</p><button class="btn ghost" onclick="sxModel('+k+')">Show a model answer</button><p class="sxmod" id="sxmod" hidden></p>');
  var v=c.vd;
  h+=sxSec(7,"Watch and learn more","One extra video from an outside teacher, if you want a different explanation.",'<a class="sxv" href="https://www.youtube.com/watch?v='+v[0]+'" target="_blank" rel="noopener noreferrer"><span class="pl">\u25B6</span><span><b>'+sxH(v[1])+'</b><small>'+sxH(v[2])+' \u00B7 opens YouTube in a new tab</small></span></a>'+(v[3]?'<p class="sxvn">'+sxH(v[3])+'</p>':'')+'<p class="sxvn">Tip: pause at the examples and say them aloud. Teachers\u2019 accents and speed vary, so choose subtitles if you like.</p>');
  var rv=S.box?'You are in review box '+S.box+' of 5. Next review: <b>'+sxDate(S.due)+'</b>.':'When you finish the practice, this lesson joins your review list. You will see it again after 1, 3, 7, 14 and 30 days, because remembering something at spaced times makes it last.';
@@ -2526,22 +2626,33 @@ function sxArea(c,hi){var st=sxLoad().c,now=Date.now(),due=0,dn=0;SX.forEach(fun
  var h='<a class="back" href="#/worksheets/grammar">\u2190 Grammar Studio</a>';
  h+='<div class="jc rv" style="--jc:'+c.c+';margin-bottom:12px"><div class="ic">\u2728</div><h3>Open now <span class="tag">'+dn+' of '+SX.length+' done</span></h3><p>'+sxCap(NUMW[SX.length])+' lessons from '+SX[0].lv+' to '+SX[SX.length-1].lv+'. Each lesson has eight steps: <b>notice</b> the pattern, <b>learn</b> the rule, avoid <b>common mistakes</b>, <b>hear</b> a real dialogue, <b>practise</b>, <b>write</b> your own, <b>watch</b> a video, and <b>remember</b> with spaced review.</p></div>';
  h+='<div class="sxrev rv" id="sxrev"><div><b>Review box</b><p>'+(due?due+' lesson'+(due>1?'s are':' is')+' ready to review today.':(dn?'Nothing to review today. Come back soon.':'Finish a practice and the lesson joins your review list.'))+'</p></div>'+(due?'<button class="btn" onclick="sxRevStart()">Start review</button>':'')+'</div><div id="sxr"></div>';
+ var TB=ttTests()[SXA];h+='<div class="tttools rv"><div class="ttc"><small>Area test</small><b>20 mixed questions from all '+NUMW[SX.length]+' lessons</b><span>Score 16 or more to earn a certificate.'+(TB?' Your best: '+TB.best+' / '+TB.n+(TB.pass?' ✓':'')+'.':'')+'</span><button class="btn" onclick="ttTestStart()">Start the area test</button></div><div class="ttc"><small>For teachers and revision</small><b>Cheat sheet</b><span>Every rule, an example and a mistake to avoid, on two pages.</span><button class="btn ghost" onclick="ttCheat()">🖨️ Cheat sheet PDF</button><span class="sxsub" id="ttcs" aria-live="polite"></span></div></div><div id="tttest"></div>';
  h+='<h3 class="rv" style="margin:30px 0 6px">The '+NUMW[SX.length]+' lessons</h3>';
- h+=SX.map(function(x,k){var s=st[k]||{},tag=s.box&&s.due<=now?'<span class="sxst due">Review due</span>':(s.best!=null?'<span class="sxst ok">Best '+s.best+' / 9</span>':'<span class="sxst">New</span>');
+ h+=SX.map(function(x,k){var s=st[k]||{},tag=s.box&&s.due<=now?'<span class="sxst due">Review due</span>':(s.best!=null?'<span class="sxst ok">Best '+s.best+' / '+(s.n||9)+'</span>':'<span class="sxst">New</span>');
   return'<a class="cr rv'+(hi!==undefined&&+hi==k?" hl":"")+'" id="cr-'+k+'" href="#/worksheets/grammar/'+SXA+'/'+k+'" style="--i:'+(k%6)+';--lc:'+LC[x.lv]+'"><span class="lv">'+x.lv+'</span><span class="sxe">'+x.e+'</span><b>'+sxH(x.t)+'</b>'+tag+'</a>'}).join("");
  return pg(c.e,c.n,c.d,h)}
 /* practice runner */
-function sxItemsFor(k){var c=SX[k],a=[];c.mc.forEach(function(m){a.push({k:k,t:"mc",d:m})});c.bd.forEach(function(m){a.push({k:k,t:"bd",d:m})});c.gp.forEach(function(m){a.push({k:k,t:"gp",d:m})});return a}
+function sxItemsFor(k){var c=SX[k],T={mc:[],fx:[],gp:[],bd:[],fix:[],dc:[]},strip=function(t){return sxC(t).replace(/[.!?]+$/,"").trim()};
+ c.mc.forEach(function(m){T.mc.push({k:k,t:"mc",d:m})});c.gp.forEach(function(m){T.gp.push({k:k,t:"gp",d:m})});c.bd.forEach(function(m){T.bd.push({k:k,t:"bd",d:m})});
+ c.ms.forEach(function(m,i){if(i%2==0||sxExp(m[0])==sxExp(m[1])){var r=Math.random()<.5,o=r?[sxC(m[1]),sxC(m[0])]:[sxC(m[0]),sxC(m[1])];T.fx.push({k:k,t:"fx",d:["Which sentence is correct?",o,r?0:1,m[2]]})}else T.fix.push({k:k,t:"fix",d:[sxC(m[0]),sxC(m[1]),m[2]]})});
+ var ex=c.ex.map(function(t,i){return[strip(t),i]}).sort(function(a,b){return a[0].split(" ").length-b[0].split(" ").length});
+ ex.slice(0,2).forEach(function(e){T.dc.push({k:k,t:"dc",d:[sxC(c.ex[e[1]]),"Listen and type the sentence you hear.",c.rm]})});
+ T.dc.push({k:k,t:"dc",d:[sxC(c.nt[0]),"Listen and type the sentence you hear.",c.rm]});
+ ex.slice(2).forEach(function(e){T.bd.push({k:k,t:"bd",d:[e[0],[]]})});
+ var ord=["mc","fx","gp","bd","dc","mc","fix","gp","bd","mc","fx","dc","bd","gp","fix","mc","bd","dc","bd","bd"],a=[];
+ ord.forEach(function(t){var q=T[t].shift();if(q)a.push(q)});Object.keys(T).forEach(function(t){a=a.concat(T[t])});return a}
 function sxStart(k){sxRun(sxItemsFor(k),"#sxp","c",k)}
 function sxRun(items,sel,mode,k){SXS={items:items,i:0,ok:0,res:[],sel:sel,mode:mode,k:k,lock:0};sxShow()}
-function sxFull(it){var d=it.d;if(it.t=="mc")return d[0].indexOf("___")>=0?sxCap(d[0].replace("___",d[1][d[2]])):d[1][d[2]];if(it.t=="bd")return d[0];var q=d[0].replace(/\s*\([^)]*\)\s*$/,"");return sxCap(q.replace("___",d[1][0]))}
+function sxFull(it){var d=it.d;if(it.t=="fx")return d[1][d[2]];if(it.t=="fix")return d[1];if(it.t=="dc")return d[0];if(it.t=="mc")return d[0].indexOf("___")>=0?sxCap(d[0].replace("___",d[1][d[2]])):d[1][d[2]];if(it.t=="bd")return d[0];var q=d[0].replace(/\s*\([^)]*\)\s*$/,"");return sxCap(q.replace("___",d[1][0]))}
 function sxShuf(a,ans){var b=a.slice(),n=0;do{for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}n++}while(n<12&&b.join(" ")==ans);return b}
 function sxShow(){var s=SXS;if(!s)return;var it=s.items[s.i],el=$(s.sel);if(!it){sxEnd();return}s.lock=0;
- var pct=Math.round(s.i/s.items.length*100),lab={mc:"Choose",bd:"Build the sentence",gp:"Type the missing word"}[it.t],h='<div class="sxpb"><i style="width:'+pct+'%"></i></div><div class="sxqh"><span>Question '+(s.i+1)+' of '+s.items.length+'</span><b>'+lab+(s.mode=="r"?" \u00B7 "+sxH(SX[it.k].t):"")+'</b></div><div class="sxq" key="'+s.i+'">';
- if(it.t=="mc"){var st=it.d[0].indexOf("___")>=0?sxH(it.d[0]).replace("___",'<span class="sxbl">\u2003\u2003</span>'):sxH(it.d[0]);h+='<p class="sxst2">'+st+'</p><div class="sxos">'+it.d[1].map(function(o,i){return'<button class="sxo" onclick="sxMc('+i+')">'+sxH(o)+'</button>'}).join("")+'</div>'}
+ var pct=Math.round(s.i/s.items.length*100),lab={mc:"Choose",fx:"Which is correct?",bd:"Build the sentence",gp:"Type the missing word",fix:"Correct the mistake",dc:"Listen and type"}[it.t],h='<div class="sxpb"><i style="width:'+pct+'%"></i></div><div class="sxqh"><span>Question '+(s.i+1)+' of '+s.items.length+'</span><b>'+lab+(s.mode!="c"?" \u00B7 "+sxH(SX[it.k].t):"")+'</b></div><div class="sxq" key="'+s.i+'">';
+ if(it.t=="mc"||it.t=="fx"){var st=it.d[0].indexOf("___")>=0?sxH(it.d[0]).replace("___",'<span class="sxbl">\u2003\u2003</span>'):sxH(it.d[0]);h+='<p class="sxst2">'+st+'</p><div class="sxos">'+it.d[1].map(function(o,i){return'<button class="sxo" onclick="sxMc('+i+')">'+sxH(o)+'</button>'}).join("")+'</div>'}
  else if(it.t=="bd"){s.bk=sxShuf(it.d[0].split(" "),it.d[0]);s.an=[];h+='<p class="sxst2">Tap the words in the right order.</p><div class="sxan" id="sxan"></div><div class="sxbk" id="sxbk"></div><div class="sxbt"><button class="btn" onclick="sxBdCheck()">Check</button> <button class="btn ghost" onclick="sxBdReset()">Start again</button></div>'}
+ else if(it.t=="fix"){h+='<p class="sxst2"><span class="sxbad">'+sxH(it.d[0])+'</span></p><p class="sxsub">This sentence has a mistake. Type the correct sentence.</p><input class="sxin sxw" id="sxin" autocomplete="off" autocapitalize="sentences" spellcheck="false" aria-label="The correct sentence" onkeydown="if(event.key===\'Enter\')sxTy()"><div class="sxbt"><button class="btn" onclick="sxTy()">Check</button></div>'}
+ else if(it.t=="dc"){h+='<p class="sxst2">'+sxH(it.d[1])+'</p><div class="sxbt"><button class="btn ghost sxs2" onclick="sxDcPlay(this)">🔊 Play</button> <span class="sxsub" id="sxdcn">You can play it 3 times.</span></div><input class="sxin sxw" id="sxin" autocomplete="off" autocapitalize="sentences" spellcheck="false" aria-label="The sentence you heard" onkeydown="if(event.key===\'Enter\')sxTy()"><div class="sxbt"><button class="btn" onclick="sxTy()">Check</button></div>'}
  else{h+='<p class="sxst2">'+sxH(it.d[0]).replace("___",'<input class="sxin" id="sxin" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Your answer" onkeydown="if(event.key===\'Enter\')sxGp()">')+'</p><div class="sxbt"><button class="btn" onclick="sxGp()">Check</button></div>'}
- h+='</div><div class="sxf" id="sxf" aria-live="polite"></div>';el.innerHTML=h;if(it.t=="bd")sxBdDraw();if(it.t=="gp"){var i2=$("#sxin");if(i2)i2.focus({preventScroll:true})}}
+ h+='</div><div class="sxf" id="sxf" aria-live="polite"></div>';el.innerHTML=h;if(it.t=="bd")sxBdDraw();if(it.t=="gp"||it.t=="fix"){var i2=$("#sxin");if(i2)i2.focus({preventScroll:true})}s.dcn=0}
 function sxFb(ok,it,note){var s=SXS;if(s.lock)return;s.lock=1;s.res.push({k:it.k,ok:ok});if(ok)s.ok++;var full=sxFull(it),last=s.i>=s.items.length-1;s.last=full;
  $("#sxf").innerHTML='<div class="sxfb '+(ok?"ok":"no")+'"><b>'+(ok?"\u2713 Correct!":"\u2717 Not quite.")+'</b>'+(ok?"":' <span>Answer: <b>'+sxH(full)+'</b></span>')+'<p>'+sxH(note)+'</p><div class="sxbt"><button class="sxs" onclick="sxSay(SXS.last,\'f\',this)" aria-label="Listen to the sentence">\uD83D\uDD0A</button><button class="btn" onclick="sxNext()">'+(last?"See my result":"Next")+'</button></div></div>';
  setTimeout(function(){var b=$$("#sxf .btn")[0];if(b&&SXS&&SXS.lock)b.focus({preventScroll:true})},250)}
@@ -2554,16 +2665,30 @@ function sxBdReset(){var s=SXS;if(s.lock)return;s.an=[];sxBdDraw()}
 function sxBdCheck(){var s=SXS,it=s.items[s.i];if(s.lock)return;if(s.an.length<s.bk.length){$("#sxf").innerHTML='<div class="sxfb hint"><b>Use all the words first.</b></div>';return}
  var n=sxNorm(s.an.map(function(a){return a[0]}).join(" ")),ok=[it.d[0]].concat(it.d[1]).some(function(a){return sxNorm(a)==n});sxFb(ok,it,SX[it.k].rm)}
 function sxGp(){var s=SXS,it=s.items[s.i];if(s.lock)return;var inp=$("#sxin"),v=sxNorm(inp.value);if(!v){$("#sxf").innerHTML='<div class="sxfb hint"><b>Type your answer first.</b></div>';return}inp.disabled=true;sxFb(it.d[1].some(function(a){return sxNorm(a)==v}),it,it.d[2])}
+function sxExp(t){return sxNorm(t).replace(/\bcan't\b/g,"cannot").replace(/\bwon't\b/g,"will not").replace(/\bshan't\b/g,"shall not").replace(/n't\b/g," not").replace(/'m\b/g," am").replace(/'re\b/g," are").replace(/'ve\b/g," have").replace(/'ll\b/g," will").replace(/\bcan not\b/g,"cannot")}
+function sxDiff(want,got){var w=sxExp(want).split(" "),g=sxExp(got).split(" "),n=w.length,m=g.length,L=[],i,j;for(i=0;i<=n;i++){L[i]=[];for(j=0;j<=m;j++)L[i][j]=i&&j?(w[i-1]==g[j-1]?L[i-1][j-1]+1:Math.max(L[i-1][j],L[i][j-1])):0}
+ var out=[];i=n;j=m;while(i>0&&j>0){if(w[i-1]==g[j-1]){out.unshift([w[i-1],1]);i--;j--}else if(L[i-1][j]>=L[i][j-1]){out.unshift([w[i-1],0]);i--}else j--}while(i>0){out.unshift([w[i-1],0]);i--}
+ return'<span class="sxdf">'+out.map(function(x){return x[1]?'<span>'+sxH(x[0])+'</span>':'<mark>'+sxH(x[0])+'</mark>'}).join(" ")+'</span>'}
+function sxTy(){var s=SXS,it=s.items[s.i];if(s.lock)return;var inp=$("#sxin"),v=inp.value;if(!sxNorm(v)){$("#sxf").innerHTML='<div class="sxfb hint"><b>Type your answer first.</b></div>';return}
+ var want=it.t=="fix"?it.d[1]:it.d[0],ok=sxExp(v)==sxExp(want);inp.disabled=true;sxFb(ok,it,it.t=="fix"?it.d[2]:(ok?"Every word is right.":"Highlighted words were missing or different."));if(!ok&&it.t=="dc"){var f=$("#sxf .sxfb p");if(f)f.insertAdjacentHTML("beforebegin",'<p>Words to check: '+sxDiff(want,v)+'</p>')}}
+function sxDcPlay(b){var s=SXS;if(!s)return;var it=s.items[s.i];if(s.dcn>=3&&!s.lock)return;s.dcn++;var n=$("#sxdcn");if(n&&!s.lock)n.textContent=s.dcn>=3?"No more plays left. Type what you heard.":"Plays left: "+(3-s.dcn)+".";if(s.dcn>=3&&!s.lock)b.disabled=true;sxSay(it.d[0],s.dcn%2?"f":"m",b);var i=$("#sxin");if(i)i.focus({preventScroll:true})}
+function sxJump(n){var e=$("#sxst"+n);if(e)scrollTo({top:e.getBoundingClientRect().top+scrollY-130,behavior:rm?"auto":"smooth"})}
+function sxMic(){var b=$("#sxmic"),t=$("#sxsp");if(!FBSR||!b)return;if(b.rec){try{b.rec.stop()}catch(e){}return}cvKill();var r=new FBSR(),base=t.value?t.value.replace(/\s*$/," "):"";r.lang={au:"en-AU",uk:"en-GB",us:"en-US"}[VACC]||"en-AU";r.interimResults=true;r.continuous=true;b.rec=r;
+ r.onresult=function(e){var x="";for(var i=0;i<e.results.length;i++)x+=e.results[i][0].transcript;t.value=base+x};r.onerror=function(e){t.placeholder=e.error=="not-allowed"||e.error=="service-not-allowed"?"The microphone is blocked here. Type your answer instead.":"No speech heard. Try again, or type."};
+ r.onend=function(){b.rec=null;b.textContent="🎤 Say it";b.classList.remove("rec")};try{r.start();b.textContent="■ Stop";b.classList.add("rec")}catch(e){}}
+function sxBar(){var bar=$(".sxbar");if(!bar)return;var cur=1;for(var n=1;n<=8;n++){var e=$("#sxst"+n);if(e&&e.getBoundingClientRect().top<innerHeight*.45)cur=n}$$(".sxbar button").forEach(function(b){b.classList.toggle("on",+b.dataset.s==cur);b.classList.toggle("dn",+b.dataset.s<cur)});var t=$("#sxbn");if(t)t.textContent="Step "+cur+" of 8";var on=$(".sxbar button.on");if(on&&bar.scrollWidth>bar.clientWidth)bar.scrollLeft=on.offsetLeft-bar.clientWidth/2+on.offsetWidth/2}
+addEventListener("scroll",function(){if(!sxBarT)sxBarT=requestAnimationFrame(function(){sxBarT=0;sxBar()})},{passive:true});var sxBarT=0;
 function sxNext(){var s=SXS;if(!s)return;s.i++;sxShow()}
 function sxEnd(){var s=SXS,el=$(s.sel),st=sxLoad(),now=Date.now(),n=s.items.length;
- if(s.mode=="c"){var o=st.c[s.k]||{};o.best=Math.max(o.best||0,s.ok);if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}st.c[s.k]=o;sxSave(st);
-  var msg=s.ok>=8?"Excellent work! You are ready to use it.":s.ok>=6?"Good job! Check the rule once more and try again for a higher score.":"Good effort. Read the rule and the common mistakes again, then try once more.";
+ if(s.mode=="t"){ttTestEnd(s);SXS=null;return}
+ ttLog();if(s.mode=="c"){var o=st.c[s.k]||{};if((o.n||9)!=n){o.best=s.ok;o.n=n}else o.best=Math.max(o.best||0,s.ok);if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}st.c[s.k]=o;sxSave(st);
+  var msg=s.ok>=n*.85?"Excellent work! You are ready to use it.":s.ok>=n*.65?"Good job! Check the rule once more and try again for a higher score.":"Good effort. Read the rule and the common mistakes again, then try once more.";
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>'+msg+'</p><p class="sxrem">Saved. You will review this lesson '+sxDate(o.due)+'.</p><div class="sxbt"><button class="btn ghost" onclick="sxStart('+s.k+')">Try again</button>'+(s.k<SX.length-1?' <a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(s.k+1)+'">Next lesson \u2192</a>':'')+'</div></div>';
   var d=$$(".sxdots a")[s.k];if(d)d.classList.add("dn")}
  else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(5,(o.box||1)+1)}else o.box=1;o.due=now+SXI[o.box-1]*SXDAY;st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>Review finished. Each lesson moves to its next box.</p><ul class="sxrl">'+lines.join("")+'</ul><a class="btn" href="#/worksheets/grammar/'+SXA+'" onclick="setTimeout(render,0)">Back to the lessons</a></div>'}
  SXS=null}
-function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){var pool=sxItemsFor(+k).filter(function(x){return x.t!="bd"});pool=sxShuf2(pool).slice(0,2);items=items.concat(pool)}});
+function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){var pool=sxItemsFor(+k).filter(function(x){return x.t!="bd"&&x.t!="dc"});pool=sxShuf2(pool).slice(0,2);items=items.concat(pool)}});
  if(!items.length)return;items=sxShuf2(items).slice(0,10);$("#sxrev").style.display="none";sxRun(items,"#sxr","r")}
 function sxShuf2(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
 
@@ -2590,7 +2715,7 @@ function sxLes(k){var c=SX[k],L=SXL[k],h='';sxCur=k;
  h+='<div class="sxpanel" id="sxpn0"><p class="sxbig">'+sxH(L.se)+'</p><p class="sxfl">The pattern</p><div class="sxfm">'+L.fm.map(function(r,i){return(i?'<span class="sxpls">+</span>':'')+'<span class="sxchip" style="--rc:'+SXRC[r]+';--i:'+i+'">'+sxH(L.rl[r])+'</span>'}).join("")+'</div><p class="sxhint2">Take your time. When you are ready, go to the next step and watch the pattern move.</p>'+nav(0)+'</div>';
  h+='<div class="sxpanel" id="sxpn1" hidden><div class="sxev">'+L.an.map(function(a,i){return'<button class="'+(i==0?"on":"")+'" onclick="sxAnim('+i+')">Example '+(i+1)+'</button>'}).join("")+'<button class="sxrp" onclick="sxAnim(SXE)">↻ Play again</button></div><p class="sxcap" id="sxcap"></p><div class="sxstage" id="sxstage" aria-live="polite"></div><p class="sxnote" id="sxnote"></p><div class="sxev"><button class="btn" onclick="sxSay(SXL[sxCur].an[SXE].say,\'f\',this)">🔊 Listen to the sentence</button></div><div class="sxleg"><small>Colours:</small> '+L.rl.map(function(x,i){return'<span class="sxchip sm" style="--rc:'+SXRC[i]+'">'+sxH(x)+'</span>'}).join("")+'</div>'+nav(1)+'</div>';
  h+='<div class="sxpanel" id="sxpn2" hidden><p class="sxsub">Four lines of everyday talk. Listen, then read it aloud with a partner.</p>'+sxDlHtml("m"+k,"Everyday talk",L.sp,L.mc,"conversation")+nav(2)+'</div>';
- h+='<div class="sxpanel" id="sxpn3" hidden><p class="sxbig">'+sxH(L.oq)+'</p><p class="sxfl">Sentence starters (tap to add)</p><div class="sxst3">'+L.os.map(function(s,i){return'<button class="sxsb" onclick="sxStarter('+i+')">'+sxH(s)+'</button>'}).join("")+'</div><textarea class="sxta" id="sxsp" rows="4" placeholder="Say it out loud first. Then write it here…" aria-label="Your answer"></textarea><div class="sxbt"><button class="btn" onclick="sxSay($(\'#sxsp\').value||SXL[sxCur].oi,\'f\',this)">🔊 Hear my sentences</button><button class="btn ghost" onclick="sxIdea()">💡 Show an idea</button></div><p class="sxmod" id="sxidea" hidden></p><p class="sxhint2">There is no wrong answer. Share your own ideas, and try making one more example.</p>'+nav(3)+'</div>';
+ h+='<div class="sxpanel" id="sxpn3" hidden><p class="sxbig">'+sxH(L.oq)+'</p><p class="sxfl">Sentence starters (tap to add)</p><div class="sxst3">'+L.os.map(function(s,i){return'<button class="sxsb" onclick="sxStarter('+i+')">'+sxH(s)+'</button>'}).join("")+'</div><textarea class="sxta" id="sxsp" rows="4" placeholder="Say it out loud first. Then write it here…" aria-label="Your answer"></textarea><div class="sxbt">'+(FBSR?'<button class="btn ghost" id="sxmic" onclick="sxMic()">🎤 Say it</button>':'')+'<button class="btn" onclick="sxSay($(\'#sxsp\').value||SXL[sxCur].oi,\'f\',this)">🔊 Hear my sentences</button><button class="btn ghost" onclick="sxIdea()">💡 Show an idea</button></div><p class="sxmod" id="sxidea" hidden></p><p class="sxhint2">There is no wrong answer. Share your own ideas, and try making one more example.</p>'+nav(3)+'</div>';
  h+='<details class="sxd sxdn"><summary>Full rule notes and more examples</summary><div class="sxru">'+c.ru.map(function(r,i){return'<div class="sxrc" style="--i:'+i+'"><b>'+r[0]+'</b><p>'+r[1]+'</p></div>'}).join("")+'</div><h4>More examples</h4><div class="sxnt">'+c.ex.map(function(t,i){return'<div class="sxrow"><button class="sxs" onclick="sxEx('+k+','+i+',this)" aria-label="Listen">🔊</button><p>'+sxH(t)+'</p></div>'}).join("")+'</div></details>';
  return h}
 function sxTab(i){cvKill();SXT++;SXAT++;$$(".sxpanel").forEach(function(p,j){p.hidden=j!=i;if(j==i){p.classList.remove("sxpin");p.offsetWidth;p.classList.add("sxpin")}});$$(".sxsteps button").forEach(function(b,j){b.classList.toggle("on",j==i);b.classList.toggle("dn",j<i)});if(i==1)sxAnim(0);var s=$(".sxsteps");if(s&&s.scrollIntoView)s.scrollIntoView({behavior:rm?"auto":"smooth",block:"nearest"})}
@@ -2630,7 +2755,8 @@ PAGES.home=function(){var J=[["🎓","Students","Your space to learn, track and 
  +'<section class="s" style="background:linear-gradient(180deg,var(--bg),var(--h2))"><div class="wrap"><h2 class="rv">Where would you like to go?</h2><p class="sub rv">Pick a door. Every one is open.</p><div class="jg">'+J.map(function(j,i){return'<a class="jc rv" style="--i:'+i+';--jc:'+j[4]+'" href="#/'+j[3]+'"><div class="ic">'+j[0]+'</div><h3>'+j[1]+(i==4?'<span class="tag">Open now</span>':"")+'</h3><p>'+j[2]+'</p><span class="go">Take me there →</span></a>'}).join("")+'</div></div></section>'
  +'<section class="cta"><h2 class="rv">Ready when you are</h2><p class="rv">Your first lesson takes about five minutes.</p><a class="btn rv" href="#/worksheets/grammar">Begin your first lesson</a></section><footer>TenseTrail · Learn English kindly · Made with Claude</footer>'};
 PAGES.students=function(){return pg("🎓","Students","A calm place to learn, practise and see yourself improve.",cards([["🌟","Learn at your pace","No timers, no pressure. Repeat anything as often as you like.","#ffd9a8"],["🔥","Build a habit","Short practice sessions that fit around your day.","#ffc9c2"],["🏅","See your progress","Your scores are saved on this device, so you can see how far you have come.","#bff2de"]])+SOON)};
-PAGES.teachers=function(){return pg("🍎","Teachers","Ready-made lessons and practice for your adult learners.",cards([["🖨️","Printable worksheets","Generate a fresh 2-page PDF with a quiz and answer key in seconds.","#ffd9a8"],["📊","Teaching decks","Clickable PowerPoint lessons for the Present tenses.","#b9e6ff"],["📈","Class insights","Class codes and progress reports are planned next.","#d8ccff"]])+SOON)};
+PAGES.teachers=function(){return pg("🍎","Teachers","Ready-made lessons and practice for your adult learners.",cards([["🖨️","Worksheets for every lesson","Every Grammar Studio lesson has a Worksheet PDF button: six kinds of questions plus an answer key. The questions change each time.","#ffd9a8"],["📽️","Presentation mode","Press Present on any lesson for big-text slides: notice, rule, mistakes with reveal, dialogue, quiz and writing task. Use the arrow keys or swipe.","#b9e6ff"],["📄","Cheat sheets and area tests","Each area has a two-page cheat sheet and a 20-question test with a certificate.","#bff2de"],["🎯","Placement test","Send learners to Find Your Level for an adaptive CEFR estimate and a starting lesson.","#fff0a8"],["✍️","Writing and speaking feedback","Learners get quick checks on their device, plus rubric-based feedback from Claude when they open the site on claude.ai.","#ffc9c2"],["📈","Class insights","Class codes, assignments and results need accounts and a server. They are planned for later.","#d8ccff"]])+SOON)};
+PAGES.level=function(){return lvPage()};
 PAGES.skills=function(){return pg("🧩","Skills","Five ways to grow your English. Grammar is open, and the rest are on their way.",skillCards())};
 PAGES.path=function(){return pg("🧭","Guided path","Follow the trail from Present Simple to Future Perfect Continuous. Score 12 out of 15 to earn a tick.",tg("path"))};
 PAGES.library=function(){return pg("📚","Library","Every tense in one place. Choose one and dive in.",tg("lib"))};
@@ -2638,7 +2764,7 @@ function soonPage(k){var K={reading:["📖","Reading"],writing:["✍️","Writin
 PAGES.worksheets=function(r){if(r.a=="grammar"){
  if(r.b=="studio"){if(r.c!==undefined&&!isNaN(+r.c)&&+r.c>=0&&+r.c<12){gs.ti=+r.c;gs.tab="learn";gs.mx=-1;qz=null}return pg("✨","Tense Studio","Twelve tenses. Learn it, hear it, try it, practise it, print it.",'<a class="back" href="#/worksheets/grammar/tenses">← Verb tenses</a><div id="gh"></div><div class="gtb" id="gt"></div><div class="pane" id="pane"></div>')}
  var ci=GC.map(function(c){return c.id}).indexOf(r.b);if(ci>=0)return catPage(GC[ci],r.c);
- return pg("✏️","Grammar Studio","Everything an adult learner needs, mapped by area and level. Tenses are one of ten areas.",'<div class="lvs" id="lvs"></div><div id="gm"></div>'+srcHtml())}
+ return pg("✏️","Grammar Studio","Everything an adult learner needs, mapped by area and level. Tenses are one of ten areas.",'<button class="srfake rv" onclick="srOpen()"><span>🔍</span><span>Search 81 lessons and topics<span class="srex">, e.g. <i>present perfect</i>, <i>if</i>, <i>articles</i></span></span></button>'+ttDash()+'<div class="lvs" id="lvs"></div><div id="gm"></div>'+srcHtml())}
  if(["reading","writing","speaking","listening"].indexOf(r.a)>=0)return soonPage(r.a);return pg("🖨️","English Skills","Pick a skill. Grammar worksheets are ready now.",skillCards())};
 // ---- grammar studio
 var gs={ti:0,tab:"learn",mx:-1},qz=null,bs={s:2,v:0};
@@ -2686,6 +2812,7 @@ function split(el){el.innerHTML=el.textContent.split(" ").map(function(w,i){retu
 function obs(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});$$(".rv:not(.in)").forEach(function(e){io.observe(e)})}
 function after(r){clearInterval(hit);$$(".sp").forEach(split);obs();pillTo(act());
  if($("#hi")){var i=0;hit=setInterval(function(){i=(i+1)%HI.length;var e=$("#hi");if(!e)return;e.style.animation="none";e.offsetWidth;e.style.animation="";e.textContent=HI[i]},2400)}
+ if(r.n=="worksheets"&&r.a=="grammar"&&XA[r.b]&&r.c!==undefined&&r.c!==""&&$(".sxbar")){ttSeen(r.b,+r.c);fbInit("w");sxBar()}
  if(r.n=="worksheets"&&r.a=="grammar"){if(r.b=="studio")gdraw();else if(!r.b)gmapDraw();var hr=$(".cr.hl");if(hr)setTimeout(function(){hr.scrollIntoView({behavior:"smooth",block:"center"})},600)}}
 function render(){var r=route(),f=PAGES[r.n]||PAGES.home,run=function(){app.innerHTML=f(r);scrollTo(0,0);after(r)};if(document.startViewTransition&&!rm&&started)document.startViewTransition(run);else run();started=1}
 addEventListener("hashchange",render);addEventListener("hashchange",cvKill);addEventListener("pagehide",cvKill);addEventListener("resize",function(){pillTo(act())});
@@ -2694,6 +2821,492 @@ var mx=0,my=0,cx=0,cy=0;
 document.addEventListener("pointermove",function(e){var j=e.target.closest&&e.target.closest(".jc");if(j){var r=j.getBoundingClientRect();j.style.setProperty("--mx",e.clientX-r.left+"px");j.style.setProperty("--my",e.clientY-r.top+"px")}var h=$("#hero");if(h){h.style.setProperty("--mx",e.clientX+"px");h.style.setProperty("--my",e.clientY+"px")}mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5});
 if(!rm)(function lp(){cx+=(mx-cx)*.06;cy+=(my-cy)*.06;$$("[data-d]").forEach(function(e){var d=+e.dataset.d;e.style.translate=cx*d+"px "+cy*d+"px"});requestAnimationFrame(lp)})();
 function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=innerWidth,H=c.height=innerHeight,cl=["#ffc83d","#ff7a6b","#7fe3c0","#b7a4ff","#0fa3a3"],ps=[],i;for(i=0;i<150;i++)ps.push({x:W/2,y:H*.45,vx:(Math.random()-.5)*18,vy:Math.random()*-15-4,r:Math.random()*6+3,c:cl[i%5],a:Math.random()*6,va:(Math.random()-.5)*.4});var t0=performance.now();(function f(t){x.clearRect(0,0,W,H);ps.forEach(function(p){p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r,-p.r/2,p.r*2,p.r);x.restore()});if(t-t0<2600)requestAnimationFrame(f);else x.clearRect(0,0,W,H)})(t0)}
+/* ---- Find Your Level: item bank ----
+ Each item: s skill (g grammar, v vocabulary, f functional language, r reading, l listening),
+ l level the item targets, q question, o options with the correct answer FIRST (shown shuffled),
+ x explanation, t grammar area for study links, p passage key (reading), au dialogue (listening).
+ Difficulties come from the target level (see LVB in level.js). They are expert estimates,
+ not yet calibrated on real learners. */
+var LVP={
+a1m:"Hi Sam, I'm at the Central Market with Mia. We're buying fruit for the picnic. Meet us at the café at 11. Bec",
+a1l:"Library hours: Monday to Friday 9 am to 6 pm. Saturday 10 am to 2 pm. Closed on Sunday.",
+a2p:"Notice: The pool will be closed for cleaning from Monday 3 March to Wednesday 5 March. Swimming lessons on these days will move to the following week. Please bring your membership card when the pool reopens.",
+a2e:"Hi Dave, thanks for inviting me to your barbecue on Saturday. I'd love to come, but I'm working until 4. Can I come after that? I'll bring a salad. Mei",
+b1w:"Many people in Adelaide now work from home for part of the week. A recent local survey found that most workers enjoyed saving time on travel, but nearly half said they felt lonely. Several companies have responded by asking staff to come in on the same two days, so that teams can meet in person.",
+b2h:"Urban heat is becoming a serious concern for Australian cities. Dark roofs and roads absorb heat during the day and release it at night, which means some suburbs stay several degrees warmer than nearby parklands. Planting street trees is one of the cheapest solutions, yet new housing developments often leave little room for them. Critics argue that without stronger planning rules, the gap between leafy and treeless suburbs will only widen.",
+c1f:"Supporters of the four-day working week argue that productivity, rather than hours logged, should be the measure of a worker's contribution. Trials in several countries have reported similar output alongside marked improvements in wellbeing. Sceptics, however, point out that such trials tend to involve self-selected firms, whose leaders are already enthusiastic about the idea, and that the results may not apply to sectors such as health care, where demand is constant.",
+c2r:"It would be disingenuous to claim that the reforms have been an unqualified success. Waiting times have fallen, admittedly, but largely because the thresholds for referral were quietly raised, so that fewer patients qualify for the list in the first place. To present the figures without that caveat is not quite to lie, but it is certainly to mislead."};
+var LVI=[
+// A1
+{s:"g",l:"A1",q:"My sister ___ a teacher.",o:["is","are","am","be"],x:"He, she and it take is.",t:"tenses"},
+{s:"g",l:"A1",q:"___ you like coffee?",o:["Do","Does","Are","Is"],x:"Questions with you use do + base verb.",t:"sentences"},
+{s:"g",l:"A1",q:"There ___ two parks near my house.",o:["are","is","be","am"],x:"Use there are with plural nouns.",t:"sentences"},
+{s:"g",l:"A1",q:"He ___ to work by bus every day.",o:["goes","go","going","is go"],x:"Present simple with he adds -s or -es.",t:"tenses"},
+{s:"g",l:"A1",q:"My brother is ___ engineer.",o:["an","a","some","any"],x:"Use an before a vowel sound: an engineer.",t:"nouns"},
+{s:"g",l:"A1",q:"Can you ___ me, please?",o:["help","to help","helping","helps"],x:"After can, use the base verb with no to.",t:"modals"},
+{s:"g",l:"A1",q:"We go to the beach ___ Sundays.",o:["on","in","at","to"],x:"Use on with days: on Sundays.",t:"preps"},
+{s:"g",l:"A1",q:"Where ___ Tom and Mei live?",o:["do","does","are","is"],x:"Tom and Mei = they, so use do.",t:"sentences"},
+{s:"v",l:"A1",q:"It's cold today. Wear a ___.",o:["jumper","swimsuit","pair of shorts","sundress"],x:"A jumper keeps you warm."},
+{s:"v",l:"A1",q:"The opposite of cheap is ___.",o:["expensive","small","easy","quiet"],x:"Cheap means it costs little money; expensive means it costs a lot."},
+{s:"v",l:"A1",q:"My mother's brother is my ___.",o:["uncle","cousin","nephew","grandfather"],x:"Your parent's brother is your uncle."},
+{s:"v",l:"A1",q:"You buy bread at a ___.",o:["bakery","chemist","library","bank"],x:"A bakery makes and sells bread."},
+{s:"v",l:"A1",q:"I'm hungry. Let's have ___.",o:["lunch","a shower","a sleep","a drive"],x:"When you are hungry, you eat a meal like lunch."},
+{s:"f",l:"A1",q:"Someone says, \"Thank you!\" What do you say?",o:["You're welcome.","Yes, please.","I'm fine.","See you."],x:"You're welcome is the usual reply to thank you."},
+{s:"f",l:"A1",q:"In a café the waiter asks, \"What would you like?\" What do you say?",o:["A flat white, please.","I like coffee.","Yes, I would.","I'm a coffee."],x:"Answer with the thing you want, plus please."},
+{s:"f",l:"A1",q:"Your neighbour says, \"How are you?\" What do you say?",o:["Good, thanks. And you?","I'm 25.","I'm from Iran.","Yes, I am."],x:"Answer how you feel, then ask back."},
+{s:"r",l:"A1",p:"a1m",q:"Where is Bec now?",o:["At the Central Market","At the café","At home","At the picnic"],x:"\"I'm at the Central Market with Mia.\""},
+{s:"r",l:"A1",p:"a1m",q:"What time should Sam go to the café?",o:["At 11 o'clock","At 10 o'clock","After the picnic","Right now"],x:"\"Meet us at the café at 11.\""},
+{s:"r",l:"A1",p:"a1l",q:"Can you visit the library on Sunday?",o:["No, it is closed.","Yes, from 10 to 2.","Yes, all day.","Only in the morning."],x:"\"Closed on Sunday.\""},
+{s:"l",l:"A1",au:[["f","Kylie","Hi, I'm Kylie. What's your name?"],["m","Arjun","I'm Arjun. I'm from India."]],q:"Where is Arjun from?",o:["India","Australia","Iran","Italy"],x:"Arjun says, \"I'm from India.\""},
+{s:"l",l:"A1",au:[["m","Tom","How much is the coffee?"],["f","Bec","It's four dollars fifty."]],q:"How much is the coffee?",o:["$4.50","$5.40","$4.15","$14.50"],x:"Four dollars fifty is $4.50."},
+{s:"l",l:"A1",au:[["f","Jess","What time does the bus leave?"],["m","Carlos","At quarter past eight."]],q:"When does the bus leave?",o:["8:15","8:45","7:45","8:50"],x:"Quarter past eight is 8:15."},
+// A2
+{s:"g",l:"A2",q:"I ___ my keys yesterday.",o:["lost","lose","have lost","was lose"],x:"Yesterday is finished time, so use the past simple.",t:"tenses"},
+{s:"g",l:"A2",q:"She is ___ than her brother.",o:["taller","more tall","tallest","the taller"],x:"Short adjectives add -er in comparisons.",t:"adj"},
+{s:"g",l:"A2",q:"We ___ dinner when the phone rang.",o:["were having","had","have","are having"],x:"A longer past action in progress is interrupted by a short one.",t:"tenses"},
+{s:"g",l:"A2",q:"You ___ wear a seatbelt in a car. It's the law.",o:["must","might","would","could"],x:"Must shows a strong rule or obligation.",t:"modals"},
+{s:"g",l:"A2",q:"If it rains tomorrow, we ___ at home.",o:["will stay","stayed","would stay","staying"],x:"First conditional: if + present, will + verb.",t:"conditionals"},
+{s:"g",l:"A2",q:"How ___ milk do we need?",o:["much","many","few","any"],x:"Milk is uncountable, so use how much.",t:"nouns"},
+{s:"g",l:"A2",q:"I'm interested ___ learning Japanese.",o:["in","on","at","for"],x:"The fixed pattern is interested in.",t:"adj"},
+{s:"g",l:"A2",q:"I enjoy ___ in the Adelaide Hills.",o:["walking","to walk","walk","walked"],x:"Enjoy is followed by the -ing form.",t:"patterns"},
+{s:"v",l:"A2",q:"Can you ___ the lights when you leave?",o:["turn off","turn up","take off","put up"],x:"Turn off means stop a machine or light."},
+{s:"v",l:"A2",q:"I'm really ___ because I worked all day.",o:["tired","tiring","boring","bored"],x:"Tired describes how you feel after work."},
+{s:"v",l:"A2",q:"The train was ___, so I missed my appointment.",o:["late","early","fast","empty"],x:"A late train makes you late too."},
+{s:"v",l:"A2",q:"Can I ___ your pen? I'll give it back.",o:["borrow","lend","give","keep"],x:"You borrow from someone; they lend to you."},
+{s:"v",l:"A2",q:"I need to ___ an appointment with the doctor.",o:["make","do","write","say"],x:"The collocation is make an appointment."},
+{s:"f",l:"A2",q:"Your friend says, \"I failed my driving test.\" What do you say?",o:["Oh no, I'm sorry to hear that.","Congratulations!","Well done!","Great, that's good."],x:"Show sympathy for bad news."},
+{s:"f",l:"A2",q:"You want to ask a stranger the way politely. What do you say?",o:["Excuse me, could you tell me where the station is?","Where is station?","Tell me the station.","You know the station?"],x:"Excuse me + could you is polite."},
+{s:"f",l:"A2",q:"On the phone someone asks, \"Can I speak to Ms Lee?\" She is out. What do you say?",o:["Sorry, she's not here at the moment. Can I take a message?","No.","She is not.","Call later."],x:"Explain politely and offer to take a message."},
+{s:"r",l:"A2",p:"a2p",q:"When does the pool open again?",o:["Thursday 6 March","Monday 3 March","Wednesday 5 March","Next month"],x:"It is closed from Monday to Wednesday, so it reopens on Thursday."},
+{s:"r",l:"A2",p:"a2p",q:"What happens to swimming lessons from 3 to 5 March?",o:["They move to the next week.","They are cancelled.","They happen at another pool.","They are free."],x:"\"Swimming lessons on these days will move to the following week.\""},
+{s:"r",l:"A2",p:"a2e",q:"Why will Mei arrive late?",o:["She is working until 4.","She is making a salad.","She doesn't like barbecues.","She is busy on Sunday."],x:"\"I'm working until 4.\""},
+{s:"l",l:"A2",au:[["f","Jess","Do you want to see a film tonight?"],["m","Carlos","I'd love to, but I have to finish an assignment. How about tomorrow?"]],q:"What will Carlos probably do tonight?",o:["Work on an assignment","Watch a film","Go out with Jess","Go to bed early"],x:"He has to finish an assignment."},
+{s:"l",l:"A2",au:[["m","Dave","Excuse me, is this the bus to Glenelg?"],["f","Mei","No, you need the tram. It leaves from Victoria Square every fifteen minutes."]],q:"How often does the tram leave?",o:["Every 15 minutes","Every 50 minutes","Every 5 minutes","Every hour"],x:"\"Every fifteen minutes.\""},
+{s:"l",l:"A2",au:[["f","Bec","I'm going to the shops. Do we need anything?"],["m","Tom","We're out of milk, and we need some bread. We've got plenty of eggs."]],q:"What do they already have?",o:["Eggs","Milk","Bread","Nothing"],x:"\"We've got plenty of eggs.\""},
+// B1
+{s:"g",l:"B1",q:"I ___ in Adelaide since 2019.",o:["have lived","live","lived","am living"],x:"Since + a start point: use the present perfect.",t:"tenses"},
+{s:"g",l:"B1",q:"If I ___ more time, I would learn the piano.",o:["had","have","will have","would have"],x:"Second conditional: if + past simple, would + verb.",t:"conditionals"},
+{s:"g",l:"B1",q:"The bridge ___ in 1932.",o:["was built","built","is built","has built"],x:"The bridge did not build anything, so use the passive.",t:"passive"},
+{s:"g",l:"B1",q:"He asked me where I ___.",o:["lived","did live","do I live","did I live"],x:"Reported questions use normal word order and step back in time.",t:"passive"},
+{s:"g",l:"B1",q:"The woman ___ lives next door is a nurse.",o:["who","which","what","whose"],x:"Use who for people in relative clauses.",t:"sentences"},
+{s:"g",l:"B1",q:"I'm used to ___ up early.",o:["getting","get","got","have got"],x:"Be used to + -ing means it is normal for you.",t:"patterns"},
+{s:"g",l:"B1",q:"You look pale. You ___ see a doctor.",o:["should","would","might to","must to"],x:"Should gives advice; modals never take to.",t:"modals"},
+{s:"g",l:"B1",q:"___ it was raining, we went for a walk.",o:["Although","Despite","However","Because"],x:"Although + clause shows contrast. Despite needs a noun or -ing.",t:"preps"},
+{s:"v",l:"B1",q:"Could you ___ me a favour?",o:["do","make","give","take"],x:"The collocation is do someone a favour."},
+{s:"v",l:"B1",q:"I'm looking ___ to the holidays.",o:["forward","after","for","up"],x:"Look forward to means feel happy about a future event."},
+{s:"v",l:"B1",q:"The meeting has been ___ until next week.",o:["put off","put out","put up","put on"],x:"Put off means postpone."},
+{s:"v",l:"B1",q:"She has a lot of ___ in teaching.",o:["experience","experiment","expert","experienced"],x:"You need a noun: experience."},
+{s:"v",l:"B1",q:"Prices keep ___. Everything costs more now.",o:["rising","raising","arising","lifting"],x:"Rise has no object. Raise needs one: raise prices."},
+{s:"f",l:"B1",q:"You disagree politely in a meeting. What do you say?",o:["I see your point, but I'm not sure that would work.","You're wrong.","That's a silly idea.","No way."],x:"Acknowledge the idea first, then disagree gently."},
+{s:"f",l:"B1",q:"You want to ask your manager for a day off. What do you say?",o:["Would it be possible to take Friday off?","Give me Friday off.","I want Friday.","Friday I don't come."],x:"Would it be possible is a polite request."},
+{s:"f",l:"B1",q:"A colleague apologises for being a few minutes late. You reply kindly:",o:["No worries, we've only just started.","You're late again!","Why?","It's not good."],x:"No worries is a friendly Australian reply."},
+{s:"r",l:"B1",p:"b1w",q:"What problem did nearly half of the workers mention?",o:["Feeling lonely","Spending too long travelling","Working too many days","Not having enough space"],x:"\"Nearly half said they felt lonely.\""},
+{s:"r",l:"B1",p:"b1w",q:"Why do some companies ask staff to come in on the same days?",o:["So that teams can meet in person","To save money on travel","Because workers asked to stay home","Because the office is too small"],x:"\"So that teams can meet in person.\""},
+{s:"l",l:"B1",au:[["m","Mick","Hi, I'm calling about the flat on Wakefield Street. Is it still available?"],["f","Hana","Yes, it is. Inspections are on Saturday at ten, but I could show you on Thursday evening if that's easier."]],q:"When can Mick see the flat?",o:["On Saturday at ten or on Thursday evening","Only on Saturday","Only on Thursday morning","On Wednesday"],x:"Hana offers Saturday at ten or Thursday evening."},
+{s:"l",l:"B1",au:[["f","Sofia","How was the job interview?"],["m","Dave","Better than I expected. They asked about my experience, which was easy, but the group task was tricky. They'll let me know by Friday."]],q:"Which part did Dave find difficult?",o:["The group task","The questions about his experience","Getting there","Waiting until Friday"],x:"\"The group task was tricky.\""},
+{s:"l",l:"B1",au:[["f","Kylie","Are you coming to the footy on Saturday?"],["m","Arjun","I was going to, but my cousin's flying in from Melbourne that afternoon, so I've got to pick him up from the airport."]],q:"Why can't Arjun go to the footy?",o:["He has to collect his cousin.","He's flying to Melbourne.","He doesn't like football.","He has to work."],x:"He has to pick his cousin up from the airport."},
+// B2
+{s:"g",l:"B2",q:"By the time we arrived, the film ___.",o:["had already started","already started","has already started","was already starting"],x:"The earlier of two past events takes the past perfect.",t:"tenses"},
+{s:"g",l:"B2",q:"If I had known about the traffic, I ___ earlier.",o:["would have left","would leave","had left","will have left"],x:"Third conditional: if + past perfect, would have + past participle.",t:"conditionals"},
+{s:"g",l:"B2",q:"I wish I ___ so much last night.",o:["hadn't eaten","didn't eat","wouldn't eat","haven't eaten"],x:"A wish about the past uses the past perfect.",t:"conditionals"},
+{s:"g",l:"B2",q:"She ___ have forgotten. She wrote it in her diary.",o:["can't","mustn't","shouldn't","needn't"],x:"Can't have + past participle: you are sure it did not happen.",t:"modals"},
+{s:"g",l:"B2",q:"The suspect is believed ___ the country.",o:["to have left","having left","that he left","to leave already"],x:"Passive reporting: is believed + perfect infinitive for an earlier action.",t:"passive"},
+{s:"g",l:"B2",q:"He suggested ___ a taxi.",o:["taking","to take","take","us to take"],x:"Suggest is followed by -ing (or that + clause).",t:"patterns"},
+{s:"g",l:"B2",q:"The report, ___ was published yesterday, has caused a lot of debate.",o:["which","that","what","who"],x:"Non-defining clauses (with commas) use which, never that.",t:"sentences"},
+{s:"g",l:"B2",q:"There's ___ point in waiting. The shop is closed.",o:["no","not","none","any"],x:"The fixed phrase is there's no point in + -ing.",t:"nouns"},
+{s:"v",l:"B2",q:"The council has ___ a new plan to reduce traffic.",o:["put forward","put across","put aside","put down"],x:"Put forward means propose."},
+{s:"v",l:"B2",q:"The instructions were so ___ that everyone understood immediately.",o:["straightforward","outspoken","far-fetched","short-sighted"],x:"Straightforward means simple and clear."},
+{s:"v",l:"B2",q:"It's hard to ___ a balance between work and family.",o:["strike","hit","make","take"],x:"The collocation is strike a balance."},
+{s:"v",l:"B2",q:"The results were ___ disappointing. We expected more.",o:["somewhat","somehow","someday","somewhere"],x:"Somewhat means a little or rather."},
+{s:"v",l:"B2",q:"Can you ___ for me while I'm away? Just answer the phones.",o:["cover","replace","change","swap"],x:"Cover for someone means do their work while they are away."},
+{s:"f",l:"B2",q:"You want to soften criticism of a colleague's report. What do you say?",o:["It's a good start, although a few sections could be clearer.","This report is bad.","Rewrite it.","Who wrote this?"],x:"Start positive, then suggest an improvement."},
+{s:"f",l:"B2",q:"You need to interrupt politely in a meeting. What do you say?",o:["Sorry to interrupt, but could I just add something?","Stop talking.","Wait, me now.","Listen to me."],x:"Apologise, then ask permission to speak."},
+{s:"f",l:"B2",q:"A customer complains that a new kettle doesn't work. As the shop assistant, you say:",o:["I'm really sorry about that. Let me see what I can do.","That's not my problem.","You should have checked it.","Calm down."],x:"Apologise and offer help."},
+{s:"r",l:"B2",p:"b2h",q:"Why do some suburbs stay warmer at night?",o:["Dark surfaces release the heat they absorbed during the day.","There are too many parklands.","Street trees trap warm air.","People use more air conditioning."],x:"Dark roofs and roads absorb heat and release it at night."},
+{s:"r",l:"B2",p:"b2h",q:"What do critics believe?",o:["Planning rules need to be stronger.","Street trees are too expensive.","New developments have plenty of trees.","The problem will solve itself."],x:"\"Without stronger planning rules, the gap... will only widen.\""},
+{s:"l",l:"B2",au:[["f","Jess","Have you decided whether to take the job in Sydney?"],["m","Carlos","Not yet. The salary's better, obviously, but rent there would eat up most of the difference, and I'd miss being near family."]],q:"What worries Carlos about the Sydney job?",o:["Higher costs and being away from family","The salary is too low","He doesn't like the manager","It is too far from the beach"],x:"Rent would eat up the extra pay, and he would miss his family."},
+{s:"l",l:"B2",au:[["m","Tom","Did the council approve the new bike lane?"],["f","Bec","Sort of. They approved it in principle, but they want another round of community consultation before any money is spent."]],q:"What has happened to the bike lane plan?",o:["It is approved in principle but needs more consultation.","It has been rejected.","Building has started.","The money has been spent."],x:"\"Approved it in principle\" but more consultation first."},
+{s:"l",l:"B2",au:[["f","Hana","I thought the presentation went well."],["m","Mick","It did, mostly. Though I'd have cut the last section. It repeated a lot of what we'd already said."]],q:"What does Mick think about the last section?",o:["It was repetitive.","It was the best part.","It was too short.","It was confusing."],x:"\"It repeated a lot of what we'd already said.\""},
+// C1
+{s:"g",l:"C1",q:"Not only ___ late, but he also forgot the tickets.",o:["was he","he was","did he","he did"],x:"After not only at the start, invert the subject and auxiliary.",t:"sentences"},
+{s:"g",l:"C1",q:"___ I known, I would have called you.",o:["Had","If","Have","Should"],x:"Had I known = If I had known (inverted conditional).",t:"conditionals"},
+{s:"g",l:"C1",q:"It's high time we ___ a decision.",o:["made","make","will make","have made"],x:"It's high time + past simple for the present.",t:"conditionals"},
+{s:"g",l:"C1",q:"___ the report, she realised there was a serious error.",o:["Having read","Read","Having been read","To read"],x:"Having + past participle shows the action came first.",t:"sentences"},
+{s:"g",l:"C1",q:"What I really need ___ a long holiday.",o:["is","are","be","it is"],x:"A what-cleft takes a singular verb: What I need is...",t:"sentences"},
+{s:"g",l:"C1",q:"He ___ have been more helpful. He just didn't want to be.",o:["could","must","can't","needn't"],x:"Could have + past participle: a possibility that did not happen.",t:"modals"},
+{s:"g",l:"C1",q:"She is said ___ the best results in the state last year.",o:["to have achieved","having achieved","that she achieved","to achieving"],x:"Is said + perfect infinitive for a past action.",t:"passive"},
+{s:"g",l:"C1",q:"Little ___ that the meeting would change everything.",o:["did they know","they knew","knew they","they did know"],x:"After little at the start, use question-style inversion.",t:"sentences"},
+{s:"v",l:"C1",q:"The proposal was met with ___ criticism from residents.",o:["scathing","scorching","scalding","scaring"],x:"Scathing criticism is very severe."},
+{s:"v",l:"C1",q:"The minister was forced to ___ after the scandal.",o:["step down","step in","step up","step over"],x:"Step down means resign from a position."},
+{s:"v",l:"C1",q:"Her argument doesn't ___ water.",o:["hold","carry","keep","take"],x:"Doesn't hold water means it is not convincing."},
+{s:"v",l:"C1",q:"The new policy is likely to have ___ consequences.",o:["far-reaching","far-fetched","long-winded","high-pitched"],x:"Far-reaching means having a wide effect."},
+{s:"v",l:"C1",q:"We'll need to ___ the pros and cons carefully.",o:["weigh up","weigh down","weigh in","weigh out"],x:"Weigh up means consider carefully."},
+{s:"f",l:"C1",q:"You want to decline a client's request diplomatically. What do you say?",o:["I'm afraid that won't be possible this time, but I can suggest an alternative.","No, we won't do that.","That's impossible.","Ask someone else."],x:"Soften the refusal and offer an alternative."},
+{s:"f",l:"C1",q:"Which phrase best hedges a claim in an academic essay?",o:["The evidence would seem to suggest that...","It is 100% true that...","Everyone knows that...","Obviously..."],x:"Would seem to suggest is cautious academic language."},
+{s:"f",l:"C1",q:"Which sentence concedes a point in a debate?",o:["Granted, the costs are high, but the long-term benefits outweigh them.","The costs are not high.","You are wrong about the costs.","Costs, whatever."],x:"Granted... but accepts a point before arguing back."},
+{s:"r",l:"C1",p:"c1f",q:"What is the sceptics' main objection?",o:["The firms in the trials may not be typical.","Productivity always falls.","Workers' wellbeing gets worse.","The trials were too long."],x:"Self-selected, enthusiastic firms may not represent everyone."},
+{s:"r",l:"C1",p:"c1f",q:"Why does the writer mention health care?",o:["As a sector where shorter weeks may be harder to apply","As an example of a successful trial","To show that demand is falling","To praise health workers"],x:"Health care has constant demand, so results may not apply."},
+{s:"l",l:"C1",au:[["m","Dave","So, are you backing the proposal or not?"],["f","Sofia","I'm not opposed to it in principle. I just think the timeline's wildly optimistic. If they pushed it back six months, I'd sign off on it tomorrow."]],q:"What is Sofia's position?",o:["She supports the idea but thinks the schedule is unrealistic.","She is completely against it.","She wants it done faster.","She has already signed off."],x:"Not opposed in principle; the timeline is wildly optimistic."},
+{s:"l",l:"C1",au:[["f","Kylie","Did you read the review of the restaurant?"],["m","Arjun","I did. For a critic who's usually so scathing, it was practically a love letter."]],q:"What does Arjun suggest about the review?",o:["It was unusually positive for that critic.","It was very harsh.","It was written as a letter.","It was badly written."],x:"\"Practically a love letter\" from a usually harsh critic."},
+{s:"l",l:"C1",au:[["f","Mei","You'd think after three rounds of interviews they'd have made up their minds."],["m","Dave","You would. Though between you and me, I hear the internal candidate's a shoo-in."]],q:"What does Dave believe?",o:["The internal candidate will almost certainly get the job.","There will be a fourth interview.","Mei will get the job.","Nobody will be hired."],x:"A shoo-in is someone certain to win."},
+// C2
+{s:"g",l:"C2",q:"Were the council ___ the plan, there would be protests.",o:["to approve","approving","approve","approved"],x:"Were + subject + to-infinitive is a formal inverted conditional.",t:"conditionals"},
+{s:"g",l:"C2",q:"Seldom ___ such a convincing argument.",o:["have I heard","I have heard","I heard","did I heard"],x:"After seldom at the start, invert the auxiliary and subject.",t:"sentences"},
+{s:"g",l:"C2",q:"Try as she ___, she couldn't open the jar.",o:["might","could","would","should"],x:"Try as she might = although she tried very hard.",t:"sentences"},
+{s:"g",l:"C2",q:"The project, ___ success depended on volunteers, was eventually abandoned.",o:["whose","which","of which","that's"],x:"Whose shows possession in a relative clause.",t:"sentences"},
+{s:"g",l:"C2",q:"Such ___ the demand that tickets sold out in minutes.",o:["was","did","had","were"],x:"Such + be + noun + that: Such was the demand that...",t:"sentences"},
+{s:"g",l:"C2",q:"I'd sooner you ___ mention it to anyone.",o:["didn't","don't","won't","not"],x:"I'd sooner + subject + past simple, for a present wish.",t:"conditionals"},
+{s:"g",l:"C2",q:"He denied ___ any involvement in the decision.",o:["having had","to have had","have had","that having"],x:"Deny + -ing; having had stresses an earlier time.",t:"patterns"},
+{s:"g",l:"C2",q:"So engrossed ___ in the book that she missed her stop.",o:["was she","she was","did she","she did"],x:"So + adjective at the start triggers inversion.",t:"sentences"},
+{s:"v",l:"C2",q:"The speech was full of ___ that said nothing concrete.",o:["platitudes","aptitudes","latitudes","attitudes"],x:"Platitudes are empty, overused remarks."},
+{s:"v",l:"C2",q:"The evidence is ___ at best. We can't draw firm conclusions.",o:["tenuous","tenacious","tedious","tremendous"],x:"Tenuous means very weak or slight."},
+{s:"v",l:"C2",q:"She ___ the committee's concerns with a single sentence.",o:["allayed","alleged","allied","alloyed"],x:"Allay concerns means reduce or calm them."},
+{s:"v",l:"C2",q:"His account of events was ___. Every detail checked out.",o:["unimpeachable","unassuming","unwieldy","unrequited"],x:"Unimpeachable means impossible to doubt."},
+{s:"v",l:"C2",q:"The reforms were ___ by bureaucratic delays.",o:["hamstrung","ham-fisted","highly strung","headstrong"],x:"Hamstrung means badly restricted."},
+{s:"f",l:"C1",q:"After a long, dull speech someone says, \"Well, that was riveting.\" They mean:",o:["It was boring.","It was exciting.","It was too short.","It was confusing."],x:"This is irony: they mean the opposite."},
+{s:"f",l:"C2",q:"In a negotiation, \"We'd be open to exploring that\" most likely signals:",o:["cautious willingness to consider it","a firm agreement","a polite refusal","annoyance"],x:"Open to exploring is interested but non-committal."},
+{s:"f",l:"C2",q:"A manager writes, \"With respect, I think we may be getting ahead of ourselves.\" The tone is:",o:["politely critical","enthusiastic","openly angry","apologetic"],x:"With respect often introduces polite disagreement."},
+{s:"r",l:"C2",p:"c2r",q:"What is the writer's view of the fall in waiting times?",o:["It is partly the result of a change in who qualifies.","It proves the reforms worked.","It is completely invented.","It comes from extra funding."],x:"The referral thresholds were quietly raised."},
+{s:"r",l:"C2",p:"c2r",q:"\"Not quite to lie, but... to mislead\" suggests the figures are:",o:["technically accurate but presented deceptively","entirely false","perfectly fair","impossible to check"],x:"True numbers, misleading presentation."},
+{s:"l",l:"C2",au:[["f","Hana","So the merger's going ahead, then?"],["m","Mick","Well, nothing's been signed, but put it this way: I wouldn't be booking any long holidays if I were in finance."]],q:"What is Mick implying?",o:["The finance team will probably be very busy or affected.","Holidays are cancelled for everyone.","The merger has been cancelled.","He is going on holiday."],x:"Indirectly, the merger is likely and finance will feel it."},
+{s:"l",l:"C2",au:[["m","Carlos","Her feedback was, shall we say, comprehensive."],["f","Jess","That bad, huh?"]],q:"What does Jess understand?",o:["The feedback was very critical.","The feedback was short.","The feedback was positive.","Carlos didn't get any feedback."],x:"Comprehensive is a polite way to say there was a lot of criticism."},
+{s:"l",l:"C2",au:[["f","Bec","I'm not saying the plan's doomed. I'm saying I've seen this film before, and I know how it ends."],["m","Tom","Point taken."]],q:"What does Bec mean?",o:["Similar plans have failed before.","She watched a film about it.","The plan will definitely succeed.","She has no opinion."],x:"I've seen this film before = this has happened before."}];
+/* ---- Find Your Level: adaptive placement test ----
+ Method (see the project brief for sources):
+ - 3-parameter logistic IRT model with fixed slope a and guessing c = 1/4 (four options).
+ - Optional CEFR "can do" self-assessment sets the prior (DIALANG-style).
+ - Ability is re-estimated after every answer by EAP (expected a posteriori) on a grid.
+ - Next item: most information at the current estimate, chosen at random from the best 3
+   (randomesque exposure control), with content balancing across five skills.
+ - Stop when the standard error is 0.45 or less after at least 15 items, or after 30 items. */
+var LVB={A1:-2.6,A2:-1.4,B1:-0.2,B2:1.0,C1:2.2,C2:3.4},LVA=1.4,LVC=.25,LVMIN=15,LVMAX=30,LVSE=.45,LVK="tt_lvl_v1",LVR="tt_lvl_run";
+var LVSK={g:"Grammar",v:"Vocabulary",f:"Everyday language",r:"Reading",l:"Listening"},LVT={g:.38,v:.22,f:.1,r:.15,l:.15};
+var LVCUT=[[-3.2,"Pre-A1"],[-2,"A1"],[-.8,"A2"],[.4,"B1"],[1.6,"B2"],[2.8,"C1"],[99,"C2"]];
+var LVD={"Pre-A1":"You are starting out. You know a few words and phrases.","A1":"Beginner. You can use familiar everyday phrases and very basic sentences.","A2":"Elementary. You can talk about routines, shopping, family and simple needs.","B1":"Intermediate. You can handle most everyday situations and give opinions with reasons.","B2":"Upper intermediate. You can discuss many topics with fluency and follow complex ideas.","C1":"Advanced. You use English flexibly for work and study, with control of complex structures.","C2":"Proficient. You understand almost everything and express fine shades of meaning."};
+var LVSA=[["A1","I can introduce myself and ask simple questions, like where someone lives."],["A2","I can talk about my routine, go shopping and ask for directions."],["B1","I can manage most travel situations and describe experiences, plans and opinions."],["B2","I can follow the TV news and take part in a discussion at work."],["C1","I can read long, complex texts and speak fluently without searching for words."],["C2","I understand almost everything I hear or read and can express fine shades of meaning."]];
+(function(){var n={};LVI.forEach(function(it,i){var k=it.l+it.s;n[k]=(n[k]||[]);n[k].push(i)});Object.keys(n).forEach(function(k){var a=n[k];a.forEach(function(ix,j){LVI[ix].b=LVB[LVI[ix].l]+(a.length>1?-.3+.6*j/(a.length-1):0);LVI[ix].id=ix})})})();
+var LV=null,LVG=[];for(var _g=-5;_g<=5.51;_g+=.1)LVG.push(Math.round(_g*10)/10);
+function lvP(th,b){return LVC+(1-LVC)/(1+Math.exp(-LVA*(th-b)))}
+function lvInfo(th,b){var p=lvP(th,b);return LVA*LVA*Math.pow(p-LVC,2)/Math.pow(1-LVC,2)*(1-p)/p}
+function lvEst(mu,res){var w=LVG.map(function(t){var l=Math.exp(-Math.pow(t-mu,2)/(2*1.4*1.4));res.forEach(function(r){var p=lvP(t,LVI[r.i].b);l*=r.ok?p:1-p});return l}),s=0,m=0,v=0;w.forEach(function(x,i){s+=x;m+=x*LVG[i]});m/=s;w.forEach(function(x,i){v+=x*Math.pow(LVG[i]-m,2)});return{th:m,se:Math.sqrt(v/s)}}
+function lvLevel(th){for(var i=0;i<LVCUT.length;i++)if(th<LVCUT[i][0])return LVCUT[i][1];return"C2"}
+function lvSub(th){var L=lvLevel(th),i=LVCUT.map(function(c){return c[1]}).indexOf(L),lo=i?LVCUT[i-1][0]:-5,hi=LVCUT[i][0]>50?4.2:LVCUT[i][0],f=(th-lo)/(hi-lo);return f<.34?"low":f<.67?"mid":"high"}
+function lvScore(th){return Math.max(0,Math.min(100,Math.round((th+4)/8.4*100)))}
+function lvHist(){try{return JSON.parse(localStorage.getItem(LVK))||[]}catch(e){return[]}}
+function lvSaveRun(){try{if(LV&&LV.ph=="test")localStorage.setItem(LVR,JSON.stringify(LV));else localStorage.removeItem(LVR)}catch(e){}}
+function lvLoadRun(){try{var o=JSON.parse(localStorage.getItem(LVR));if(o&&o.ph=="test"&&o.res&&o.v==LVI.length)return o}catch(e){}return null}
+function lvShuf(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
+function lvNextItem(){var s=LV,used={},pu={},cnt={g:0,v:0,f:0,r:0,l:0},n=s.res.length;s.res.forEach(function(r){used[r.i]=1;var it=LVI[r.i];cnt[it.s]++;if(it.p)pu[it.p]=1});
+ var ok=function(i){var it=LVI[i];return!used[i]&&!(it.p&&pu[it.p])},sk=Object.keys(LVT).sort(function(a,b){return(LVT[b]*(n+1)-cnt[b])-(LVT[a]*(n+1)-cnt[a])});
+ for(var q=0;q<sk.length;q++){var pool=LVI.map(function(_,i){return i}).filter(function(i){return ok(i)&&LVI[i].s==sk[q]});if(!pool.length)continue;
+  pool.sort(function(a,b){return lvInfo(s.th,LVI[b].b)-lvInfo(s.th,LVI[a].b)});return pool[Math.floor(Math.random()*Math.min(3,pool.length))]}
+ return-1}
+function lvPage(){return pg("🧭","Find Your Level","An adaptive placement test. Every answer changes the next question, so it finds your level in about 15 to 25 questions.",'<div id="lvbox">'+lvIntro()+'</div>')}
+function lvIntro(){var h=lvHist(),run=lvLoadRun(),last=h[h.length-1];
+ var x='<div class="lvi rv"><div class="lvsteps"><div><b>1</b><span>Tell us what you can do (optional)</span></div><div><b>2</b><span>Answer 15 to 30 questions: grammar, vocabulary, everyday language, reading and listening</span></div><div><b>3</b><span>Get your CEFR level, a skills profile and where to start</span></div></div>'
+ +'<ul class="lvh"><li><b>Adaptive.</b> Get one right and the next is harder. Miss one and it gets easier. The test stops when it is confident.</li><li><b>No tricks.</b> If you do not know, choose <i>I don’t know</i>. Guessing makes the result less accurate.</li><li><b>Listening</b> questions play a short conversation. You can play each one twice. Turn your sound on.</li><li><b>About 10 to 15 minutes.</b> Your progress is saved on this device, so you can stop and come back.</li></ul>'
+ +'<div class="sxbt">'+(run?'<button class="btn" onclick="lvResume()">Continue my test ('+run.res.length+' answered)</button> <button class="btn ghost" onclick="lvSelf()">Start again</button>':'<button class="btn" onclick="lvSelf()">Start the test</button>')+'</div></div>';
+ if(last)x+='<div class="lvi rv"><h3>Your results on this device</h3><div class="lvhist">'+h.slice(-6).reverse().map(function(r){return'<div><span class="lv" style="--lc:'+(LC[r.lvl]||"#ccc")+'">'+r.lvl+'</span><b>'+r.score+'/100</b><small>'+new Date(r.ts).toLocaleDateString("en-AU",{day:"numeric",month:"short",year:"numeric"})+' · '+r.n+' questions</small></div>'}).join("")+'</div><p class="sxsub">Retake the test every few months to see how far you have come. The questions change each time.</p></div>';
+ x+='<details class="sxd lvhow"><summary>How the test works</summary><p>Each question has a difficulty on the same scale as your ability. After every answer, the test updates its estimate of your ability and how sure it is (the standard error). It then picks the question that tells it the most about you, while keeping a balance of skills. This is called computer-adaptive testing, and it is how tests like Linguaskill work.</p><p>The levels follow the Common European Framework of Reference (CEFR), from A1 to C2.</p><p><b>Please note:</b> question difficulties are expert estimates. They have not yet been calibrated with results from real learners, so treat your level as a guide, not a certificate. This test does not measure speaking or writing. You can add a writing or speaking sample at the end for a separate estimate.</p></details>';
+ return x}
+function lvSelf(){try{localStorage.removeItem(LVR)}catch(e){}cvKill();$("#lvbox").innerHTML='<div class="lvi lvin"><h3>Which sentence sounds most like you today?</h3><p class="sxsub">Pick the highest one that is true. This only chooses where the test starts.</p><div class="lvsa">'+LVSA.map(function(s,i){return'<button class="sxo" onclick="lvBegin(\''+s[0]+'\')"><span class="lv" style="--lc:'+LC[s[0]]+'">'+s[0]+'</span> '+sxH(s[1])+'</button>'}).join("")+'<button class="sxo" onclick="lvBegin(\'\')">I’m not sure. Start in the middle.</button></div></div>';lvTop()}
+function lvTop(){var b=$("#lvbox");if(b&&b.getBoundingClientRect().top<70)scrollTo({top:b.offsetTop-90,behavior:rm?"auto":"smooth"})}
+function lvBegin(sa){var mu=sa?LVB[sa]:-.2;LV={ph:"test",v:LVI.length,mu:mu,sa:sa,th:mu,se:1.4,res:[],t0:Date.now()};lvAsk()}
+function lvResume(){LV=lvLoadRun();if(!LV){lvSelf();return}var e=lvEst(LV.mu,LV.res);LV.th=e.th;LV.se=e.se;LV.cur=null;lvAsk()}
+function lvAsk(){var s=LV,n=s.res.length;if(n>=LVMAX||(n>=LVMIN&&s.se<=LVSE)){lvDone();return}var i=lvNextItem();if(i<0){lvDone();return}
+ s.cur={i:i,o:lvShuf(LVI[i].o.map(function(_,j){return j})),t:Date.now(),pl:0};lvSaveRun();lvDraw()}
+function lvDraw(){var s=LV,c=s.cur,it=LVI[c.i],n=s.res.length,pr=Math.max(n/LVMAX,Math.min(1,(1.4-s.se)/(1.4-LVSE))*(n/LVMIN<1?n/LVMIN:1));
+ var h='<div class="lvi lvq"><div class="sxpb"><i style="width:'+Math.round(Math.min(.97,pr)*100)+'%"></i></div><div class="sxqh"><span>Question '+(n+1)+'</span><b>'+LVSK[it.s]+'</b></div>';
+ if(it.p)h+='<div class="lvp">'+sxH(LVP[it.p])+'</div>';
+ if(it.au)h+='<div class="lvau"><button class="btn ghost" id="lvpl" onclick="lvPlay()">▶ Play the conversation</button><span class="sxsub" id="lvpn">You can play it twice.</span></div>';
+ h+='<p class="sxst2">'+sxH(it.q).replace("___",'<span class="sxbl">  </span>')+'</p><div class="sxos">'+c.o.map(function(j,k){return'<button class="sxo" onclick="lvAns('+j+')"><kbd>'+(k+1)+'</kbd> '+sxH(it.o[j])+'</button>'}).join("")+'<button class="sxo lvdk" onclick="lvAns(-1)"><kbd>0</kbd> I don’t know</button></div>';
+ h+='<div class="lvft"><button class="lnk" onclick="lvQuit()">Save and stop for now</button></div></div>';
+ $("#lvbox").innerHTML=h;lvTop()}
+function lvPlay(){var c=LV&&LV.cur;if(!c)return;var it=LVI[c.i];if(c.pl>=2)return;c.pl++;cvKill();var my=++SXT,b=$("#lvpl"),n=$("#lvpn");if(n)n.textContent=c.pl>=2?"That was your last play.":"One more play left.";if(b){b.disabled=true;b.textContent="🔊 Playing…"}
+ var done=function(){if(b){b.disabled=c.pl>=2;b.textContent=c.pl>=2?"No plays left":"▶ Play again"}};
+ (function nx(k){if(my!=SXT){done();return}if(k>=it.au.length){done();return}var ln=it.au[k],f=vFor(ln[0]);vTalk(ln[2],{v:f.v,g:ln[0],rate:LVI[c.i].l<"B"?.88:.97,alive:function(){return my==SXT},onend:function(){setTimeout(function(){nx(k+1)},350)},onfail:function(){done();if(n)n.textContent="Audio is not available on this device. Choose I don’t know to skip this question."}})})(0)}
+function lvAns(j){var s=LV;if(!s||!s.cur)return;var c=s.cur;cvKill();SXT++;s.res.push({i:c.i,ok:j==0,c:j,ms:Date.now()-c.t});var e=lvEst(s.mu,s.res);s.th=e.th;s.se=e.se;s.cur=null;lvAsk()}
+function lvQuit(){lvSaveRun();cvKill();SXT++;LV=null;$("#lvbox").innerHTML=lvIntro();obs()}
+function lvKey(e){if(!LV||!LV.cur||!$("#lvbox")||/INPUT|TEXTAREA/.test((e.target||{}).tagName||""))return;var k=e.key;if(k=="0"){lvAns(-1);return}var d=+k;if(d>=1&&d<=LV.cur.o.length)lvAns(LV.cur.o[d-1])}
+document.addEventListener("keydown",lvKey);
+function lvDone(){var s=LV,e=lvEst(s.mu,s.res),th=e.th,se=e.se,lvl=lvLevel(th),lo=lvLevel(th-1.28*se),hi=lvLevel(th+1.28*se),sk={},ar={},fast=0,nl=0;
+ s.res.forEach(function(r){var it=LVI[r.i],p=lvP(th,it.b),o=sk[it.s]=sk[it.s]||[0,0,0];o[0]+=r.ok?1:0;o[1]++;o[2]+=p;if(it.s!="l"){nl++;if(r.ms<2500&&r.c>=0)fast++}
+  if(it.t){var a=ar[it.t]=ar[it.t]||{w:0,r:0};if(!r.ok&&p>=.5)a.w++;if(r.ok)a.r++}});
+ var rec={ts:Date.now(),lvl:lvl,sub:lvSub(th),th:Math.round(th*100)/100,se:Math.round(se*100)/100,score:lvScore(th),n:s.res.length,lo:lo,hi:hi,sk:sk,sa:s.sa};
+ var h=lvHist();h.push(rec);try{localStorage.setItem(LVK,JSON.stringify(h.slice(-20)));localStorage.removeItem(LVR)}catch(x){}
+ s.ph="done";s.rec=rec;s.ar=ar;s.fast=nl&&fast/nl>.25;ttLog();lvResult();if(typeof boom=="function"&&lvScore(th)>=40)boom()}
+function lvResult(){var s=LV,r=s.rec,i;var weak=Object.keys(s.ar).filter(function(a){return s.ar[a].w>0}).sort(function(a,b){return s.ar[b].w-s.ar[a].w}).slice(0,3);
+ var h='<div class="lvi lvres"><div class="lvbig"><span class="lvl" style="--lc:'+(LC[r.lvl]||"#ffd9a8")+'">'+r.lvl+'</span><div><p class="lvkick">Your estimated level</p><h2>'+r.lvl+' <small>('+r.sub+')</small></h2><p>'+LVD[r.lvl]+'</p></div></div>';
+ h+='<div class="lvmeter" aria-label="Score '+r.score+' out of 100"><div class="lvbar"><i style="left:'+lvScore(r.th-1.28*r.se)+'%;right:'+(100-lvScore(r.th+1.28*r.se))+'%"></i><b style="left:'+r.score+'%"></b></div><div class="lvticks">'+["A1","A2","B1","B2","C1","C2"].map(function(l){return'<span>'+l+'</span>'}).join("")+'</div></div>';
+ h+='<p class="lvconf">Score <b>'+r.score+'/100</b> from '+r.n+' questions. '+(r.lo==r.hi?'We are fairly confident you are at <b>'+r.lvl+'</b>.':'Your level is most likely between <b>'+r.lo+'</b> and <b>'+r.hi+'</b> (80% range).')+'</p>';
+ if(s.fast)h+='<p class="sxfb hint">Some answers were very quick. If you were guessing, take the test again and choose <i>I don’t know</i> instead.</p>';
+ h+='<h3>Your skills</h3><div class="lvsk">'+Object.keys(LVSK).filter(function(k){return r.sk[k]}).map(function(k){var o=r.sk[k],d=(o[0]-o[2])/o[1],lab=o[1]<2?"Too few questions to say":d>.15?"Stronger than your overall level":d<-.15?"Weaker than your overall level":"In line with your level",cl=o[1]<2?"":d>.15?"up":d<-.15?"dn":"eq";return'<div class="lvs '+cl+'"><b>'+LVSK[k]+'</b><span>'+o[0]+' of '+o[1]+' correct</span><small>'+lab+'</small></div>'}).join("")+'</div>';
+ h+='<h3>Where to start</h3><div class="lvrec">'+lvRecs(r.lvl,weak)+'</div>';
+ h+='<details class="sxd"><summary>Review your answers</summary><ol class="lvrev">'+s.res.map(function(x){var it=LVI[x.i];return'<li class="'+(x.ok?"ok":"no")+'"><small>'+LVSK[it.s]+' · '+it.l+'</small>'+(it.p?'<p class="lvp sm">'+sxH(LVP[it.p])+'</p>':'')+(it.au?'<p class="lvp sm">'+it.au.map(function(a){return'<b>'+a[1]+':</b> '+sxH(a[2])}).join("<br>")+'</p>':'')+'<p>'+sxH(it.q)+'</p><p>'+(x.ok?'✓ ':'✗ Your answer: '+(x.c<0?'I don’t know':sxH(it.o[x.c]))+'. ')+'<b>'+sxH(it.o[0])+'</b></p><p class="sxsub">'+sxH(it.x)+'</p></li>'}).join("")+'</ol></details>';
+ h+='<h3>Add a writing or speaking sample (optional)</h3><p class="sxsub">This test covers grammar, vocabulary, reading and listening. Write or say 60 to 150 words to get a separate estimate for writing or speaking.</p>'+fbWidget("lv",{task:"Describe the place where you live and say what you like and dislike about it. Write or say 60 to 150 words.",level:r.lvl,topic:"General placement sample",mode:"placement"});
+ h+='<div class="sxbt" style="margin-top:20px"><button class="btn ghost" onclick="lvSelf()">Take the test again</button> <a class="btn" href="#/worksheets/grammar">Open the Grammar Studio</a></div><p class="sxsub" style="margin-top:12px">Saved on this device. Difficulties are expert estimates, not yet calibrated with real learners, so use this level as a guide.</p></div>';
+ $("#lvbox").innerHTML=h;lvTop();fbInit("lv")}
+function lvRecs(lvl,weak){var L2=["A1","A2","B1","B2","C1"],tgt=lvl=="Pre-A1"?"A1":lvl=="C2"?"C1":lvl,out=[],seen={};
+ var pick=function(area){if(area=="tenses"){var t=tgt<"B"?(tgt=="A1"?0:4):tgt=="B1"?2:6;return{h:"#/worksheets/grammar/studio/"+t,t:nm(t),a:"Verb tenses",l:LV2[t]}}var A=XA[area];if(!A)return null;var best=null;A.x.forEach(function(x,k){var d=Math.abs(L2.indexOf(x.lv)-L2.indexOf(tgt));if(L2.indexOf(x.lv)>L2.indexOf(tgt))d+=.5;if(!best||d<best.d)best={d:d,k:k}});var x=A.x[best.k];return{h:"#/worksheets/grammar/"+area+"/"+best.k,t:x.t,a:A.n,l:x.lv}};
+ weak.forEach(function(a){var p=pick(a);if(p&&!seen[p.h]){seen[p.h]=1;p.why="You missed questions on this at your level.";out.push(p)}});
+ ["tenses","sentences","modals","nouns","conditionals","adj","preps","passive","patterns"].forEach(function(a){if(out.length>=4)return;var p=pick(a);if(p&&!seen[p.h]&&p.l==tgt){seen[p.h]=1;p.why="A key "+tgt+" topic.";out.push(p)}});
+ return out.map(function(p,i){return'<a class="rl" style="--i:'+i+';--lc:'+LC[p.l]+'" href="'+p.h+'"><span class="lv">'+p.l+'</span><b>'+sxH(p.t)+'</b><small>'+sxH(p.a)+'. '+p.why+'</small><span class="rs o">Start here →</span></a>'}).join("")}
+/* ---- Speaking and writing feedback (hybrid) ----
+ Layer 1, for everyone, on this device: word and sentence counts, common learner-error patterns,
+ and whether the lesson's target grammar appears. Speech uses the browser's speech recognition
+ where it exists (Chrome, Edge, Safari). It shows what the computer understood, not accent quality.
+ Layer 2, for signed-in claude.ai viewers who allow it: Claude marks the text against CEFR-based
+ analytic criteria. Every correction must quote the learner's exact words; the page drops any
+ that do not, so feedback is tied to what was actually written or said. */
+var FBX=[
+[/(^|[.!?]\s+)(he|she|it)\s+(go|like|want|need|live|work|play|study|watch|come)\b/gi,"After he, she or it, the present simple verb adds -s: she likes, he works."],
+[/\b(he|she|it)\s+don'?t\b/gi,"Use doesn't with he, she and it: she doesn't know."],
+[/\bI\s+(is|are)\b|\b(you|we|they)\s+(is|was)\b/gi,"Check the verb be: I am, you are, he is; I was, you were."],
+[/\b(more|most)\s+(better|worse|bigger|smaller|easier|happier|cheaper|faster|older|younger|taller|longer)\b/gi,"Don't add more to a comparative that already ends in -er: better, not more better."],
+[/\bthe most (best|worst|biggest|smallest)\b/gi,"Best and worst are already superlatives: the best, not the most best."],
+[/\b(I am|I'm|am)\s+agree\b/gi,"Agree is a verb: I agree, not I am agree."],
+[/\b(didn't|did not|doesn't|does not|don't|do not)\s+(went|came|saw|ate|took|made|had|was|were|got|bought|did|said|told|goes|likes|wants)\b/gi,"After do, does or did, use the base verb: didn't go, doesn't like."],
+[/\b(can|could|should|must|will|would|might|may)\s+to\s+[a-z]+/gi,"Modal verbs are followed by the base verb with no to: can swim, must go."],
+[/\b(informations|advices|furnitures|equipments|homeworks|luggages|knowledges)\b/gi,"This noun is uncountable, so it has no plural -s: information, advice."],
+[/\b(much)\s+(people|friends|cars|books|things|times|students|problems)\b/gi,"Use many with plural countable nouns: many people."],
+[/\bsince\s+(\d+|one|two|three|four|five|six|seven|eight|nine|ten)\s+(years|months|weeks|days|hours)\b/gi,"Use for with a length of time (for three years) and since with a starting point (since 2020)."],
+[/\bI\s+have\s+\d+\s+years\b/gi,"Say your age with be: I am 30 (years old)."],
+[/\ba\s+(apple|orange|hour|honest|egg|idea|umbrella|interesting|old|important|excellent|easy|answer|email|office)\b/gi,"Use an before a vowel sound: an apple, an hour."],
+[/\ban\s+(university|european|uniform|user|useful|banana|car|house|book|big|good|new)\b/gi,"Use a before a consonant sound: a university, a new car."],
+[/\bdiscuss about\b/gi,"Discuss takes a direct object: discuss the plan, not discuss about the plan."],
+[/\bexplain me\b/gi,"Say explain to me or explain it to me."],
+[/\bmarried with\b/gi,"The usual phrase is married to someone."],
+[/\breturn back\b/gi,"Return already means go back. Just say return."],
+[/\bdepend of\b/gi,"The preposition is on: it depends on the weather."],
+[/\binterested on\b/gi,"The preposition is in: interested in."],
+[/\bsay me\b/gi,"Use tell with a person: tell me, say to me."],
+[/\blisten music\b/gi,"Listen needs to: listen to music."],
+[/\bdo (a |many |some |lots of )?mistakes?\b/gi,"The collocation is make a mistake."],
+[/\b(\w+)\s+\1\b/gi,"The same word appears twice in a row."]];
+var FBS=["the","a","an","to","of","and","i","you","he","she","it","we","they","is","are","was","were","be","my","your","in","on","at","for","with","this","that","me","her","him","our","their","do","not"];
+function fbTargets(k){if(!SX||!SX[k])return[];var c=SX[k],seg=[],cnt={};c.nt.concat(c.dl.ln.map(function(l){return l[1]})).forEach(function(t){String(t).replace(/\[\[(.+?)\]\]/g,function(_,m){seg.push(m.toLowerCase())})});
+ seg.forEach(function(sg){var seen={};sg.replace(/[^a-z' -]/g," ").split(/\s+/).forEach(function(w){if(w&&FBS.indexOf(w)<0&&!seen[w]){seen[w]=1;cnt[w]=(cnt[w]||0)+1}})});
+ return Object.keys(cnt).filter(function(w){return cnt[w]>=2}).sort(function(a,b){return cnt[b]-cnt[a]}).slice(0,8)}
+function fbLocal(t,ctx){var words=(t.match(/[A-Za-z\u00C0-\u024F']+/g)||[]),sn=t.split(/[.!?]+/).filter(function(s){return s.trim()}),out=[],iss=[];
+ out.push(["\uD83D\uDCCF",words.length+" words, "+sn.length+" sentence"+(sn.length==1?"":"s")+(sn.length?", about "+Math.round(words.length/sn.length)+" words per sentence":"")+"."]);
+ if(ctx.min&&words.length<ctx.min)out.push(["\u2795","Try to write at least "+ctx.min+" words. Longer answers show more of what you can do."]);
+ if(!ctx.speech){var low=sn.filter(function(s){var x=s.trim();return x&&/^[a-z]/.test(x)}).length;if(low)iss.push(["Capital letters",low+" sentence"+(low>1?"s start":" starts")+" with a small letter."]);
+  if(/(^|\s)i(\s|')/.test(t))iss.push(["Capital I","Always write I as a capital letter."]);if(t.trim()&&!/[.!?]["')]*\s*$/.test(t.trim()))iss.push(["Full stop","End your last sentence with a full stop, question mark or exclamation mark."])}
+ sn.forEach(function(s){var n=(s.match(/\S+/g)||[]).length;if(n>35)iss.push(["Long sentence","One sentence has "+n+" words. Think about splitting it."])});
+ FBX.forEach(function(r){var m;r[0].lastIndex=0;while((m=r[0].exec(t))){iss.push(['\u201C'+m[0].trim()+'\u201D',r[1]]);if(!r[0].global)break}});
+ var tg=ctx.k!=null?fbTargets(ctx.k):[],used=tg.filter(function(w){return new RegExp("\\b"+w.replace(/[^a-z' -]/g,"")+"\\b","i").test(t)});
+ if(tg.length)out.push([used.length?"\u2705":"\uD83D\uDCA1",used.length?"You used today\u2019s grammar words: <b>"+used.map(sxH).join(", ")+"</b>. Check they follow the rule.":"Try to use today\u2019s grammar. Words that often go with it: <b>"+tg.slice(0,5).map(sxH).join(", ")+"</b>."]);
+ return{out:out,iss:iss.slice(0,10)}}
+var FBST={},FBSR=window.SpeechRecognition||window.webkitSpeechRecognition,FBSAMP=null,FBSN=0;
+function fbUse(){if(FBSAMP!==null)return Promise.resolve(FBSAMP);if(!window.claude||!claude.use)return Promise.resolve(FBSAMP=false);return claude.use("sample").then(function(s){FBSAMP=s||false;return FBSAMP},function(){return FBSAMP=false})}
+function fbWidget(id,ctx){FBST[id]={ctx:ctx,sp:false};var dr="";ctx.store=ctx.store||"tt_fb_"+id;try{dr=localStorage.getItem(ctx.store)||""}catch(e){}
+ return'<div class="fbw" id="fbw-'+id+'"><div class="fbmode" role="group" aria-label="Writing or speaking"><button class="on" onclick="fbMode(\''+id+'\',0)">\u270D\uFE0F Write</button><button onclick="fbMode(\''+id+'\',1)">\uD83C\uDFA4 Speak</button></div>'
+ +'<p class="fbtask">'+sxH(ctx.task)+'</p><div class="fbsp" id="fbsp-'+id+'" hidden><button class="btn ghost" id="fbmic-'+id+'" onclick="fbMic(\''+id+'\')">\uD83C\uDFA4 Start speaking</button><span class="sxsub" id="fbms-'+id+'">'+(FBSR?'Speak clearly. Your words appear below. You can fix any the computer misheard.':'Speech recognition is not available in this browser. Say your answer aloud, then type what you said.')+'</span></div>'
+ +'<textarea class="sxta" id="fbt-'+id+'" rows="5" placeholder="Write here\u2026" aria-label="Your answer" oninput="fbIn(\''+id+'\')">'+sxH(dr)+'</textarea><div class="fbbar"><span class="sxsub" id="fbwc-'+id+'"></span><span class="fbbtns"><button class="btn ghost" onclick="fbCheck(\''+id+'\')">Quick check</button><button class="btn" id="fbai-'+id+'" onclick="fbAI(\''+id+'\')" hidden>\u2728 Teacher feedback from Claude</button></span></div>'
+ +'<div id="fbo-'+id+'" aria-live="polite"></div><div id="fba-'+id+'" aria-live="polite"></div><p class="sxsub fbnote" id="fbn-'+id+'">Quick check runs on this device and catches common mistakes only.</p></div>'}
+function fbInit(id){fbIn(id,1);fbUse().then(function(s){var b=$("#fbai-"+id),n=$("#fbn-"+id);if(s&&b){b.hidden=false;if(n)n.innerHTML="Quick check runs on this device and catches common mistakes only. <b>Teacher feedback</b> asks Claude to mark your answer against CEFR criteria, using your own Claude account. Every correction must quote your exact words."}})}
+function fbIn(id,init){var t=$("#fbt-"+id);if(!t)return;var n=(t.value.match(/[A-Za-z\u00C0-\u024F']+/g)||[]).length,w=$("#fbwc-"+id);if(w)w.textContent=n+" word"+(n==1?"":"s");if(!init)try{localStorage.setItem(FBST[id].ctx.store,t.value)}catch(e){}}
+function fbMode(id,m){var S=FBST[id];S.sp=!!m;$$("#fbw-"+id+" .fbmode button").forEach(function(b,i){b.classList.toggle("on",i==m)});$("#fbsp-"+id).hidden=!m;$("#fbt-"+id).placeholder=m?"Your spoken words appear here\u2026":"Write here\u2026";if(!m)fbStop(id)}
+function fbStop(id){var S=FBST[id];if(S&&S.rec){try{S.rec.stop()}catch(e){}}}
+function fbMic(id){var S=FBST[id],b=$("#fbmic-"+id),ms=$("#fbms-"+id),ta=$("#fbt-"+id);if(!FBSR){ta.focus();return}if(S.rec){fbStop(id);return}
+ cvKill();var r=new FBSR(),base=ta.value?ta.value.replace(/\s*$/," "):"";r.lang={au:"en-AU",uk:"en-GB",us:"en-US"}[typeof VACC=="string"?VACC:"au"]||"en-AU";r.interimResults=true;r.continuous=true;S.rec=r;S.t0=Date.now();
+ r.onresult=function(e){var fin="",tmp="";for(var i=0;i<e.results.length;i++){var x=e.results[i][0].transcript;if(e.results[i].isFinal)fin+=x;else tmp+=x}ta.value=base+fin+tmp;fbIn(id)};
+ r.onerror=function(e){ms.textContent=e.error=="not-allowed"||e.error=="service-not-allowed"?"The microphone is blocked here. Allow it in your browser, or say your answer aloud and type it.":e.error=="no-speech"?"No speech heard. Check your microphone and try again.":"Speech recognition stopped ("+e.error+"). You can type instead."};
+ r.onend=function(){S.rec=null;S.secs=Math.round((Date.now()-S.t0)/1000);b.textContent="\uD83C\uDFA4 Start speaking";b.classList.remove("rec")};
+ try{r.start();b.textContent="\u25A0 Stop";b.classList.add("rec");ms.textContent="Listening\u2026 Speak now. Press Stop when you finish."}catch(e){ms.textContent="Could not start the microphone. You can type instead."}}
+function fbCheck(id){var S=FBST[id],t=$("#fbt-"+id).value;if(!t.trim()){$("#fbo-"+id).innerHTML='<div class="sxfb hint"><b>Write or say something first.</b></div>';return}
+ var r=fbLocal(t,{k:S.ctx.k,min:S.ctx.min||(S.ctx.mode=="placement"?60:0),speech:S.sp});
+ $("#fbo-"+id).innerHTML='<div class="fbq"><b>Quick check</b><ul>'+r.out.map(function(o){return'<li><span>'+o[0]+'</span><span>'+o[1]+'</span></li>'}).join("")+'</ul>'+(r.iss.length?'<p class="fbh">Things to look at</p><ul class="fbis">'+r.iss.map(function(o){return'<li><b>'+sxH(o[0])+'</b> '+sxH(o[1])+'</li>'}).join("")+'</ul>':'<p class="fbh">No common mistakes found. That doesn\u2019t mean there are none.</p>')+'</div>'}
+function fbNorm(t){return String(t).toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/\s+/g," ").trim()}
+function fbPrompt(S,t){var c=S.ctx,sp=S.sp;
+ return["You are an experienced English teacher (CELTA and DELTA qualified) and a trained Cambridge speaking and writing examiner in Adelaide, Australia. Mark a learner's "+(sp?"SPOKEN answer. It is an automatic speech-recognition transcript, so ignore punctuation, capital letters and obvious recognition errors, and do not comment on pronunciation, which you cannot hear":"WRITTEN answer")+".",
+ "Context: "+(c.topic?"lesson topic \""+c.topic+"\"":"general task")+(c.level?", learner working at about "+c.level:"")+".",c.rule?"Grammar point of the lesson: "+c.rule:"","Task given to the learner: "+c.task,
+ "Mark against these CEFR-based analytic criteria, giving each a CEFR level (A1, A2, B1, B2, C1 or C2):",
+ "1. Task: Does it answer the task fully, with relevant ideas and enough detail?",
+ "2. Grammatical accuracy: How many errors, and do they block meaning? A2 = frequent basic errors; B1 = good control of familiar structures, errors with complex ones; B2 = few errors that do not cause misunderstanding; C1 = consistently high accuracy.",
+ "3. Grammatical range: Simple sentences only (A1-A2), some linking and subordination (B1), a range of complex structures (B2), flexible and natural use (C1+).",
+ "4. Vocabulary: Basic everyday words (A2), enough to talk about familiar topics (B1), good range with some precise and less common words (B2), wide range with idiomatic and collocational control (C1+).",
+ "5. "+(sp?"Coherence and fluency (from the transcript only: linking, organisation, fillers and restarts if visible)":"Organisation: Linking words, paragraphing, logical order")+".",
+ "Strict rules:",
+ "- Base every judgement only on the learner's text. Do not invent errors.",
+ "- Each correction must copy the learner's words EXACTLY in \"quote\" (a short continuous phrase from their text, same spelling) and give the corrected phrase in \"fix\".",
+ "- Australian English is correct: do not change Australian spelling or vocabulary (colour, organise, arvo, footy).",
+ "- If the text has fewer than 25 words, set \"overall\" to null and explain that the sample is too short to estimate a level.",
+ "- Be warm and encouraging, but honest. Write for a learner at this level: short, clear sentences.",
+ "- Give at most 8 corrections, the most important first. Give exactly 2 strengths and 2 specific next steps.",
+ "- \"rewrite\" is a natural improved version that keeps the learner's ideas, written about one level higher.",
+ c.rule?"- In \"target\", say whether the learner used the lesson's grammar point and whether it was correct, quoting it.":"- Set \"target\" to null.",
+ "Reply with JSON only, in exactly this shape:",
+ '{"overall":"B1","confidence":"low|medium|high","summary":"one or two sentences","criteria":[{"name":"Task","level":"B1","note":"one sentence with evidence"},{"name":"Grammatical accuracy","level":"","note":""},{"name":"Grammatical range","level":"","note":""},{"name":"Vocabulary","level":"","note":""},{"name":"'+(sp?"Coherence and fluency":"Organisation")+'","level":"","note":""}],"target":{"used":true,"correct":true,"note":"","quotes":[""]},"corrections":[{"quote":"","fix":"","why":"","type":"grammar|vocabulary|spelling|punctuation|word order|style"}],"strengths":["",""],"next":["",""],"rewrite":""}',
+ "Learner's "+(sp?"transcript":"text")+" (between the lines):","-----",t,"-----"].filter(Boolean).join("\n")}
+function fbAI(id){var S=FBST[id],t=$("#fbt-"+id).value.trim(),out=$("#fba-"+id),b=$("#fbai-"+id);if(!t){out.innerHTML='<div class="sxfb hint"><b>Write or say something first.</b></div>';return}
+ fbUse().then(function(sample){if(!sample){b.hidden=true;out.innerHTML='<p class="sxsub">Teacher feedback needs this page to be open on claude.ai while you are signed in.</p>';return}
+  if(S.busy){if(S.ctl)S.ctl.abort();return}S.busy=1;S.ctl=new AbortController();b.textContent="\u25A0 Stop";var tk=++FBSN;
+  out.innerHTML='<div class="fbai"><p class="fbth"><span class="fbdot"></span> Claude is reading your answer and marking it against the criteria. This can take up to a minute.</p></div>';
+  sample.json(fbPrompt(S,t),{signal:S.ctl.signal,modelTier:"default"}).then(function(r){if(tk==FBSN)fbShow(id,r,t)},function(e){var m={not_granted:"You chose not to allow Claude for this page. Quick check still works.",rate_limited:"Too many requests just now. Please wait a minute and try again.",cancelled:"Stopped.",invalid_json:"The feedback came back in the wrong format. Please try again.",sampling_disabled:"Asking Claude is turned off for this account.",session_expired:"Your session has expired. Reload the page and sign in again."}[e&&e.code]||"Feedback is not available right now. Please try again later.";out.innerHTML='<p class="sxsub">'+m+'</p>';if(e&&e.code=="not_granted")b.hidden=true}).then(function(){S.busy=0;b.textContent="\u2728 Teacher feedback from Claude"})})}
+function fbShow(id,r,t){var LV6=["A1","A2","B1","B2","C1","C2"],ok=function(l){return LV6.indexOf(l)>=0},nt=fbNorm(t),drop=0;r=r||{};
+ var cor=(r.corrections||[]).filter(function(c){var q=c&&c.quote&&fbNorm(c.quote);if(q&&nt.indexOf(q)>=0&&c.fix&&fbNorm(c.fix)!=q)return true;drop++;return false}).slice(0,8);
+ var h='<div class="fbai"><div class="fbtop"><span class="lvl" style="--lc:'+(LC[r.overall]||"#e5e7eb")+'">'+(ok(r.overall)?r.overall:"?")+'</span><div><p class="lvkick">'+(ok(r.overall)?"Estimated level of this answer":"Not enough to estimate a level")+(r.confidence?' \u00B7 '+sxH(r.confidence)+' confidence':'')+'</p><p>'+sxH(r.summary||"")+'</p></div></div>';
+ if(r.criteria&&r.criteria.length)h+='<div class="fbcr">'+r.criteria.map(function(c){return'<div><span class="lv" style="--lc:'+(LC[c.level]||"#e5e7eb")+'">'+(ok(c.level)?c.level:"\u2013")+'</span><b>'+sxH(c.name||"")+'</b><small>'+sxH(c.note||"")+'</small></div>'}).join("")+'</div>';
+ if(r.target&&r.target.note)h+='<p class="fbtg">'+(r.target.used&&r.target.correct?"\u2705":"\uD83D\uDCA1")+' <b>Today\u2019s grammar:</b> '+sxH(r.target.note)+'</p>';
+ if(cor.length)h+='<p class="fbh">Corrections</p><ul class="fbco">'+cor.map(function(c){return'<li><span class="fbq1"><s>'+sxH(c.quote)+'</s> \u2192 <ins>'+sxH(c.fix)+'</ins></span>'+(c.type?'<small class="fbty">'+sxH(c.type)+'</small>':'')+'<p>'+sxH(c.why||"")+'</p></li>'}).join("")+'</ul>';
+ else h+='<p class="fbh">No corrections needed. Well done.</p>';
+ if(drop)h+='<p class="sxsub">'+drop+' suggestion'+(drop>1?"s were":" was")+' removed because '+(drop>1?"they":"it")+' did not quote your exact words.</p>';
+ if(r.strengths&&r.strengths.length)h+='<p class="fbh">What you did well</p><ul class="fbl">'+r.strengths.slice(0,2).map(function(x){return'<li>'+sxH(x)+'</li>'}).join("")+'</ul>';
+ if(r.next&&r.next.length)h+='<p class="fbh">Next steps</p><ul class="fbl">'+r.next.slice(0,2).map(function(x){return'<li>'+sxH(x)+'</li>'}).join("")+'</ul>';
+ if(r.rewrite)h+='<details class="sxd"><summary>See an improved version</summary><p class="fbrw">'+sxH(r.rewrite)+'</p><button class="sxs" onclick="sxSay(this.previousElementSibling.textContent,\'f\',this)" aria-label="Listen to the improved version">\uD83D\uDD0A</button></details>';
+ h+='<p class="sxsub fbnote">Marked by Claude with a CEFR-based rubric. It is a teacher-style estimate from one short sample, not an official exam score.'+(FBST[id].sp?' Pronunciation is not judged, because Claude only sees the transcript.':'')+'</p></div>';
+ $("#fba-"+id).innerHTML=h}
+/* read-aloud check: what the speech recogniser understood, word by word */
+function fbRead(target,btn){if(!FBSR){vNote("Speech recognition is not available in this browser. Try Chrome, Edge or Safari.");return}cvKill();
+ var box=btn.closest(".sxrow"),out=box&&box.querySelector(".fbra");if(!out){out=document.createElement("div");out.className="fbra";box.appendChild(out)}
+ var r=new FBSR();r.lang={au:"en-AU",uk:"en-GB",us:"en-US"}[typeof VACC=="string"?VACC:"au"]||"en-AU";r.interimResults=false;r.maxAlternatives=3;btn.classList.add("rec");out.innerHTML='<span class="sxsub">Listening\u2026 read the sentence aloud.</span>';
+ r.onresult=function(e){var alts=[].slice.call(e.results[0]).map(function(a){return a.transcript}),want=sxExp(sxC(target)).split(" "),bestS=-1,bestH="";
+  alts.forEach(function(a){var got=sxExp(a).split(" "),hit=want.filter(function(w){return got.indexOf(w)>=0}).length;if(hit>bestS){bestS=hit;bestH=a}});
+  var pct=Math.round(bestS/want.length*100);out.innerHTML='<b>'+(pct>=90?"\u2705 Clear!":pct>=70?"\uD83D\uDC4D Nearly.":"\uD83D\uDD01 Try again.")+'</b> The computer understood '+bestS+' of '+want.length+' words: '+sxDiff(sxC(target),bestH)+'<br><small class="sxsub">Heard: \u201C'+sxH(bestH)+'\u201D. This shows how clear your speech is to a computer, not your accent.</small>'};
+ r.onerror=function(e){out.innerHTML='<span class="sxsub">'+(e.error=="not-allowed"||e.error=="service-not-allowed"?"The microphone is blocked here. Allow it in your browser settings.":e.error=="no-speech"?"No speech heard. Try again.":"Speech recognition stopped. Try again.")+'</span>'};
+ r.onend=function(){btn.classList.remove("rec")};try{r.start()}catch(e){btn.classList.remove("rec")}}
+/* ---- Smart search ----
+ Indexes every lesson, tense, area, map topic and main page, with aliases (other names
+ teachers and learners use). Ranking is typo tolerant: exact and prefix matches first, then
+ Damerau-Levenshtein distance, then shared three-letter chunks. Misspelt words are corrected
+ against the index vocabulary for "Did you mean". */
+var SRAL=[["Can, can't","ability permission requests could cannot"],["Should and shouldn't","advice suggestions ought"],["Past ability","could was able to managed"],["permission and obligation","must have to mustn't don't need allowed rules"],["deductions about the present","must be might be can't be guessing certainty"],["deductions about the past","must have might have can't have"],["degrees of certainty","probably definitely likely will might"],["should have, could have","past modals regret criticism"],["probability","likely bound to should will have"],
+["zero and first","if clauses if sentences real conditional type 0 type 1 when"],["Conditionals: second","unreal hypothetical would if i were type 2"],["Unless","provided providing in case as long as"],["third and mixed","past unreal would have type 3 mixed conditional regret"],["Wishes","wish if only regret"],["Inversion and conditionals","had i known were i should you"],["Unreal time","it's time would rather as if as though"],
+["Passives","passive voice be done was made by agent"],["Reported speech: statements","indirect speech said told backshift"],["Reported speech: questions","indirect questions asked wanted to know whether"],["reporting verbs","advised suggested promised refused agreed"],["Advanced passives","have something done get passive"],["Patterns with reporting verbs","it is said is believed to have"],
+["-ing or infinitive|A2","gerund infinitive to do doing enjoy want"],["Infinitive of purpose","to in order to so as to so that why"],["change of meaning","remember stop try forget doing to do"],["Verbs and prepositions","depend on listen to wait for"],["Phrasal verbs","multi word verbs particles get up look after"],["Different uses of used to","be used to get used to would"],["Past habits","used to would past routines"],["Word order in phrasal verbs","separable inseparable turn it off"],
+["Personal pronouns","subject object pronouns my your his her their possessive adjectives"],["Plural nouns","plurals s es irregular children"],["This, that","demonstratives these those"],["Articles: a, an, the","definite indefinite article a an the"],["the or no article","zero article the no article"],["Countable and uncountable","much many some any uncountable nouns"],["Quantifiers","few a few little a little a bit of lots of"],["Possessive 's","apostrophe s genitive whose"],["Reflexive","myself yourself herself themselves"],["enough","too enough not enough"],["noun modifiers","compound nouns of"],
+["Adverbs of frequency","always usually often sometimes never how often"],["Comparative adjectives","comparison bigger better more than"],["Superlative","biggest best most the est"],["Adjectives and prepositions","afraid of good at interested in"],["-ed and -ing","bored boring interested interesting tired"],["Modifying comparatives","much bigger a bit far slightly"],["gradable","very absolutely freezing"],["so and such","intensifiers very so such a"],["as and like","similar like as comparison"],
+["Linking words","conjunctions connectors and but because so"],["Prepositions of place","in on at under next to location where"],["Prepositions of time","in on at dates days times when"],["Contrasting ideas: although","though despite in spite of however but"],["Contrasting ideas (advanced)","whereas while nevertheless nonetheless even though"],["Avoiding repetition","substitution one so do referencing cohesion"],
+["Basic word order","sentence order svo subject verb object imperatives commands"],["Question forms","wh questions asking questions do does word order"],["There is","there are existential there"],["Question tags","tag questions isn't it aren't you"],["defining","who which that relative pronouns"],["non-defining","who which commas relative pronouns"],["Participle","having done ing clauses"],["cleft","it was what i need emphasis do auxiliary"],["Inversion after","never have i rarely seldom not only"],["Ellipsis","leaving out words so neither"],
+["Punctuation","comma full stop period question mark exclamation"],["Capital letters","apostrophe capitalisation contractions"],["British and American","spelling us uk differences vocabulary colour color"]];
+var SRTA=["simple present habits routines do does s","present progressive ing now at the moment","have has past participle ever never just yet","have been ing how long","simple past ed past tense irregular verbs did yesterday","past progressive was were ing","had pluperfect before","had been ing","will future predictions","will be ing","will have by","will have been ing"];
+var SRKEY={"Conditionals: zero and first":"if conditional conditionals","Conditionals: second":"conditional conditionals","Conditionals: third and mixed":"conditional conditionals","Relative clauses: defining":"which who that","Passives":"passive","Phrasal verbs":"phrasal","Question forms":"questions","Articles: a, an, the":"article","Comparative adjectives":"comparatives","Superlative adjectives":"superlatives"};
+var SRSTOP=["how","to","use","the","a","an","what","is","are","do","i","in","of","for","and","with","when","about","my","me","grammar","lesson","english","learn","rules","rule"];
+var SRX=null,SRSEL=0,SRRES=[];
+function srTok(t){return String(t).toLowerCase().replace(/[‘’]/g,"'").replace(/<[^>]+>/g," ").replace(/-ing\b/g," ing").replace(/[^a-z0-9' ]/g," ").split(/\s+/).map(function(w){return w.replace(/^'+|'+$/g,"")}).filter(function(w){return w.length>0})}
+function srBuild(){var D=[],al=function(t,lv){var o=[];SRAL.forEach(function(a){var k=a[0].split("|");if(t.indexOf(k[0])>=0&&(!k[1]||k[1]==lv))o.push(a[1])});return o.join(" ")};
+ Object.keys(XA).forEach(function(id){var A=XA[id],c=GC.filter(function(g){return g.id==id})[0]||{};A.x.forEach(function(x,k){D.push({t:x.t,a:A.n,lv:x.lv,e:x.e,h:"#/worksheets/grammar/"+id+"/"+k,ty:"Lesson",al:al(x.t,x.lv),kw:x.rm+" "+x.ru.map(function(r){return r[0]}).join(" ")})})});
+ for(var i=0;i<12;i++)D.push({t:nm(i),a:"Verb tenses, Tense Studio",lv:LV2[i],e:"⏱️",h:"#/worksheets/grammar/studio/"+i,ty:"Tense",al:SRTA[i]+" tense tenses",kw:L[i].m+" "+L[i].w});
+ items(GC[0]).forEach(function(x,k){D.push({t:x.n,a:"Verb tenses (on the map)",lv:x.l,e:"🗺️",h:"#/worksheets/grammar/tenses/"+k,ty:"Map topic",al:al(x.n,x.l)+" tense tenses",kw:""})});
+ GC.forEach(function(c){D.push({t:c.n,a:"Grammar Studio area",lv:"",e:c.e,h:"#/worksheets/grammar/"+c.id,ty:"Area",al:c.id=="tenses"?"tense tenses verb times":"",kw:c.d+" "+items(c).map(function(x){return x.n}).join(" ")})});
+ [["Find Your Level","Placement test","🎯","#/level","placement test level test cefr what is my level adaptive"],["Grammar Studio","All areas","✏️","#/worksheets/grammar","map grammar all topics"],["Tense Studio","Verb tenses","✨","#/worksheets/grammar/studio/0","all tenses timeline conversation studio worksheets"],["Guided path","Tenses step by step","🧭","#/path","path route course order"],["Library","Every tense","📚","#/library","library tenses list"],["Teachers","Tools for teachers","🍎","#/teachers","worksheet pdf presentation print class teaching"]].forEach(function(p){D.push({t:p[0],a:p[1],lv:"",e:p[2],h:p[3],ty:"Page",al:p[4],kw:""})});
+ var df={},vt={};D.forEach(function(d){d.f=[[srTok(d.t),3],[srTok(SRKEY[d.t]||""),3.2],[srTok(d.al),2.2],[srTok(d.a),1],[srTok(d.kw),.6]];d.tn=srTok(d.t).join(" ");var seen={};d.f.forEach(function(f){f[0].forEach(function(w){vt[w]=Math.max(vt[w]||0,f[1]);if(!seen[w]){seen[w]=1;df[w]=(df[w]||0)+1}})})});
+ SRX={d:D,df:df,vt:vt,v:Object.keys(df)}}
+function srDL(a,b){var n=a.length,m=b.length;if(Math.abs(n-m)>3)return 9;var d=[],i,j;for(i=0;i<=n;i++){d[i]=[i]}for(j=0;j<=m;j++)d[0][j]=j;
+ for(i=1;i<=n;i++)for(j=1;j<=m;j++){var c=a[i-1]==b[j-1]?0:1;d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);if(i>1&&j>1&&a[i-1]==b[j-2]&&a[i-2]==b[j-1])d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1)}return d[n][m]}
+function srTri(w){var s=" "+w+" ",o={};for(var i=0;i<s.length-2;i++)o[s.substr(i,3)]=1;return o}
+function srSim(q,d){if(q==d)return 1;if(q.length>=3&&d.indexOf(q)==0)return.9;if(d.length>=4&&q.indexOf(d)==0)return.75;if(q.length<3)return 0;
+ var al=q.length<=4?1:q.length<=8?2:3,e=srDL(q,d);if(e<=al)return Math.max(.5,1-.17*e-(q[0]!=d[0]?.06:0));
+ var A=srTri(q),B=srTri(d),x=0,u=0,k;for(k in A){u++;if(B[k])x++}for(k in B)if(!A[k])u++;var j=x/u;return j>=.45?.6*j:0}
+function srRun(q){if(!SRX)srBuild();var toks=srTok(q),main=toks.filter(function(w){return SRSTOP.indexOf(w)<0});if(main.length)toks=main;if(!toks.length)return{r:[],dym:""};
+ var N=SRX.d.length,fix=[],sims=[],idf=toks.map(function(w){var bv=null,bs=0;if(SRX.df[w])bv=w;else SRX.v.forEach(function(v){var s=srSim(w,v);if(s>bs||(s==bs&&bv&&(SRX.vt[v]>SRX.vt[bv]||(SRX.vt[v]==SRX.vt[bv]&&SRX.df[v]>SRX.df[bv])))){bs=s;bv=v}});fix.push(bs>=.5||SRX.df[w]?bv:w);sims.push(SRX.df[w]?1:bs);var df=SRX.df[bv]||1;return Math.log(1+N/df)});
+ var qn=toks.join(" "),qf=fix.join(" "),tw=idf.reduce(function(a,b){return a+b},0);
+ var res=SRX.d.map(function(d){var sc=0,hit=0,mt={};toks.forEach(function(w,i){var b=0;d.f.forEach(function(f){f[0].forEach(function(t){var s=SRX.df[w]?srSim(w,t):Math.max(srSim(fix[i],t)*.97,srSim(w,t)*.8);s*=f[1]/3;if(s>b){b=s}if(s>=.45&&f[1]==3)mt[t]=1})});sc+=idf[i]*b;if(b>=.3)hit++});
+  sc=sc/tw;sc*=.55+.45*hit/toks.length;var tt=d.f[0][0],tc=tt.filter(function(t){return toks.some(function(w,i){return srSim(w,t)>=.75||srSim(fix[i],t)>=.75})}).length;sc+=.25*tc/Math.max(1,tt.length);var tn=" "+d.tn+" ",ph=toks.length>1||qn.length>=4;if(ph&&(tn.indexOf(" "+qn+" ")>=0||tn.indexOf(" "+qf+" ")>=0))sc+=.45;else if(ph&&(d.tn.indexOf(qn)>=0||d.tn.indexOf(qf)>=0))sc+=.3;if(ph&&(d.tn.indexOf(qn)==0||d.tn.indexOf(qf)==0))sc+=.15;if(d.ty=="Map topic")sc*=.8;if(d.ty=="Area"&&toks.length>1)sc*=.9;return{d:d,s:sc,m:mt}}).filter(function(x){return x.s>.12}).sort(function(a,b){return b.s-a.s});
+ return{r:res.slice(0,8),dym:qf!=qn&&fix.some(function(f,i){return f!=toks[i]&&SRX.df[f]&&sims[i]<.75})?qf:""}}
+function srHi(t,m){return sxH(t).replace(/[A-Za-z0-9']+/g,function(w){return m[w.toLowerCase()]?"<mark>"+w+"</mark>":w})}
+function srOpen(pre){var o=$("#srch");if(!o)return;o.hidden=false;document.body.classList.add("srop");var i=$("#srq");if(pre!=null)i.value=pre;srDraw();setTimeout(function(){i.focus();i.select()},30);$("#nav").classList.remove("m")}
+function srClose(){var o=$("#srch");if(!o||o.hidden)return;o.hidden=true;document.body.classList.remove("srop");var b=$("#sbtn");if(b)b.focus({preventScroll:true})}
+function srDraw(){var q=$("#srq").value.trim(),box=$("#srr");SRSEL=0;
+ if(!q){SRRES=[];box.innerHTML='<p class="srh">Popular topics</p><div class="chs">'+["present perfect","past simple","articles","conditionals","phrasal verbs","reported speech","prepositions","comparatives","modal verbs","passive"].map(function(t,i){return'<button class="ch" style="--i:'+i+'" onclick="srOpen(\''+t+'\')">'+t+'</button>'}).join("")+'</div><a class="srlv" href="#/level" onclick="srClose()">🎯 Not sure what to study? <b>Find your level</b> →</a>';return}
+ var R=srRun(q);SRRES=R.r;var top=R.r[0],weak=!top||top.s<.38,h="";
+ if(R.dym)h+='<p class="srdym">Did you mean <button onclick="srOpen(\''+R.dym.replace(/'/g,"")+'\')">'+sxH(R.dym)+'</button>?</p>';
+ if(!R.r.length)h+='<p class="srh">No match for “'+sxH(q)+'”. Try another word, or browse the <a href="#/worksheets/grammar" onclick="srClose()">Grammar Studio map</a>.</p>';
+ else{if(weak)h+='<p class="srh">No exact match. These are the closest topics:</p>';else h+='<p class="srh">Best match</p>';
+  h+='<div role="listbox" aria-label="Results">'+R.r.map(function(x,i){var d=x.d;return(i==1&&!weak?'<p class="srh">Also related</p>':'')+'<a class="sri'+(i==0?" on":"")+(i==0&&!weak?" top":"")+'" role="option" id="sri'+i+'" aria-selected="'+(i==0)+'" href="'+d.h+'" onclick="srClose()"><span class="sre">'+d.e+'</span><span class="srt"><b>'+srHi(d.t,x.m)+'</b><small>'+sxH(d.ty)+' · '+sxH(d.a)+'</small></span>'+(d.lv?'<span class="lv" style="--lc:'+LC[d.lv]+'">'+d.lv+'</span>':'')+'</a>'}).join("")+'</div>'}
+ box.innerHTML=h;$("#srq").setAttribute("aria-activedescendant",R.r.length?"sri0":"")}
+function srMove(d){var a=$$(".sri");if(!a.length)return;a[SRSEL].classList.remove("on");a[SRSEL].setAttribute("aria-selected","false");SRSEL=(SRSEL+d+a.length)%a.length;a[SRSEL].classList.add("on");a[SRSEL].setAttribute("aria-selected","true");a[SRSEL].scrollIntoView({block:"nearest"});$("#srq").setAttribute("aria-activedescendant","sri"+SRSEL)}
+function srKey(e){if(e.key=="ArrowDown"){e.preventDefault();srMove(1)}else if(e.key=="ArrowUp"){e.preventDefault();srMove(-1)}else if(e.key=="Enter"){var a=$$(".sri")[SRSEL];if(a){e.preventDefault();location.hash=a.getAttribute("href");srClose()}}else if(e.key=="Escape"){srClose()}}
+document.addEventListener("keydown",function(e){var o=$("#srch");if(!o)return;if(!o.hidden&&e.key=="Escape"){srClose();return}var tg=(e.target||{}).tagName||"";if(o.hidden&&((e.key=="/"&&!/INPUT|TEXTAREA|SELECT/.test(tg))||(e.key.toLowerCase()=="k"&&(e.ctrlKey||e.metaKey)))){e.preventDefault();srOpen()}});
+/* ---- Study habits: continue, streak, weekly goal ---- */
+var TTA="tt_act_v1",TTL="tt_last_v1";
+function ttDay(d){d=d||new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function ttAct(){try{var o=JSON.parse(localStorage.getItem(TTA));if(o&&o.d)return o}catch(e){}return{d:{},goal:5}}
+function ttLog(){var o=ttAct(),k=ttDay();o.d[k]=(o.d[k]||0)+1;var ks=Object.keys(o.d).sort();while(ks.length>120)delete o.d[ks.shift()];try{localStorage.setItem(TTA,JSON.stringify(o))}catch(e){}}
+function ttStreak(o){var n=0,d=new Date();if(!o.d[ttDay(d)])d.setDate(d.getDate()-1);while(o.d[ttDay(d)]){n++;d.setDate(d.getDate()-1)}return n}
+function ttWeek(o){var d=new Date(),wd=(d.getDay()+6)%7,n=0;for(var i=0;i<=wd;i++){var x=new Date(d);x.setDate(d.getDate()-i);n+=o.d[ttDay(x)]||0}return n}
+function ttGoal(g){var o=ttAct();o.goal=g;try{localStorage.setItem(TTA,JSON.stringify(o))}catch(e){}var b=$("#ttdash");if(b)b.outerHTML=ttDash()}
+function ttSeen(a,k){try{localStorage.setItem(TTL,JSON.stringify({a:a,k:k,ts:Date.now()}))}catch(e){}}
+function ttDue(){var now=Date.now(),n=0;Object.keys(XA).forEach(function(id){try{var o=JSON.parse(localStorage.getItem(XA[id].k));if(o&&o.c)Object.keys(o.c).forEach(function(k){var s=o.c[k];if(s&&s.box&&s.due<=now)n++})}catch(e){}});return n}
+function ttDash(){var o=ttAct(),st=ttStreak(o),wk=ttWeek(o),g=o.goal||5,last=null,lv=lvHist().slice(-1)[0],due=ttDue();try{last=JSON.parse(localStorage.getItem(TTL))}catch(e){}
+ var L0=last&&XA[last.a]&&XA[last.a].x[last.k];
+ return'<div class="ttd rv" id="ttdash"><div class="ttc ttgo">'+(L0?'<small>Continue where you left off</small><b>'+sxH(L0.t)+'</b><span>'+sxH(XA[last.a].n)+' · '+L0.lv+'</span><a class="btn" href="#/worksheets/grammar/'+last.a+'/'+last.k+'">Continue →</a>':'<small>Start here</small><b>Not sure where to begin?</b><span>Take the placement test and get a starting lesson.</span><a class="btn" href="#/level">Find your level →</a>')+'</div>'
+ +'<div class="ttc"><small>Streak</small><b class="ttn">'+(st?"🔥 "+st:"0")+'</b><span>'+(st?"day"+(st>1?"s":"")+" in a row. Practise today to keep it going.":"Finish a practice today to start a streak.")+'</span></div>'
+ +'<div class="ttc"><small>This week</small><div class="ttring" style="--p:'+Math.min(100,Math.round(wk/g*100))+'"><b>'+wk+'/'+g+'</b></div><span>practice sessions. Goal: <select aria-label="Weekly goal" onchange="ttGoal(+this.value)">'+[3,5,7,10].map(function(x){return'<option'+(x==g?" selected":"")+'>'+x+'</option>'}).join("")+'</select></span></div>'
+ +'<div class="ttc"><small>Your level</small><b class="ttn">'+(lv?lv.lvl:"?")+'</b><span>'+(lv?'From the placement test. <a href="#/level">Retake</a>':'<a href="#/level">Take the test</a> to find out.')+(due?'<br>'+due+' lesson'+(due>1?"s":"")+' due for review.':'')+'</span></div></div>'}
+/* ---- PDF helpers (jsPDF) ---- */
+function ttAsc(t){return sxC(String(t)).replace(/<[^>]+>/g,"").replace(/[‘’]/g,"'").replace(/[“”]/g,'"').replace(/[–—]/g,"-").replace(/…/g,"...").replace(/ /g," ").replace(/[^\x20-\x7E -ÿ]/g,"")}
+function ttDoc(title,sub,land){var J=window.jspdf;if(!J)return null;var d=new J.jsPDF({unit:"mm",format:"a4",orientation:land?"landscape":"portrait"}),W=land?297:210,H=land?210:297,P={d:d,y:0,W:W,H:H,L:16,R:W-16};
+ P.head=function(a,b){d.setFont("helvetica","bold");d.setFontSize(18);d.setTextColor(0,127,126);d.text("TenseTrail",P.L,17);d.setFontSize(9);d.setTextColor(120,140,160);d.setFont("helvetica","normal");d.text("Grammar Studio",P.R,17,{align:"right"});d.setTextColor(22,50,79);d.setFont("helvetica","bold");d.setFontSize(15);d.text(d.splitTextToSize(ttAsc(a),P.R-P.L),P.L,27);d.setFont("helvetica","normal");d.setFontSize(10);d.text(d.splitTextToSize(ttAsc(b),P.R-P.L),P.L,33);P.y=41};
+ P.need=function(h){if(P.y+h>H-14){d.addPage();P.y=18}};
+ P.h=function(t){P.need(12);P.y+=3;d.setFont("helvetica","bold");d.setFontSize(12);d.setTextColor(0,127,126);d.text(ttAsc(t),P.L,P.y);P.y+=6;d.setFont("helvetica","normal");d.setTextColor(22,50,79)};
+ P.p=function(t,ind,fs,col){fs=fs||10.5;d.setFontSize(fs);var a=d.splitTextToSize(ttAsc(t),P.R-P.L-(ind||0)),lh=fs*.3528*1.4;P.need(a.length*lh+1);if(col)d.setTextColor(col[0],col[1],col[2]);d.text(a,P.L+(ind||0),P.y);d.setTextColor(22,50,79);P.y+=a.length*lh+1.2};
+ P.lines=function(n){for(var i=0;i<n;i++){P.need(9);P.y+=8;d.setDrawColor(200,212,224);d.line(P.L,P.y,P.R,P.y)}P.y+=4};
+ P.head(title,sub);return P}
+async function ttSave(P,fn,fallback){var b=null,dl=null;try{b=P&&P.d.output("blob")}catch(e){}try{dl=window.claude&&await claude.use("downloads")}catch(e){}
+ if(dl&&b){try{await dl.save({filename:fn,data:b});return"saved"}catch(e){if(e&&e.code=="declined")return"declined"}}
+ if(b&&!(window.claude&&window.claude.use)){try{var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=fn;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},4000);return"saved"}catch(e){}}
+ ttPrint(fallback);return"print"}
+function ttPrint(html){var p=$("#ttpr");if(!p){p=document.createElement("div");p.id="ttpr";document.body.appendChild(p)}p.innerHTML=html;document.body.classList.add("ttpr");var off=function(){document.body.classList.remove("ttpr");removeEventListener("afterprint",off)};addEventListener("afterprint",off);setTimeout(function(){try{window.print()}catch(e){}setTimeout(off,1500)},60)}
+function ttScr(s){var w=s.split(" "),b=w.slice(),n=0;do{b=sxShuf2(w);n++}while(n<9&&b.join(" ")==s);return b.join("  /  ")}
+/* ---- Lesson worksheet: quiz page + answer key ---- */
+function ttSheetData(k){var c=SX[k],A=sxItemsFor(k),pick=function(t){return A.filter(function(x){return x.t==t})};return{c:c,mc:pick("mc"),fx:pick("fx"),gp:pick("gp"),fix:pick("fix"),bd:pick("bd").slice(0,6)}}
+async function ttSheet(k,btn){var S=ttSheetData(k),c=S.c,P=ttDoc(c.t+" ("+c.lv+")",SXN+". Worksheet with answer key on the last page."),key=[],n=0,st=$("#ttms");if(st)st.textContent="Making your PDF…";
+ var html='<h1>'+sxH(c.t)+' ('+c.lv+')</h1><p>Name: ________________ Date: __________</p><p><b>Remember:</b> '+sxH(c.rm)+'</p>';
+ if(P){P.p("Name: ______________________    Date: ____________    Score: ____ / "+(S.mc.length+S.fx.length+S.gp.length+S.fix.length+S.bd.length));P.p("Remember: "+c.rm,0,10,[60,80,100])}
+ var sec=function(t){if(P)P.h(t);html+='<h2>'+sxH(t)+'</h2>'},q=function(t,ind){n++;if(P)P.p(n+". "+t,ind);html+='<p>'+n+'. '+sxH(t)+'</p>'};
+ sec("A. Choose the correct answer");S.mc.forEach(function(it){var d=it.d;q(d[0].replace("___","________"));var o=d[1].map(function(x,j){return"abc"[j]+") "+x}).join("     ");if(P)P.p(o,6,10,[60,80,100]);html+='<p class="o">'+sxH(o)+'</p>';key.push(n+". "+"abc"[d[2]]+") "+sxFull(it))});
+ sec("B. Tick the correct sentence");S.fx.forEach(function(it){var d=it.d;q("[  ] "+d[1][0]);var t="[  ] "+d[1][1];if(P)P.p(t,P.d.getTextWidth(n+". "));html+='<p class="o">'+sxH(t)+'</p>';key.push(n+". "+d[1][d[2]])});
+ sec("C. Write the missing word");S.gp.forEach(function(it){q(it.d[0].replace("___","____________"));key.push(n+". "+it.d[1].join(" / "))});
+ sec("D. Correct the mistake");S.fix.forEach(function(it){q(it.d[0]);if(P)P.lines(1);html+='<p class="ln"></p>';key.push(n+". "+it.d[1])});
+ sec("E. Put the words in order");S.bd.forEach(function(it){q(ttScr(it.d[0]));if(P)P.lines(1);html+='<p class="ln"></p>';key.push(n+". "+it.d[0]+".")});
+ sec("F. Write it down");if(P){P.p(c.pr);P.lines(6)}html+='<p>'+sxH(c.pr)+'</p><p class="ln"></p><p class="ln"></p><p class="ln"></p>';
+ if(P){P.d.addPage();P.y=18;P.h("Answer key: "+c.t);key.forEach(function(x){P.p(x,0,10)});P.p("Model answer for F: "+c.md,0,10,[60,80,100])}
+ html+='<div class="pb"></div><h2>Answer key</h2>'+key.map(function(x){return'<p>'+sxH(x)+'</p>'}).join("")+'<p><i>Model answer for F:</i> '+sxH(c.md)+'</p>';
+ var r=await ttSave(P,"TenseTrail-"+c.t.replace(/[^A-Za-z0-9]+/g,"-").replace(/-+$/,"")+"-worksheet.pdf",html);if(st)st.textContent=r=="saved"?"PDF ready. Questions change each time you make one.":r=="declined"?"":"Use Save as PDF in the print window."}
+/* ---- Area cheat sheet ---- */
+async function ttCheat(){var P=ttDoc(SXN+": cheat sheet","Every lesson in one place: the rule, an example and a mistake to avoid."),html='<h1>'+sxH(SXN)+': cheat sheet</h1>',st=$("#ttcs");if(st)st.textContent="Making your PDF…";
+ SX.forEach(function(c){if(P){P.need(26);P.h(c.t+"  ("+c.lv+")");P.p(c.rm,0,10);P.p("Example: "+sxC(c.ex[0]),4,9.5,[60,80,100]);P.p("Not: "+c.ms[0][0]+"   Say: "+c.ms[0][1],4,9.5,[60,80,100])}
+  html+='<h2>'+sxH(c.t)+' ('+c.lv+')</h2><p>'+sxH(c.rm)+'</p><p class="o">Example: '+sxH(sxC(c.ex[0]))+'</p><p class="o">Not: '+sxH(c.ms[0][0])+' Say: '+sxH(c.ms[0][1])+'</p>'});
+ var r=await ttSave(P,"TenseTrail-"+SXN.replace(/[^A-Za-z0-9]+/g,"-")+"-cheat-sheet.pdf",html);if(st)st.textContent=r=="saved"?"PDF ready.":r=="print"?"Use Save as PDF in the print window.":""}
+/* ---- Area test and certificate ---- */
+var TTT="tt_test_v1";
+function ttTests(){try{return JSON.parse(localStorage.getItem(TTT))||{}}catch(e){return{}}}
+function ttTestStart(){var per=SX.map(function(_,k){return sxShuf2(sxItemsFor(k).filter(function(x){return x.t=="mc"||x.t=="gp"||x.t=="fx"||x.t=="fix"}))}),items=[],r=0;
+ while(items.length<20&&r<10){sxShuf2(per.map(function(_,i){return i})).forEach(function(i){if(items.length<20&&per[i][r])items.push(per[i][r])});r++}
+ $("#tttest").scrollIntoView({behavior:rm?"auto":"smooth",block:"start"});sxRun(sxShuf2(items),"#tttest","t")}
+function ttTestEnd(s){var el=$(s.sel),n=s.items.length,pc=Math.round(s.ok/n*100),T=ttTests(),miss={};s.res.forEach(function(r){if(!r.ok)miss[r.k]=(miss[r.k]||0)+1});
+ var o=T[SXA]||{};o.best=Math.max(o.best||0,s.ok);o.n=n;if(pc>=80){o.pass=Date.now()}T[SXA]=o;try{localStorage.setItem(TTT,JSON.stringify(T))}catch(e){}ttLog();
+ var h='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>'+(pc>=80?"🎉 You passed the "+sxH(SXN)+" test!":"Score 16 or more to earn your certificate. Revise the lessons below, then try again.")+'</p>';
+ var mk=Object.keys(miss);if(mk.length)h+='<p class="sxsub">Lessons to revise:</p><div class="ttmiss">'+mk.map(function(k){return'<a class="ch" href="#/worksheets/grammar/'+SXA+'/'+k+'">'+sxH(SX[k].t)+' ('+miss[k]+')</a>'}).join("")+'</div>';
+ if(pc>=80)h+='<div class="ttcert"><label>Name for the certificate <input id="ttnm" autocomplete="name" maxlength="60" placeholder="Your name"></label><button class="btn" onclick="ttCert('+s.ok+','+n+')">Download certificate (PDF)</button><span class="sxsub" id="ttcm"></span></div>';
+ h+='<div class="sxbt"><button class="btn ghost" onclick="ttTestStart()">Take the test again</button></div></div>';el.innerHTML=h;if(pc>=80&&typeof boom=="function")boom()}
+async function ttCert(sc,n){var nm0=($("#ttnm").value||"").trim();if(!nm0){$("#ttcm").textContent="Type your name first.";return}var P=ttDoc("","",1),dt=new Date().toLocaleDateString("en-AU",{day:"numeric",month:"long",year:"numeric"}),m=$("#ttcm");
+ if(P){var d=P.d;d.setFillColor(255,246,223);d.rect(0,0,297,210,"F");d.setDrawColor(15,163,163);d.setLineWidth(1.6);d.rect(10,10,277,190);d.setLineWidth(.4);d.rect(14,14,269,182);d.setTextColor(0,127,126);d.setFont("helvetica","bold");d.setFontSize(18);d.text("TenseTrail",148.5,36,{align:"center"});
+  d.setTextColor(22,50,79);d.setFontSize(30);d.text("Certificate of Achievement",148.5,62,{align:"center"});d.setFont("helvetica","normal");d.setFontSize(13);d.text("This certifies that",148.5,82,{align:"center"});d.setFont("helvetica","bold");d.setFontSize(26);d.text(ttAsc(nm0),148.5,100,{align:"center"});
+  d.setFont("helvetica","normal");d.setFontSize(13);d.text("passed the Grammar Studio area test",148.5,116,{align:"center"});d.setFont("helvetica","bold");d.setFontSize(18);d.text(ttAsc(SXN),148.5,130,{align:"center"});d.setFont("helvetica","normal");d.setFontSize(12);d.text("Score: "+sc+" / "+n+"   ("+SX[0].lv+" to "+SX[SX.length-1].lv+")",148.5,144,{align:"center"});d.text(dt,148.5,170,{align:"center"});d.setFontSize(9);d.setTextColor(120,140,160);d.text("A record of practice on TenseTrail. Not an official qualification.",148.5,188,{align:"center"})}
+ var r=await ttSave(P,"TenseTrail-certificate-"+SXA+".pdf",'<div class="cert"><p>TenseTrail</p><h1>Certificate of Achievement</h1><p>This certifies that</p><h2>'+sxH(nm0)+'</h2><p>passed the Grammar Studio area test</p><h2>'+sxH(SXN)+'</h2><p>Score: '+sc+' / '+n+'</p><p>'+dt+'</p></div>');m.textContent=r=="saved"?"Certificate ready.":r=="print"?"Use Save as PDF in the print window.":""}
+/* ---- Presentation mode for teachers ---- */
+var PRS=null;
+function prSlides(k){var c=SX[k],L0=SXL[k],S=[];S.push({t:"title",h:'<p class="prk">'+sxH(SXN)+' · '+c.lv+'</p><h1>'+c.e+' '+sxH(c.t)+'</h1><p class="prs">'+sxH(L0.se)+'</p>'});
+ S.push({h:'<p class="prk">Notice</p><h2>'+sxH(c.nq)+'</h2><ul class="prl">'+c.nt.map(function(t){return'<li>'+sxM(t)+'</li>'}).join("")+'</ul>'});
+ c.ru.forEach(function(r,i){S.push({h:'<p class="prk">The rule · '+(i+1)+' of '+c.ru.length+'</p><h2>'+r[0]+'</h2><p class="prb">'+r[1]+'</p>'})});
+ S.push({h:'<p class="prk">Remember</p><h2 class="prb">'+sxH(c.rm)+'</h2>'});
+ c.ms.forEach(function(m,i){S.push({h:'<p class="prk">Common mistakes · '+(i+1)+' of '+c.ms.length+'</p><p class="prx"><span>✗</span> '+sxH(m[0])+'</p><div class="prrv" hidden><p class="prv"><span>✓</span> '+sxH(m[1])+'</p><p class="prs">'+sxH(m[2])+'</p></div>',rv:1})});
+ S.push({h:'<p class="prk">Hear it in real life</p><h2>'+sxH(c.dl.ti)+'</h2><div class="prd">'+c.dl.ln.map(function(l){var s=c.dl.sp[l[0]];return'<p><b>'+s[0]+':</b> '+sxM(l[1])+'</p>'}).join("")+'</div>'});
+ c.mc.forEach(function(m,i){var st=m[0].indexOf("___")>=0?sxH(m[0]).replace("___","<u>   </u>"):sxH(m[0]);S.push({h:'<p class="prk">Quick quiz · '+(i+1)+' of '+c.mc.length+'</p><h2>'+st+'</h2><ol class="pro" type="a">'+m[1].map(function(o,j){return'<li data-ok="'+(j==m[2]?1:0)+'">'+sxH(o)+'</li>'}).join("")+'</ol><p class="prs prrv" hidden>'+sxH(m[3])+'</p>',rv:1})});
+ S.push({h:'<p class="prk">Your turn</p><h2>'+sxH(L0.oq)+'</h2><ul class="prl sm">'+L0.os.map(function(s){return'<li>'+sxH(s)+'</li>'}).join("")+'</ul>'});
+ S.push({h:'<p class="prk">Write it down</p><h2 class="prb">'+sxH(c.pr)+'</h2><ul class="prl sm">'+c.ck.map(function(x){return'<li>'+sxH(x)+'</li>'}).join("")+'</ul>'});return S}
+function prOpen(k){cvKill();PRS={k:k,i:0,s:prSlides(k),rv:0};var o=$("#prs");if(!o){o=document.createElement("div");o.id="prs";o.className="prs0";o.setAttribute("role","dialog");o.setAttribute("aria-modal","true");o.setAttribute("aria-label","Presentation");document.body.appendChild(o);
+  o.addEventListener("touchstart",function(e){PRS&&(PRS.tx=e.touches[0].clientX)},{passive:true});o.addEventListener("touchend",function(e){if(!PRS||PRS.tx==null)return;var dx=e.changedTouches[0].clientX-PRS.tx;if(Math.abs(dx)>50)prGo(dx<0?1:-1);PRS.tx=null},{passive:true})}
+ o.hidden=false;document.body.classList.add("srop");prDraw();try{if(o.requestFullscreen&&innerWidth>700)o.requestFullscreen().catch(function(){})}catch(e){}}
+function prDraw(){var o=$("#prs"),s=PRS.s[PRS.i];o.innerHTML='<div class="prin" key="'+PRS.i+'">'+s.h+'</div><div class="prbar"><button onclick="prClose()" aria-label="Close presentation">✕ Close</button><span>'+(PRS.i+1)+' / '+PRS.s.length+'</span><span class="prsp"></span>'+(s.rv?'<button onclick="prReveal()">Reveal answer</button>':'')+'<button onclick="prGo(-1)" aria-label="Previous slide"'+(PRS.i?'':' disabled')+'>←</button><button onclick="prGo(1)" aria-label="Next slide"'+(PRS.i<PRS.s.length-1?'':' disabled')+'>→</button></div>';PRS.rv=0;var b=$(".prbar button:last-child",o);if(b)b.focus({preventScroll:true})}
+function prReveal(){PRS.rv=1;$$("#prs .prrv").forEach(function(e){e.hidden=false});$$("#prs .pro li").forEach(function(e){e.classList.add(e.dataset.ok=="1"?"ok":"dim")})}
+function prGo(d){if(!PRS)return;var s=PRS.s[PRS.i];if(d>0&&s.rv&&!PRS.rv){prReveal();return}var n=PRS.i+d;if(n<0||n>=PRS.s.length)return;PRS.i=n;prDraw()}
+function prClose(){var o=$("#prs");if(o)o.hidden=true;document.body.classList.remove("srop");PRS=null;try{if(document.fullscreenElement)document.exitFullscreen()}catch(e){}}
+document.addEventListener("keydown",function(e){if(!PRS)return;if(e.key=="ArrowRight"||e.key=="PageDown"||e.key==" "){e.preventDefault();prGo(1)}else if(e.key=="ArrowLeft"||e.key=="PageUp"){e.preventDefault();prGo(-1)}else if(e.key=="Escape")prClose()});
+LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
 </script></body></html>
 

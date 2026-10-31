@@ -37,6 +37,29 @@ Research on the lesson format: reports/Lesson format for grammar teaching.md
 
 43 lessons in the same eight-step format, A1 to C1: Passive and reported speech (6), Verb patterns and phrasal verbs (8), Nouns, pronouns and articles (11), Adjectives and adverbs (9), Prepositions and linking words (6), Writing and usage (3). Every grammar area on the map now has lessons.
 
+## Find Your Level, 20-item practice, feedback, search and teacher tools (added 31 October 2026)
+
+**Find Your Level** (English Skills menu, `#/level`) is a computer-adaptive placement test, A1 to C2.
+- Model: 3-parameter logistic IRT with fixed slope (a = 1.4) and guessing (c = 0.25 for four options). Difficulties come from each item's target level (A1 -2.6, A2 -1.4, B1 -0.2, B2 1.0, C1 2.2, C2 3.4 logits, spread ±0.3 within a level). They are expert estimates, not calibrated on real learners yet.
+- Start: an optional CEFR "can do" self-assessment sets the prior (DIALANG-style); "not sure" starts at B1.
+- Scoring: EAP ability estimate on a grid after every answer, with its standard error.
+- Item choice: most information at the current estimate, picked at random from the best 3 (exposure control), with content balancing (grammar 38%, vocabulary 22%, everyday language 10%, reading 15%, listening 15%). Only one question per reading passage.
+- Stop: SE 0.45 or less after at least 15 items, or 30 items. "I don't know" is offered to reduce guessing; very fast answering is flagged.
+- Bank: 128 items (grammar, vocabulary, functional language, 8 reading passages, 18 two-speaker listening dialogues, one man and one woman each, max two plays).
+- Result: CEFR level with low/mid/high, 0 to 100 score, 80% range, skills profile, weak grammar areas, "start here" lesson links, answer review, history on the device, resume after stopping.
+- Simulation (150 simulated learners per level, answering by the model): exact level 67 to 78%, within one level 100%, 20 to 24 questions on average. This only shows the engine works under its own assumptions. Real calibration needs data from real learners.
+- Sources: Cambridge Linguaskill adaptive design; Rasch CAT stopping rules (rasch.org); DIALANG self-assessment.
+
+**Practice** now has 20 questions per lesson in six styles: choose (4), which is correct (2 or 3), type the missing word (3), build the sentence (6), correct the mistake (1 or 2), listen and type (3, three plays). Mistakes that differ only in punctuation become "which is correct" items. Contractions are accepted either way when typing.
+
+**Speaking and writing feedback** (user chose the hybrid):
+- On the device, for everyone: word and sentence counts, 24 common learner-error patterns, capital letters and full stops, and whether the lesson's target grammar words appear. Speech recognition (Chrome, Edge, Safari) fills the text in Speak mode, and the Notice step has a read-aloud check showing which words the computer understood.
+- Claude, for signed-in claude.ai viewers who allow it (artifact `sample` capability): marks against five CEFR-based criteria with a level for each, quoted corrections, two strengths, two next steps and an improved version. The page drops any correction that does not quote the learner's exact words. Pronunciation is never judged.
+
+**Smart search** (header button, "/" or Ctrl+K, and on the Grammar Studio page): indexes 69 lessons, 12 tenses, 9 tense map topics, 10 areas and 6 pages with aliases. Typo tolerant (Damerau-Levenshtein, prefix and trigram), "Did you mean", keyboard navigation.
+
+**From the improvement plan:** Continue button, streak and weekly goal on the Grammar Studio page; sticky step bar on each lesson with "skip to practice"; Worksheet PDF for every lesson (six sections plus answer key); Presentation mode (big-text slides with reveal, arrow keys or swipe); area cheat sheet PDF; 20-question area test with a certificate PDF at 16/20. Not done (need a server or more content): accounts, class codes and results, teacher notes, quiz builder, class game mode, ACSF mapping, translations.
+
 ## Lesson videos (re-picked 31 October 2026 by views and likes)
 
 Counts come from the Return YouTube Dislike API, which mirrors YouTube's public view and like numbers, on 31 October 2026. Titles and channels were checked with oEmbed. Video content was not watched. One lesson is under 100,000 views: Ellipsis (59,000), the most-watched on-topic video found.
@@ -168,6 +191,9 @@ Counts come from the Return YouTube Dislike API, which mirrors YouTube's public 
 - Australian audio uses the device's voices, so quality depends on the device. British and American studio voices were tested headlessly, not on a real phone.
 - The new areas teach Australian usage where it differs (on the weekend, on King William Street, program, ute, servo).
 - Grammar content, answer keys and generated conversations were written and tested by Claude. A teacher should review them.
-- PDF download of worksheets has not been tested in a real browser.
+- PDF download of worksheets has not been tested in a real browser. Lesson worksheets, cheat sheets and certificates were generated and checked headlessly.
+- Placement test difficulties are expert estimates. Calibrate them with real learner data before treating results as more than a guide.
+- Claude feedback only works when the page is opened on claude.ai by a signed-in viewer; it uses the viewer's own Claude usage. Microphone access may be blocked inside the artifact frame; the page then asks learners to type.
+- Speech features were not tested with a real microphone.
 - Level label "A3" in the conversation practice is not a CEFR level (it means a confident, idiom-rich level). Consider renaming it B1.
 - Artifact links are private until shared from the artifact's Share menu.
