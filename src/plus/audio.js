@@ -3,10 +3,10 @@ var AP={ix:null,ld:null,bf:{},el:null,tok:0,u:null,unl:0};
 function apH(s){var a=0x811c9dc5,b=0x9e3779b9;for(var i=0;i<s.length;i++){var c=s.charCodeAt(i);a=Math.imul(a^c,16777619);b=Math.imul(b^c,2246822519)}return(a>>>0).toString(36)+"-"+(b>>>0).toString(36)}
 function apGrp(h){var n=h[0],a=h[1],b=h[2];if(n=="worksheets"&&a=="grammar"){if(b=="studio")return"studio";if(b=="tenses")return"tenses";if(XA[b])return"g-"+b;return"misc"}if(n=="worksheets"&&SKK[a])return"sk-"+SKK[a];if(n=="level")return"level";return"misc"}
 function apInit(){if(AP.ld)return AP.ld;AP.ld=fetch("aud/ix.json").then(function(r){return r.ok?r.json():null}).then(function(j){AP.ix=j;if(j)apPre(route());return j},function(){return null});return AP.ld}
-function apOn(){return NVP&&VACC=="uk"}
+function apOn(){return NVP&&(VACC=="uk"||VACC=="us")}
 function apFind(text,o){if(!AP.ix||!apOn())return null;return AP.ix.i[apH(nvVoice(o.g,o.alt)+"|"+String(text).trim())]||null}
 function apBuf(fi){return AP.bf[fi]||(AP.bf[fi]=fetch("aud/"+AP.ix.f[fi]).then(function(r){if(!r.ok)throw new Error("http");return r.arrayBuffer()}).catch(function(e){delete AP.bf[fi];throw e}))}
-function apPre(r){if(!AP.ix||!apOn())return;var g=AP.ix.g[apGrp([r.n,r.a,r.b,r.c])];if(g)g.forEach(function(fi){apBuf(fi).catch(function(){})})}
+function apPre(r){if(!AP.ix||!apOn())return;var g=AP.ix.g[VACC+"/"+apGrp([r.n,r.a,r.b,r.c])];if(g)g.forEach(function(fi){apBuf(fi).catch(function(){})})}
 function apEl(){if(!AP.el){AP.el=new Audio();AP.el.preload="auto";try{AP.el.preservesPitch=true;AP.el.webkitPreservesPitch=true}catch(e){}}return AP.el}
 function apStop(){AP.tok++;var a=AP.el;if(a){a.onended=a.onerror=null;try{a.pause()}catch(e){}}if(AP.u){URL.revokeObjectURL(AP.u);AP.u=null}if(AP.tm){AP.tm.forEach(clearTimeout);AP.tm=null}}
 /* unlock the audio element on the first tap so later plays work on phones */

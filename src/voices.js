@@ -1,7 +1,7 @@
 /* Accent choice (Australian, British, American) for every piece of audio, plus studio voices:
    Kokoro-82M (Apache 2.0, hexgrad) running in the browser for British and American English.
    No free open neural model speaks Australian English, so Australian uses the best voice on the device. */
-var ACC={au:{re:/en[-_]AU/i,n:"Australian",fl:"🇦🇺",lang:"en-AU",hi:["G'day! This is my voice. How ya going?","G'day mate! This is my voice. How ya going?"]},
+var ACC={
  uk:{re:/en[-_]GB/i,n:"British",fl:"🇬🇧",lang:"en-GB",hi:["Hello! This is my voice. How are you doing?","Hello there! This is my voice. How are you doing?"]},
  us:{re:/en[-_]US/i,n:"American",fl:"🇺🇸",lang:"en-US",hi:["Hi there! This is my voice. How's it going?","Hey! This is my voice. How's it going?"]}};
 var VACC=(function(){try{var a=localStorage.getItem("tt_acc2");return ACC[a]?a:"uk"}catch(e){return"uk"}})();
@@ -78,4 +78,4 @@ function nvUi(){var f=$("#vflag");if(f)f.textContent=ACC[VACC].fl;$$("#vp [data-
  b.onclick=function(e){e.stopPropagation();p.hidden=!p.hidden;b.setAttribute("aria-expanded",String(!p.hidden));if(!p.hidden){nvUi();var on=$("#vp .on");if(on)on.focus()}};
  p.onclick=function(e){e.stopPropagation();var a=e.target.closest&&e.target.closest("[data-a]");if(a)vAcc(a.dataset.a)};
  document.addEventListener("click",shut);document.addEventListener("keydown",function(e){if(e.key=="Escape"&&!p.hidden){shut();b.focus()}});
- nvUi();if(NVP&&VACC=="us")setTimeout(nvStart,1200)})();
+ nvUi()})();
