@@ -179,7 +179,7 @@ a.cr{color:inherit}.sxe{font-size:1.3rem}.sxst{margin-left:auto;font-size:.8rem;
 <a href="#/students" data-r="students">Students</a><a href="#/teachers" data-r="teachers">Teachers</a><a href="#/skills" data-r="skills">Skills</a><a href="#/path" data-r="path">Guided path</a>
 <div class="dd" id="dd" data-r="worksheets"><button class="ddb" id="ddb" aria-haspopup="true" aria-expanded="false" aria-controls="ddm">English Skills <svg viewBox="0 0 12 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1.5l5 5 5-5"/></svg></button>
 <div class="ddm" id="ddm"><i id="hl"></i>
-<a href="#/worksheets/grammar" style="--i:0"><span class="e">✏️</span><span><b>General Grammar</b><small>10 areas, 80+ concepts</small></span><span class="t">Open</span></a><hr>
+<a href="#/worksheets/grammar" style="--i:0"><span class="e">✏️</span><span><b>Grammar Studio</b><small>10 areas, 81 lessons</small></span><span class="t">Open</span></a><hr>
 <a href="#/worksheets/reading" style="--i:1"><span class="e">📖</span><span><b>Reading</b><small>Short texts and questions</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/writing" style="--i:2"><span class="e">✍️</span><span><b>Writing</b><small>Guided writing tasks</small></span><span class="t n">Soon</span></a>
 <a href="#/worksheets/speaking" style="--i:3"><span class="e">🎤</span><span><b>Speaking</b><small>Prompts to say out loud</small></span><span class="t n">Soon</span></a>
@@ -450,7 +450,7 @@ function relHtml(ti){return'<div class="relg">'+REL[ti].map(function(r,i){var s=
  return'<a class="rl" style="--i:'+i+';--lc:'+LC[l]+';--c:'+cl+'" href="'+h+'"><span class="lv">'+l+'</span><b>'+ttl+'</b><small>'+r[1]+'</small><span class="rs'+((s||(f&&f.c.sx))?" o":"")+'">'+(s?"Open in the Tense Studio →":(f&&f.c.sx)?"Open the lesson →":"Coming soon · see it on the map")+'</span></a>'}).join("")+'</div>'}
 function relPick(i){$("#rel").innerHTML=relHtml(i);$$("#rsel button").forEach(function(b,k){b.classList.toggle("on",k==i)})}
 function catPage(c,hi){if(c.sx){sxUse(c.id);if(hi!==undefined&&hi!==""&&!isNaN(+hi)&&+hi>=0&&+hi<SX.length)return sxPage(+hi);return sxArea(c,hi)}return catPage0(c,hi)}
-function catPage0(c,hi){var h='<a class="back" href="#/worksheets/grammar">← Grammar map</a>';
+function catPage0(c,hi){var h='<a class="back" href="#/worksheets/grammar">← Grammar Studio</a>';
  if(c.open)h+='<div class="jc rv" style="--jc:'+c.c+';margin-bottom:10px"><div class="ic">✨</div><h3>Tense Studio <span class="tag">Open now</span></h3><p>All 12 tenses with deep explanations, real conversations, quizzes and worksheets.</p><div class="chs" style="margin-top:14px">'+Array.apply(null,Array(12)).map(function(_,i){return'<a class="ch" style="--c:'+G[Math.floor(i/4)].c+';--i:'+i+'" href="#/worksheets/grammar/studio/'+i+'">'+nm(i)+'</a>'}).join("")+'</div></div>'
  +'<h3 class="rv" style="margin:34px 0 6px">Related topics, tense by tense</h3><p class="sub rv" style="margin:0 0 12px">Pick a tense to see the grammar that goes with it.</p><div class="bchips" id="rsel">'+Array.apply(null,Array(12)).map(function(_,i){return'<button class="'+(i==0?"on":"")+'" onclick="relPick('+i+')">'+nm(i)+'</button>'}).join("")+'</div><div id="rel">'+relHtml(0)+'</div><h3 class="rv" style="margin:38px 0 6px">All topics in this area</h3>';
  h+=items(c).map(function(x,k){return'<div class="cr rv'+(hi!==undefined&&+hi==k?" hl":"")+'" id="cr-'+k+'" style="--i:'+(k%6)+';--lc:'+LC[x.l]+'"><span class="lv">'+x.l+'</span><b>'+x.n+'</b>'+(x.core?'<span class="tag n">Core</span>':"")+'<span class="st">Coming soon</span></div>'}).join("");
@@ -685,7 +685,7 @@ function pg(e,t,l,b){return'<section class="ph"><div class="mesh"><i></i><i></i>
 function cards(a){return'<div class="g3">'+a.map(function(c,i){return'<div class="cd rv" style="--i:'+i+';--jc:'+c[3]+'"><div class="ic">'+c[0]+'</div><h3>'+c[1]+'</h3><p>'+c[2]+'</p></div>'}).join("")+'</div>'}
 var SOON='<p class="soon rv" style="margin-top:34px">✨ This page is growing. The Grammar Studio is open now.</p><a class="btn rv" href="#/worksheets/grammar">Open the Grammar Studio</a>';
 function tg(mode){var h="";G.forEach(function(g){h+='<h2 class="gh rv" style="--c:'+g.c+'"><i></i>'+g.n+' tenses</h2><div class="'+(mode=="path"?"pth":"g4")+'">'+g.t.map(function(t,k){var d=L[t];return'<a class="tc rv" style="--i:'+k+';--c:'+g.c+'" href="#/worksheets/grammar/studio/'+t+'"><span class="no">'+(t+1)+'</span><h3>'+nm(t)+(best("c",t)>=12?" ✓":"")+'</h3><p>'+(mode=="path"?d.m:d.f[0].split(" (")[0])+'</p></a>'}).join("")+'</div>'});return h}
-function skillCards(){var S=[["✏️","General Grammar","12 tenses with lessons, quizzes and worksheets.","grammar","#ffd9a8"],["📖","Reading","Short texts with friendly questions.","reading","#b9e6ff"],["✍️","Writing","Guided tasks for emails and messages.","writing","#d8ccff"],["🎤","Speaking","Prompts to say out loud with confidence.","speaking","#ffc9c2"],["🎧","Listening","Hear it, understand it, answer it.","listening","#bff2de"]];
+function skillCards(){var S=[["✏️","Grammar Studio","10 areas, 81 lessons from A1 to C1, with practice and worksheets.","grammar","#ffd9a8"],["📖","Reading","Short texts with friendly questions.","reading","#b9e6ff"],["✍️","Writing","Guided tasks for emails and messages.","writing","#d8ccff"],["🎤","Speaking","Prompts to say out loud with confidence.","speaking","#ffc9c2"],["🎧","Listening","Hear it, understand it, answer it.","listening","#bff2de"]];
  return'<div class="jg">'+S.map(function(s,i){return'<a class="jc rv" style="--i:'+i+';--jc:'+s[4]+'" href="#/worksheets/'+s[3]+'"><div class="ic">'+s[0]+'</div><h3>'+s[1]+(i?'<span class="tag n">Soon</span>':'<span class="tag">Open</span>')+'</h3><p>'+s[2]+'</p><span class="go">Explore →</span></a>'}).join("")+"</div>"}
 /* ---- Sentences and questions: concept data ---- */
 var SX=[
@@ -2523,7 +2523,7 @@ function sxCk(){var a=$$(".sxck input"),n=a.filter(function(x){return x.checked}
 function sxModel(k){var m=$("#sxmod");m.innerHTML="<b>Model answer:</b> "+sxH(SX[k].md);m.hidden=false}
 /* area page */
 function sxArea(c,hi){var st=sxLoad().c,now=Date.now(),due=0,dn=0;SX.forEach(function(x,i){var s=st[i];if(s&&s.best!=null)dn++;if(s&&s.box&&s.due<=now)due++});
- var h='<a class="back" href="#/worksheets/grammar">\u2190 Grammar map</a>';
+ var h='<a class="back" href="#/worksheets/grammar">\u2190 Grammar Studio</a>';
  h+='<div class="jc rv" style="--jc:'+c.c+';margin-bottom:12px"><div class="ic">\u2728</div><h3>Open now <span class="tag">'+dn+' of '+SX.length+' done</span></h3><p>'+sxCap(NUMW[SX.length])+' lessons from '+SX[0].lv+' to '+SX[SX.length-1].lv+'. Each lesson has eight steps: <b>notice</b> the pattern, <b>learn</b> the rule, avoid <b>common mistakes</b>, <b>hear</b> a real dialogue, <b>practise</b>, <b>write</b> your own, <b>watch</b> a video, and <b>remember</b> with spaced review.</p></div>';
  h+='<div class="sxrev rv" id="sxrev"><div><b>Review box</b><p>'+(due?due+' lesson'+(due>1?'s are':' is')+' ready to review today.':(dn?'Nothing to review today. Come back soon.':'Finish a practice and the lesson joins your review list.'))+'</p></div>'+(due?'<button class="btn" onclick="sxRevStart()">Start review</button>':'')+'</div><div id="sxr"></div>';
  h+='<h3 class="rv" style="margin:30px 0 6px">The '+NUMW[SX.length]+' lessons</h3>';
@@ -2638,7 +2638,7 @@ function soonPage(k){var K={reading:["📖","Reading"],writing:["✍️","Writin
 PAGES.worksheets=function(r){if(r.a=="grammar"){
  if(r.b=="studio"){if(r.c!==undefined&&!isNaN(+r.c)&&+r.c>=0&&+r.c<12){gs.ti=+r.c;gs.tab="learn";gs.mx=-1;qz=null}return pg("✨","Tense Studio","Twelve tenses. Learn it, hear it, try it, practise it, print it.",'<a class="back" href="#/worksheets/grammar/tenses">← Verb tenses</a><div id="gh"></div><div class="gtb" id="gt"></div><div class="pane" id="pane"></div>')}
  var ci=GC.map(function(c){return c.id}).indexOf(r.b);if(ci>=0)return catPage(GC[ci],r.c);
- return pg("✏️","General Grammar","Everything an adult learner needs, mapped by area and level. Tenses are one of ten areas.",'<div class="lvs" id="lvs"></div><div id="gm"></div>'+srcHtml())}
+ return pg("✏️","Grammar Studio","Everything an adult learner needs, mapped by area and level. Tenses are one of ten areas.",'<div class="lvs" id="lvs"></div><div id="gm"></div>'+srcHtml())}
  if(["reading","writing","speaking","listening"].indexOf(r.a)>=0)return soonPage(r.a);return pg("🖨️","English Skills","Pick a skill. Grammar worksheets are ready now.",skillCards())};
 // ---- grammar studio
 var gs={ti:0,tab:"learn",mx:-1},qz=null,bs={s:2,v:0};
