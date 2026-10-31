@@ -414,8 +414,8 @@ function pg(e,t,l,b){return'<section class="ph"><div class="mesh"><i></i><i></i>
 function cards(a){return'<div class="g3">'+a.map(function(c,i){return'<div class="cd rv" style="--i:'+i+';--jc:'+c[3]+'"><div class="ic">'+c[0]+'</div><h3>'+c[1]+'</h3><p>'+c[2]+'</p></div>'}).join("")+'</div>'}
 var SOON='<p class="soon rv" style="margin-top:34px">✨ This page is growing. The Grammar Studio is open now.</p><a class="btn rv" href="#/worksheets/grammar">Open the Grammar Studio</a>';
 function tg(mode){var h="";G.forEach(function(g){h+='<h2 class="gh rv" style="--c:'+g.c+'"><i></i>'+g.n+' tenses</h2><div class="'+(mode=="path"?"pth":"g4")+'">'+g.t.map(function(t,k){var d=L[t];return'<a class="tc rv" style="--i:'+k+';--c:'+g.c+'" href="#/worksheets/grammar/studio/'+t+'"><span class="no">'+(t+1)+'</span><h3>'+nm(t)+(best("c",t)>=12?" ✓":"")+'</h3><p>'+(mode=="path"?d.m:d.f[0].split(" (")[0])+'</p></a>'}).join("")+'</div>'});return h}
-function skillCards(){var S=[["🎯","Find Your Level","An adaptive placement test from A1 to C2, with a skills profile and where to start.","#/level","#fff0a8"],["✏️","Grammar Studio","10 areas, 81 lessons from A1 to C1, with practice and worksheets.","grammar","#ffd9a8"],["📖","Reading","Short texts with friendly questions.","reading","#b9e6ff"],["✍️","Writing","Guided tasks for emails and messages.","writing","#d8ccff"],["🎤","Speaking","Prompts to say out loud with confidence.","speaking","#ffc9c2"],["🎧","Listening","Hear it, understand it, answer it.","listening","#bff2de"]];
- return'<div class="jg">'+S.map(function(s,i){return'<a class="jc rv" style="--i:'+i+';--jc:'+s[4]+'" href="'+(s[3][0]=="#"?s[3]:"#/worksheets/"+s[3])+'"><div class="ic">'+s[0]+'</div><h3>'+s[1]+(i>1?'<span class="tag n">Soon</span>':'<span class="tag">'+(i?"Open":"New")+'</span>')+'</h3><p>'+s[2]+'</p><span class="go">Explore →</span></a>'}).join("")+"</div>"}
+function skillCards(){var S=[["🎯","Find Your Level","An adaptive placement test from A1 to C2, with a skills profile and where to start.","#/level","#fff0a8"],["✏️","Grammar Studio","10 areas, 81 lessons from A1 to C1, with practice and worksheets.","grammar","#ffd9a8"],["📖","Reading","Real Adelaide texts: predict, read for gist and detail, learn words, read again.","reading","#b9e6ff"],["🎧","Listening","Australian conversations: listen twice, catch fast speech, then shadow.","listening","#bff2de"],["🎤","Speaking","Role-plays with a partner, feedback, then say it again faster.","speaking","#ffc9c2"],["✍️","Writing","From texts to cover letters: model, write together, write, rewrite.","writing","#d8ccff"]];
+ return'<div class="jg">'+S.map(function(s,i){return'<a class="jc rv" style="--i:'+i+';--jc:'+s[4]+'" href="'+(s[3][0]=="#"?s[3]:"#/worksheets/"+s[3])+'"><div class="ic">'+s[0]+'</div><h3>'+s[1]+'<span class="tag">'+(i==1?"Open":"New")+'</span>'+'</h3><p>'+s[2]+'</p><span class="go">Explore →</span></a>'}).join("")+"</div>"}
 /*@include lessons/sentences.js*/
 /*@include lessons/modals.js*/
 /*@include lessons/conditionals.js*/
@@ -608,7 +608,7 @@ PAGES.worksheets=function(r){if(r.a=="grammar"){
  if(r.b=="studio"){if(r.c!==undefined&&!isNaN(+r.c)&&+r.c>=0&&+r.c<12){gs.ti=+r.c;gs.tab="learn";gs.mx=-1;qz=null}return pg("✨","Tense Studio","Twelve tenses. Learn it, hear it, try it, practise it, print it.",'<a class="back" href="#/worksheets/grammar/tenses">← Verb tenses</a><div id="gh"></div><div class="gtb" id="gt"></div><div class="pane" id="pane"></div>')}
  var ci=GC.map(function(c){return c.id}).indexOf(r.b);if(ci>=0)return catPage(GC[ci],r.c);
  return pg("✏️","Grammar Studio","Everything an adult learner needs, mapped by area and level. Tenses are one of ten areas.",'<button class="srfake rv" onclick="srOpen()"><span>🔍</span><span>Search 81 lessons and topics<span class="srex">, e.g. <i>present perfect</i>, <i>if</i>, <i>articles</i></span></span></button>'+ttDash()+'<div class="lvs" id="lvs"></div><div id="gm"></div>'+srcHtml())}
- if(["reading","writing","speaking","listening"].indexOf(r.a)>=0)return soonPage(r.a);return pg("🖨️","English Skills","Pick a skill. Grammar worksheets are ready now.",skillCards())};
+ if(SKK[r.a])return skPage(r.a,r.b);return pg("🖨️","English Skills","Pick a skill. Each one has lessons from A1 to C1.",skillCards())};
 // ---- grammar studio
 var gs={ti:0,tab:"learn",mx:-1},qz=null,bs={s:2,v:0};
 function ghdraw(){var m=0,tot=0,i;for(i=0;i<12;i++){var b=best("c",i);tot+=b;if(b>=12)m++}var pc=Math.round(tot/180*100),cg=gs.mx<0?Math.floor(gs.ti/4):gs.mx;
@@ -656,6 +656,7 @@ function obs(){var io=new IntersectionObserver(function(es){es.forEach(function(
 function after(r){clearInterval(hit);$$(".sp").forEach(split);obs();pillTo(act());
  if($("#hi")){var i=0;hit=setInterval(function(){i=(i+1)%HI.length;var e=$("#hi");if(!e)return;e.style.animation="none";e.offsetWidth;e.style.animation="";e.textContent=HI[i]},2400)}
  if(r.n=="worksheets"&&r.a=="grammar"&&XA[r.b]&&r.c!==undefined&&r.c!==""&&$(".sxbar")){ttSeen(r.b,+r.c);fbInit("w");sxBar()}
+ skAfter(r);
  if(r.n=="worksheets"&&r.a=="grammar"){if(r.b=="studio")gdraw();else if(!r.b)gmapDraw();var hr=$(".cr.hl");if(hr)setTimeout(function(){hr.scrollIntoView({behavior:"smooth",block:"center"})},600)}}
 function render(){var r=route(),f=PAGES[r.n]||PAGES.home,run=function(){app.innerHTML=f(r);scrollTo(0,0);after(r)};if(document.startViewTransition&&!rm&&started)document.startViewTransition(run);else run();started=1}
 addEventListener("hashchange",render);addEventListener("hashchange",cvKill);addEventListener("pagehide",cvKill);addEventListener("resize",function(){pillTo(act())});
@@ -669,5 +670,7 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/feedback.js*/
 /*@include plus/search.js*/
 /*@include plus/teach.js*/
+/*@include plus/skilldata.js*/
+/*@include plus/skills.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
