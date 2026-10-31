@@ -1,6 +1,6 @@
 # Recorded audio (British studio voices)
 
-All site audio is British English. Every fixed line the site speaks is recorded in advance with the Kokoro-82M model (Apache 2.0) and shipped as MP3 bundles in `docs/aud/` (not in git; published with the artifact). The player is `src/plus/audio.js`; anything not recorded falls back to live in-browser Kokoro, then the device voice.
+All site audio is British English. Every fixed line the site speaks is recorded in advance with the Kokoro-82M model (Apache 2.0) and shipped as MP3 bundles in `docs/aud/` (committed to git so GitHub Pages serves them; regenerate and re-commit after content changes). The player is `src/plus/audio.js`; anything not recorded falls back to live in-browser Kokoro, then the device voice.
 
 Voices: women `bf_emma` (second woman `bf_isabella`), men `bm_george` (second man `bm_fable`). Key = `voice|text` (trimmed), id = `apH(key)` in `audio.js`.
 
