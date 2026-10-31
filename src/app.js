@@ -75,7 +75,7 @@ function vAlt(g,cur){var ok=function(x){return!VBAD[x.v.name]&&x.v!=cur};return(
 function vKey(){return VK+(VACC=="au"?"":"_"+VACC)}
 function vNote(m){VMSG=m;var n=$("#vnote");if(n)n.textContent=m}
 /* one reliable speaking function: keeps references (stops garbage collection), waits after cancel, detects voices that never start or never finish, and falls back to a working voice */
-function vTalk(text,o){if(window.VREC){VREC(text,o);return}if(apTalk(text,o))return;if(nvOn())nvTalk(text,o);else vTalkWeb(text,o)}
+function vTalk(text,o){if(window.VREC){VREC(text,o);return}if(typeof APZ!="undefined"&&APZ.p){APZ.q=function(){vTalk(text,o)};return}if(apTalk(text,o))return;if(nvOn())nvTalk(text,o);else vTalkWeb(text,o)}
 function vTalkWeb(text,o){var SS=window.speechSynthesis;if(!SS||!window.SpeechSynthesisUtterance){if(o.onfail)o.onfail("unsupported");return}var tries=0;
  (function go(v){var u=new SpeechSynthesisUtterance(text),st=0,fin=0,t1=0,t2=0,t0=Date.now(),live=function(){return!o.alive||o.alive()},clear=function(){clearTimeout(t1);clearTimeout(t2)},
   end=function(){if(fin)return;if(!st&&Date.now()-t0<350){fail("no-audio");return}fin=1;clear();if(live()&&o.onend)o.onend()},
@@ -89,7 +89,7 @@ function vTalkWeb(text,o){var SS=window.speechSynthesis;if(!SS||!window.SpeechSy
   try{SS.resume()}catch(e){}
   setTimeout(function(){if(fin||!live())return;try{SS.speak(u)}catch(e){fail("throw")}},70)})(o.v)}
 function sayOff(){$$(".sayon").forEach(function(e){e.classList.remove("sayon");if(e.dataset.lab)e.innerHTML=e.dataset.lab})}
-function say(t,el){if(el&&el.classList.contains("sayon")){vCancel();SAYT++;sayOff();return}vCancel();sayOff();var my=++SAYT,parts=String(t).split(/(?<=[.!?])\s+/).filter(function(x){return x.trim()}),f=vFor("f");if(el){el.dataset.lab=el.dataset.lab||el.innerHTML;el.innerHTML="\u23F9";el.classList.add("sayon");el.setAttribute("aria-label","Stop")}(function nx(i){if(i>=parts.length||my!=SAYT){if(my==SAYT)sayOff();return}vTalk(parts[i],{v:f.v,g:"f",alive:function(){return my==SAYT},onend:function(){nx(i+1)},onfail:function(){if(my==SAYT)sayOff()}});if(parts[i+1])nvPre(parts[i+1],"f",0)})(0)}
+function say(t,el){if(el&&el.classList.contains("sayon")){vCancel();SAYT++;sayOff();return}vCancel();sayOff();var my=++SAYT,parts=String(t).split(/(?<=[.!?])\s+/).filter(function(x){return x.trim()}),f=vFor("f");if(el){el.classList.add("sayon");apCtlOn(el)}(function nx(i){if(i>=parts.length||my!=SAYT){if(my==SAYT)sayOff();return}vTalk(parts[i],{v:f.v,g:"f",alive:function(){return my==SAYT},onend:function(){nx(i+1)},onfail:function(){if(my==SAYT)sayOff()}});if(parts[i+1])nvPre(parts[i+1],"f",0)})(0)}
 function vLabel(v){return v.name.replace(/Microsoft |Online \(Natural\) - |\(Natural\)|- English.*|English \(Australia\)|\(Australia\)/g,"").replace(/\s+/g," ").trim()+(/Natural|Neural|Online|Premium|Enhanced/i.test(v.name)?" ✨":"")}
 function vSetG(g,n){var prev=VSV[g]||"";VSV[g]=n;try{localStorage.setItem(vKey(),JSON.stringify(VSV))}catch(e){}CVT++;vCancel();if(cv){cv.play=0;cv.paused=0;cv.talk=0;cvMark(-1);cvUi()}var x=VL.filter(function(o){return o.v.name==n})[0],my=++SAYT;vNote("");
  vTalk(ACC[VACC].hi[g=="f"?0:1],{v:x?x.v:null,g:g,noalt:1,alive:function(){return my==SAYT},onfail:function(){VSV[g]=prev;try{localStorage.setItem(vKey(),JSON.stringify(VSV))}catch(e){}vNote("That voice did not respond on this device (it may be a download or network voice that is not ready), so I kept your previous choice. Voices marked ⚠ do not work here. Try another one.");if(cv)cvAssign(cv);vUi();cvVoices(1)}});
@@ -345,7 +345,7 @@ function vGen(v){var n=v.name;if(/\bfemale\b/i.test(n))return"f";if(MAL.test(n))
 function cvAssign(c){if(!c)return;var g0=c.A[1]=="she"?"f":"m",g1=c.B[1]=="she"?"f":"m",a=vFor(g0),b=vFor(g1,g0==g1&&a.v?[a.v]:[]);if(!b.v)b=vFor(g1);var mk=function(o,g){var q=o.v?vGen(o.v):"?";return{v:o.v,mis:!o.user&&q!="?"&&q!=g}};c.vo=[mk(a,g0),mk(b,g1)]}
 function cvVoices(k){if(cv)cvAssign(cv);vUi();var e=$("#cvvo");if(!e||!cv)return;var f=function(o){return o.v?vLabel(o.v).replace(" ✨",""):"default"};if(nvOn()){var two=cv.A[1]==cv.B[1];e.textContent=cv.A[0]+" speaks with the "+NVN[nvVoice(cv.A[1]=="she"?"f":"m")]+" voice and "+cv.B[0]+" with the "+NVN[nvVoice(cv.B[1]=="she"?"f":"m",two)]+" voice.";return}e.textContent=VL.length?cv.A[0]+" speaks with the "+f(cv.vo[0])+" voice and "+cv.B[0]+" with the "+f(cv.vo[1])+" voice. Women and men each have their own voice, so you can change both above.":""}
 function cvKill(){CVT++;SAYT++;vCancel();apUi()}
-function apUi(){$$("[data-pl]").forEach(function(b){delete b.dataset.pl;sxOn(b,0)});$$("[data-on][data-lab]").forEach(function(b){delete b.dataset.on;b.textContent=b.dataset.lab});sayOff()}
+function apUi(){if(typeof APZ!="undefined"&&APZ.p)apCtlOff();$$("[data-pl]").forEach(function(b){delete b.dataset.pl;sxOn(b,0)});$$("[data-on][data-lab]").forEach(function(b){delete b.dataset.on;b.textContent=b.dataset.lab});sayOff()}
 function cvMark(i){var ch=$("#cvchat");if(!ch)return;$$(".cb.on",ch).forEach(function(b){b.classList.remove("on")});$$(".w.now",ch).forEach(function(w){w.classList.remove("now")});if(i<0)return;var b=$('.cb[data-i="'+i+'"]',ch);if(!b)return;b.classList.add("on");var top=b.offsetTop-ch.offsetTop-12;try{ch.scrollTo({top:Math.max(0,top),behavior:rm?"auto":"smooth"})}catch(e){ch.scrollTop=Math.max(0,top)}}
 function cvUi(){var p=$("#cvplay"),pi=$("#cvpi");if(!p||!cv)return;p.textContent=cv.play?"⏸ Pause":(cv.at>=0&&cv.at<cv.lines.length-1&&cv.paused?"▶ Resume":"▶ Play conversation");p.classList.toggle("go",!!cv.play);var f=$("#cvf");if(f)f.classList.toggle("talk",!!cv.talk);if(pi)pi.style.width=(cv.at<0?0:(cv.at+(cv.talk?.5:1))/cv.lines.length*100)+"%"}
 /* lively moments */
@@ -367,7 +367,7 @@ function cvSpeak(i,rate,chain){if(!cv)return;vCancel();var tok=++CVT,ln=cv.lines
   onword:function(e){if(e.name&&e.name!="word")return;var ci=e.charIndex,idx=-1;w.forEach(function(x,j){if(+x.dataset.s<=ci)idx=j});w.forEach(function(x,j){x.classList.toggle("now",j==idx)})},
   onend:done,onfail:function(){cvSim(ln,w,r,tok,done)}});
  if(chain&&nx)nvPre(nx.p,nx.g=="she"?"f":"m",two&&nx.sp==1,Math.max(.5,Math.min(1.6,r*LVR[cv.lv])))}
-function cvPlay(){if(!cv)return;if(cv.play){cv.play=0;cv.paused=1;CVT++;vCancel();cv.talk=0;cvUi();return}var s=cv.paused&&cv.at>=0?cv.at:0;cv.play=1;cv.paused=0;cvSpeak(s,CVR,true)}
+function cvPlay(){if(!cv)return;if(cv.play){cv.play=0;cv.paused=1;CVT++;vCancel();cv.talk=0;cvUi();return}var s=cv.paused&&cv.at>=0?cv.at:0;cv.play=1;cv.paused=0;apCtlOn($("#cvplay"));cvSpeak(s,CVR,true)}
 function cvLine(i,r){if(!cv)return;cv.play=0;cv.paused=0;cvSpeak(i,r||CVR,false)}
 function cvJump(d){if(!cv)return;var i=Math.max(0,Math.min(cv.lines.length-1,(cv.at<0?(d>0?-1:1):cv.at)+d)),ch=cv.play;cv.paused=0;if(ch)cvSpeak(i,CVR,true);else cvLine(i)}
 function cvStop(){if(!cv)return;cvKill();cv.play=0;cv.paused=0;cv.at=-1;cv.talk=0;cvMark(-1);cvUi()}
@@ -439,7 +439,7 @@ function sxCap(t){return t.charAt(0).toUpperCase()+t.slice(1)}
 function sxDate(ts){var d=new Date(ts),n=new Date(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime();if(ts<=Date.now())return"today";var diff=Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()-t0)/SXDAY);return diff<=1?"tomorrow":"in "+diff+" days"}
 addEventListener("hashchange",function(){SXT++;SXS=null});
 /* audio */
-function sxOn(el,on){if(!el)return;el.classList.toggle("on",!!on);var ic=el.classList.contains("sxs");if(on){if(!el.dataset.lab){el.dataset.lab=el.innerHTML;el.dataset.al=el.getAttribute("aria-label")||""}el.innerHTML=ic?"\u23F9":"\u23F9 Stop";el.setAttribute("aria-label","Stop")}else if(el.dataset.lab){el.innerHTML=el.dataset.lab;if(el.dataset.al)el.setAttribute("aria-label",el.dataset.al);else el.removeAttribute("aria-label");delete el.dataset.lab;delete el.dataset.al}}
+function sxOn(el,on){if(!el)return;el.classList.toggle("on",!!on);if(on)apCtlOn(el)}
 function sxSay(t,g,el){if(el&&el.classList.contains("on")&&el.dataset.pl){cvKill();SXT++;delete el.dataset.pl;sxOn(el,0);return}cvKill();var my=++SXT;$$("[data-pl]").forEach(function(b){delete b.dataset.pl;sxOn(b,0)});if(el){el.dataset.pl=1;sxOn(el,1)}var off=function(){if(el&&my==SXT){delete el.dataset.pl;sxOn(el,0)}},f=vFor(g||"f");
  vTalk(sxC(t),{v:f.v,g:g||"f",rate:.9,alive:function(){return my==SXT},onend:off,onfail:function(){off();vNote("Audio is not available on this device right now. You can still read everything on the page.")}})}
 function sxEx(k,i,el){sxSay(SX[k].ex[i],"f",el)}
@@ -543,9 +543,9 @@ var XA={sentences:{x:SX,l:SXL,g:SXG,k:"tt_sx_v1",d:"tt_sx_d",n:"Sentences and qu
 function sxUse(id){var a=XA[id];if(!a||SX===a.x)return;SX=a.x;SXL=a.l;SXG=a.g;SXK=a.k;SXD=a.d;SXN=a.n;SXA=id;SXGN=[]}
 /* ---- Sentences and questions: dialogue players, mini lessons, generator ---- */
 function sxDlHtml(id,title,sp,ln,lab){SXR[id]={sp:sp,ln:ln,lab:lab||"dialogue"};return'<div class="sxdlg" id="sxb-'+id+'"><div class="sxdt"><b>'+sxH(title)+'</b><button class="btn sxpl" id="sxp-'+id+'" onclick="sxDlTog(\''+id+'\')">▶ Play the '+(lab||"dialogue")+'</button></div>'+ln.map(function(l,i){var s=sp[l[0]];return'<div class="sxl '+(l[0]?"r":"l")+'" onclick="sxDl(\''+id+'\','+i+',false)" style="--i:'+i+'"><span class="av">'+(s[1]=="she"?"👩🏼":"👨🏼")+'</span><div><small>'+s[0]+'</small><p>'+sxM(l[1])+'</p></div></div>'}).join("")+'</div>'}
-function sxDl(id,i,chain){if(!chain&&SXP==id+":"+i){cvKill();SXT++;SXP="";sxDlEnd(id);return}cvKill();var my=++SXT,r=SXR[id];if(!r)return;SXP=chain?"":id+":"+i;var ln=r.ln[i],g=r.sp[ln[0]][1]=="she"?"f":"m";
+function sxDl(id,i,chain){if(chain&&APZ.p){APZ.q=function(){sxDl(id,i,true)};return}if(!chain&&SXP==id+":"+i){cvKill();SXT++;SXP="";sxDlEnd(id);return}cvKill();var my=++SXT,r=SXR[id];if(!r)return;SXP=chain?"":id+":"+i;var ln=r.ln[i],g=r.sp[ln[0]][1]=="she"?"f":"m";
  $$(".sxdlg").forEach(function(bx){var me=bx.id=="sxb-"+id;$$(".sxl",bx).forEach(function(e,j){e.classList.toggle("on",me&&j==i)});if(!me)sxDlLab(bx.id.slice(4))});
- var b=$("#sxp-"+id);if(b&&chain)b.textContent="\u23F9 Stop";
+ var b=$("#sxp-"+id);if(b&&chain){b.textContent="\u23F9 Stop";apCtlOn(b)}
  var done=function(){if(my!=SXT)return;if(chain&&i<r.ln.length-1)setTimeout(function(){if(my==SXT)sxDl(id,i+1,true)},380);else sxDlEnd(id)};
  var two=r.sp[0][1]==r.sp[1][1],nx=r.ln[i+1]; vTalk(sxC(ln[1]),{v:vFor(g).v,g:g,alt:two&&ln[0]==1,rate:.92,pitch:g=="f"?1.05:.95,alive:function(){return my==SXT},onend:done,onfail:function(){vNote("Audio is not available on this device right now. You can still read the dialogue.");sxDlEnd(id)}});
  if(chain&&nx)nvPre(sxC(nx[1]),r.sp[nx[0]][1]=="she"?"f":"m",two&&nx[0]==1,.92)}

@@ -295,3 +295,18 @@ span.lv{background:var(--lc,var(--line));color:#17324d;border:0;padding:3px 12px
 .skport details{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:12px 16px;margin:8px 0}.skport summary{cursor:pointer}.skpt{white-space:pre-wrap;margin-top:8px}
 @media(max-width:560px){.sktext{padding:14px;font-size:1rem}.skrow .skkeep{margin-left:50px}.sktf{grid-template-columns:1fr 1fr}.skhow li{padding-left:42px}}
 @media(prefers-reduced-motion:reduce){.skcard,.sks{transition:none}}
+/* ---- Pause and Stop control ---- */
+.apHide{display:none!important}
+.apx{display:inline-flex;gap:6px;align-items:center;vertical-align:middle;flex:none}
+.apx button{font:inherit;font-weight:800;font-size:.95rem;display:inline-flex;gap:6px;align-items:center;justify-content:center;min-height:42px;padding:8px 16px;border-radius:99px;border:2px solid var(--teal);cursor:pointer;line-height:1}
+.apx button i{font-style:normal;font-size:1rem}
+.apx .app{background:var(--teal);color:#fff;animation:apL .42s cubic-bezier(.34,1.56,.64,1) both,apPulse 1.8s .5s ease-out infinite}
+.apx .aps{background:var(--card);color:var(--ink);animation:apR .42s cubic-bezier(.34,1.56,.64,1) both}
+.apx.pz .app{animation:apL .42s cubic-bezier(.34,1.56,.64,1) both;background:var(--card);color:var(--teal)}
+.apx button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.apx.ic button,.apx.sm button{min-height:38px;padding:0;width:38px}.apx.ic span,.apx.sm span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.apx.sm button{width:auto;padding:0 12px;min-height:34px}.apx.sm span{position:static;width:auto;height:auto;clip:auto}
+@keyframes apL{from{transform:translateX(52%) scale(.6);opacity:0}}
+@keyframes apR{from{transform:translateX(-52%) scale(.6);opacity:0}}
+@keyframes apPulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--teal) 45%,transparent)}70%{box-shadow:0 0 0 10px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media(prefers-reduced-motion:reduce){.apx button,.apx .app{animation:none}}
