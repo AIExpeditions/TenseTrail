@@ -339,6 +339,23 @@ span.lv{background:var(--lc,var(--line));color:#17324d;border:0;padding:3px 12px
 .ph.photo+.s{padding-top:30px}
 .thbtn{margin-right:6px;padding:7px 9px}.thbtn .th-sun{display:none}.isdark .thbtn .th-sun{display:block}.isdark .thbtn .th-moon{display:none}.thbtn:hover{transform:rotate(-12deg)}
 :root[data-theme="dark"]{color-scheme:dark}:root[data-theme="light"]{color-scheme:light}
+/* in-site video window */
+.ytlock,.ytlock body{overflow:hidden}
+.ytw{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top)) 16px max(16px,env(safe-area-inset-bottom))}
+.ytw[hidden]{display:none}
+.ytbk{position:absolute;inset:0;background:rgba(6,16,28,.78);backdrop-filter:blur(6px);opacity:0;transition:opacity .25s var(--ease)}
+.ytbox{position:relative;width:min(960px,100%,calc((100dvh - 150px)*16/9));min-width:min(280px,100%);background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:24px;padding:12px;box-shadow:0 40px 90px rgba(0,0,0,.45);opacity:0;transform:translateY(18px) scale(.96);transition:opacity .25s var(--ease),transform .35s var(--sp)}
+.ytw.in .ytbk{opacity:1}.ytw.in .ytbox{opacity:1;transform:none}
+.ythd{display:flex;align-items:center;gap:10px;padding:2px 4px 10px}
+.ytmeta{flex:1;min-width:0}.ytmeta b{display:block;font-weight:900;line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ytmeta small{display:block;color:var(--mut);font-size:.85rem}
+.ytout{flex:none;font-weight:800;font-size:.85rem;color:var(--mut);padding:7px 12px;border-radius:99px;border:1px solid var(--line)}.ytout:hover{color:var(--ink);border-color:var(--teal)}
+.ytx{flex:none;width:42px;height:42px;border-radius:50%;border:0;background:var(--bg);color:var(--ink);font-size:1.1rem;font-weight:900;cursor:pointer;transition:transform .25s var(--sp),background .2s}.ytx:hover{transform:rotate(90deg);background:var(--coral);color:#fff}
+.ytx:focus-visible,.ytout:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+.ytfr{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000}.ytfr iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.ytnote{margin:10px 4px 2px;color:var(--mut);font-size:.88rem}
+@media(max-width:600px){.ytw{padding-left:8px;padding-right:8px}.ytbox{padding:8px;border-radius:18px}.ytfr{border-radius:12px}.ytout{display:none}.ytnote{font-size:.8rem}}
+@media(max-height:500px){.ytnote{display:none}.ytbox{width:min(960px,100%,calc((100dvh - 90px)*16/9))}}
+@media(prefers-reduced-motion:reduce){.ytbk,.ytbox{transition:none}}
 </style></head><body>
 <header class="nav" id="nav"><a class="logo" href="#/"><span>🌱</span>TenseTrail</a>
 <nav id="menu" aria-label="Main"><i id="pill"></i>
@@ -2686,7 +2703,7 @@ function sxPage(k){var c=SX[k],S=sxLoad().c[k]||{},h='<a class="back" href="#/wo
  h+=sxSec(5,"Practise","Twenty short questions in six styles: choose, spot the correct sentence, type the missing word, build, correct the mistake, and listen and type. You get feedback after each one.",'<div id="sxp"><button class="btn" onclick="sxStart('+k+')">Start practice</button>'+(S.best!=null?' <span class="sxbest">Your best: '+S.best+' / '+(S.n||9)+'</span>':'')+'</div>');
  h+=sxSec(6,"Write it down","Write your own sentences, or switch to Speak and say them. Then check your work.",fbWidget("w",{task:c.pr,k:k,topic:c.t,level:c.lv,rule:c.rm,store:SXD+k})+'<p class="fbh">Checklist</p><div class="sxck">'+c.ck.map(function(x,i){return'<label><input type="checkbox" onchange="sxCk()"> '+sxH(x)+'</label>'}).join("")+'</div><p class="sxwin" id="sxwin" hidden>\uD83C\uDF89 Great! You checked your own writing.</p><button class="btn ghost" onclick="sxModel('+k+')">Show a model answer</button><p class="sxmod" id="sxmod" hidden></p>');
  var v=c.vd;
- h+=sxSec(7,"Watch and learn more","One extra video from an outside teacher, if you want a different explanation.",'<a class="sxv" href="https://www.youtube.com/watch?v='+v[0]+'" target="_blank" rel="noopener noreferrer"><span class="pl">\u25B6</span><span><b>'+sxH(v[1])+'</b><small>'+sxH(v[2])+' \u00B7 opens YouTube in a new tab</small></span></a>'+(v[3]?'<p class="sxvn">'+sxH(v[3])+'</p>':'')+'<p class="sxvn">Tip: pause at the examples and say them aloud. Teachers\u2019 accents and speed vary, so choose subtitles if you like.</p>');
+ h+=sxSec(7,"Watch and learn more","One extra video from an outside teacher, if you want a different explanation.",'<a class="sxv" href="https://www.youtube.com/watch?v='+v[0]+'" target="_blank" rel="noopener noreferrer" data-ytt="'+sxH(v[1])+'" data-ytc="'+sxH(v[2])+'"><span class="pl">\u25B6</span><span><b>'+sxH(v[1])+'</b><small>'+sxH(v[2])+' \u00B7 plays right here, no need to leave the page</small></span></a>'+(v[3]?'<p class="sxvn">'+sxH(v[3])+'</p>':'')+'<p class="sxvn">Tip: pause at the examples and say them aloud. Teachers\u2019 accents and speed vary, so choose subtitles if you like.</p>');
  var rv=S.box?'You are in review box '+S.box+' of 5. Next review: <b>'+sxDate(S.due)+'</b>.':'When you finish the practice, this lesson joins your review list. You will see it again after 1, 3, 7, 14 and 30 days, because remembering something at spaced times makes it last.';
  h+=sxSec(8,"Remember","",'<p class="sxrem">'+rv+'</p><a class="btn ghost" href="#/worksheets/grammar/'+SXA+'">Go to my review list</a>');
  h+='<div class="sxnav">'+(k>0?'<a class="btn ghost" href="#/worksheets/grammar/'+SXA+'/'+(k-1)+'">\u2190 '+sxH(SX[k-1].t)+'</a>':'<span></span>')+(k<SX.length-1?'<a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(k+1)+'">'+sxH(SX[k+1].t)+' \u2192</a>':'<a class="btn" href="#/worksheets/grammar">Back to the map</a>')+'</div>';
@@ -3735,6 +3752,28 @@ function apUnpause(go){var q=APZ.q;APZ.p=0;APZ.q=null;try{if(NV.ac&&NV.ac.state=
 function apPauseTog(){var x=APZ.x;if(!x)return;var b=x.firstChild;if(!APZ.p){APZ.p=1;apPauseRaw();x.classList.add("pz");b.innerHTML=API.r+'<span>Resume</span>';b.setAttribute("aria-label","Resume")}
  else{x.classList.remove("pz");b.innerHTML=API.p+'<span>Pause</span>';b.setAttribute("aria-label","Pause");apUnpause(1)}}
 function apStopCtl(){var el=APZ.el;if(APZ.p)apUnpause(0);try{speechSynthesis.cancel()}catch(e){}if(el){if(el.id=="cvplay"&&typeof cv!="undefined"&&cv){CVT++;vCancel();cv.play=0;cv.paused=0;cv.talk=0;try{cvMark(-1)}catch(e){}cvUi()}else if(apIsOn(el))el.click()}apCtlOff()}
+/* ---- In-site video window ----
+ Any link to a YouTube video (youtube.com/watch, youtu.be, /shorts, /embed) opens in a window on
+ this page instead of leaving the site. It plays through youtube-nocookie.com, so YouTube sets no
+ tracking cookies until the learner presses play. Ctrl/Cmd/Shift/middle click still opens YouTube
+ in a new tab. Close with the button, Esc, or a click on the dark backdrop. */
+function ytId(u){try{var a=new URL(u,location.href),h=a.hostname.replace(/^(www|m|music)\./,""),m;
+ if(h=="youtu.be")m=a.pathname.slice(1);else if(h=="youtube.com"||h=="youtube-nocookie.com")m=a.searchParams.get("v")||(a.pathname.match(/^\/(?:embed|shorts|live)\/([\w-]+)/)||[])[1];
+ return m&&/^[\w-]{6,20}$/.test(m)?m:null}catch(e){return null}}
+var YTL=null;
+function ytOpen(id,ti,ch,href){var o=$("#ytw");if(!o){o=document.createElement("div");o.id="ytw";o.className="ytw";o.hidden=true;
+  o.innerHTML='<div class="ytbk" data-ytx></div><div class="ytbox" role="dialog" aria-modal="true" aria-labelledby="ytti"><div class="ythd"><div class="ytmeta"><b id="ytti"></b><small id="ytch"></small></div><a class="ytout" id="ytout" target="_blank" rel="noopener noreferrer">YouTube ↗</a><button class="ytx" data-ytx aria-label="Close video">✕</button></div><div class="ytfr" id="ytfr"></div><p class="ytnote">Tip: pause at the examples and say them aloud. Turn on subtitles (CC) if the teacher speaks fast.</p></div>';
+  document.body.appendChild(o);o.addEventListener("click",function(e){if(e.target.closest("[data-ytx]"))ytClose()})}
+ YTL=document.activeElement;if(typeof cvKill=="function")try{cvKill()}catch(e){}
+ $("#ytti").textContent=ti||"Video";$("#ytch").textContent=ch||"";$("#ytch").hidden=!ch;$("#ytout").href=href||"https://www.youtube.com/watch?v="+id;
+ $("#ytfr").innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1&cc_load_policy=0" title="'+sxH(ti||"YouTube video")+'" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+ o.hidden=false;document.documentElement.classList.add("ytlock");requestAnimationFrame(function(){o.classList.add("in")});$(".ytx",o).focus()}
+function ytClose(){var o=$("#ytw");if(!o||o.hidden)return;o.classList.remove("in");$("#ytfr").innerHTML="";o.hidden=true;document.documentElement.classList.remove("ytlock");if(YTL&&YTL.focus)try{YTL.focus()}catch(e){}YTL=null}
+document.addEventListener("click",function(e){if(e.defaultPrevented||e.button||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;var a=e.target.closest&&e.target.closest("a[href]");if(!a||a.closest("#ytw"))return;var id=ytId(a.getAttribute("href"));if(!id)return;
+ e.preventDefault();ytOpen(id,a.dataset.ytt||(a.querySelector("b")||a).textContent.trim(),a.dataset.ytc||"",a.href)});
+document.addEventListener("keydown",function(e){var o=$("#ytw");if(!o||o.hidden)return;if(e.key=="Escape"){e.preventDefault();e.stopPropagation();ytClose();return}
+ if(e.key=="Tab"){var f=$$("a[href],button,iframe",o.querySelector(".ytbox")),i=f.indexOf(document.activeElement);if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&i==f.length-1){e.preventDefault();f[0].focus()}}},true);
+addEventListener("hashchange",ytClose);
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
 

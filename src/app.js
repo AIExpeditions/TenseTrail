@@ -460,7 +460,7 @@ function sxPage(k){var c=SX[k],S=sxLoad().c[k]||{},h='<a class="back" href="#/wo
  h+=sxSec(5,"Practise","Twenty short questions in six styles: choose, spot the correct sentence, type the missing word, build, correct the mistake, and listen and type. You get feedback after each one.",'<div id="sxp"><button class="btn" onclick="sxStart('+k+')">Start practice</button>'+(S.best!=null?' <span class="sxbest">Your best: '+S.best+' / '+(S.n||9)+'</span>':'')+'</div>');
  h+=sxSec(6,"Write it down","Write your own sentences, or switch to Speak and say them. Then check your work.",fbWidget("w",{task:c.pr,k:k,topic:c.t,level:c.lv,rule:c.rm,store:SXD+k})+'<p class="fbh">Checklist</p><div class="sxck">'+c.ck.map(function(x,i){return'<label><input type="checkbox" onchange="sxCk()"> '+sxH(x)+'</label>'}).join("")+'</div><p class="sxwin" id="sxwin" hidden>\uD83C\uDF89 Great! You checked your own writing.</p><button class="btn ghost" onclick="sxModel('+k+')">Show a model answer</button><p class="sxmod" id="sxmod" hidden></p>');
  var v=c.vd;
- h+=sxSec(7,"Watch and learn more","One extra video from an outside teacher, if you want a different explanation.",'<a class="sxv" href="https://www.youtube.com/watch?v='+v[0]+'" target="_blank" rel="noopener noreferrer"><span class="pl">\u25B6</span><span><b>'+sxH(v[1])+'</b><small>'+sxH(v[2])+' \u00B7 opens YouTube in a new tab</small></span></a>'+(v[3]?'<p class="sxvn">'+sxH(v[3])+'</p>':'')+'<p class="sxvn">Tip: pause at the examples and say them aloud. Teachers\u2019 accents and speed vary, so choose subtitles if you like.</p>');
+ h+=sxSec(7,"Watch and learn more","One extra video from an outside teacher, if you want a different explanation.",'<a class="sxv" href="https://www.youtube.com/watch?v='+v[0]+'" target="_blank" rel="noopener noreferrer" data-ytt="'+sxH(v[1])+'" data-ytc="'+sxH(v[2])+'"><span class="pl">\u25B6</span><span><b>'+sxH(v[1])+'</b><small>'+sxH(v[2])+' \u00B7 plays right here, no need to leave the page</small></span></a>'+(v[3]?'<p class="sxvn">'+sxH(v[3])+'</p>':'')+'<p class="sxvn">Tip: pause at the examples and say them aloud. Teachers\u2019 accents and speed vary, so choose subtitles if you like.</p>');
  var rv=S.box?'You are in review box '+S.box+' of 5. Next review: <b>'+sxDate(S.due)+'</b>.':'When you finish the practice, this lesson joins your review list. You will see it again after 1, 3, 7, 14 and 30 days, because remembering something at spaced times makes it last.';
  h+=sxSec(8,"Remember","",'<p class="sxrem">'+rv+'</p><a class="btn ghost" href="#/worksheets/grammar/'+SXA+'">Go to my review list</a>');
  h+='<div class="sxnav">'+(k>0?'<a class="btn ghost" href="#/worksheets/grammar/'+SXA+'/'+(k-1)+'">\u2190 '+sxH(SX[k-1].t)+'</a>':'<span></span>')+(k<SX.length-1?'<a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(k+1)+'">'+sxH(SX[k+1].t)+' \u2192</a>':'<a class="btn" href="#/worksheets/grammar">Back to the map</a>')+'</div>';
@@ -677,6 +677,7 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/skilldata.js*/
 /*@include plus/skills.js*/
 /*@include plus/audio.js*/
+/*@include plus/video.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
 
