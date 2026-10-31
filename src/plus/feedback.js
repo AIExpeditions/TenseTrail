@@ -2,9 +2,13 @@
  Layer 1, for everyone, on this device: word and sentence counts, common learner-error patterns,
  and whether the lesson's target grammar appears. Speech uses the browser's speech recognition
  where it exists (Chrome, Edge, Safari). It shows what the computer understood, not accent quality.
- Layer 2, for signed-in claude.ai viewers who allow it: Claude marks the text against CEFR-based
- analytic criteria. Every correction must quote the learner's exact words; the page drops any
- that do not, so feedback is tied to what was actually written or said. */
+ Layer 2, teacher feedback: an AI marks the text against CEFR-based analytic criteria (src/plus/rubric.js).
+ On the live site this is Google Gemini, reached through our small proxy (worker/), which keeps the key
+ secret. If FBGEM is empty, the page falls back to Claude for signed-in claude.ai viewers who allow it.
+ Every correction must quote the learner's exact words; the page drops any that do not, so feedback is
+ tied to what was actually written or said. */
+/* Address of the deployed feedback Worker (see worker/README.md). Leave "" to turn Gemini off. */
+var FBGEM="";
 var FBX=[
 [/(^|[.!?]\s+)(he|she|it)\s+(go|like|want|need|live|work|play|study|watch|come)\b/gi,"After he, she or it, the present simple verb adds -s: she likes, he works."],
 [/\b(he|she|it)\s+don'?t\b/gi,"Use doesn't with he, she and it: she doesn't know."],
@@ -45,13 +49,16 @@ function fbLocal(t,ctx){var words=(t.match(/[A-Za-z\u00C0-\u024F']+/g)||[]),sn=t
  if(tg.length)out.push([used.length?"\u2705":"\uD83D\uDCA1",used.length?"You used today\u2019s grammar words: <b>"+used.map(sxH).join(", ")+"</b>. Check they follow the rule.":"Try to use today\u2019s grammar. Words that often go with it: <b>"+tg.slice(0,5).map(sxH).join(", ")+"</b>."]);
  return{out:out,iss:iss.slice(0,10)}}
 var FBST={},FBSR=window.SpeechRecognition||window.webkitSpeechRecognition,FBSAMP=null,FBSN=0;
-function fbUse(){if(FBSAMP!==null)return Promise.resolve(FBSAMP);if(!window.claude||!claude.use)return Promise.resolve(FBSAMP=false);return claude.use("sample").then(function(s){FBSAMP=s||false;return FBSAMP},function(){return FBSAMP=false})}
+function fbGem(){return{gem:1,json:function(c,o){return fetch(FBGEM,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(c),signal:o.signal}).then(function(r){return r.json().catch(function(){return{error:"upstream"}}).then(function(j){if(!r.ok||j.error){var e=new Error(j.error);e.code=r.status==429?"rate_limited":j.error;throw e}return j})},function(e){var x=new Error("net");x.code=e&&e.name=="AbortError"?"cancelled":"network";throw x})}}}
+/* provider: Gemini when the Worker address is set, otherwise Claude on claude.ai, otherwise none */
+function fbUse(){if(FBSAMP!==null)return Promise.resolve(FBSAMP);if(FBGEM)return Promise.resolve(FBSAMP=fbGem());if(!window.claude||!claude.use)return Promise.resolve(FBSAMP=false);return claude.use("sample").then(function(s){FBSAMP=s||false;return FBSAMP},function(){return FBSAMP=false})}
+function fbWho(){return FBSAMP&&FBSAMP.gem?"Gemini":"Claude"}
 function fbWidget(id,ctx){FBST[id]={ctx:ctx,sp:false};var dr="";ctx.store=ctx.store||"tt_fb_"+id;try{dr=localStorage.getItem(ctx.store)||""}catch(e){}
  return'<div class="fbw" id="fbw-'+id+'"><div class="fbmode" role="group" aria-label="Writing or speaking"><button class="on" onclick="fbMode(\''+id+'\',0)">\u270D\uFE0F Write</button><button onclick="fbMode(\''+id+'\',1)">\uD83C\uDFA4 Speak</button></div>'
  +'<p class="fbtask">'+sxH(ctx.task)+'</p><div class="fbsp" id="fbsp-'+id+'" hidden><button class="btn ghost" id="fbmic-'+id+'" onclick="fbMic(\''+id+'\')">\uD83C\uDFA4 Start speaking</button><span class="sxsub" id="fbms-'+id+'">'+(FBSR?'Speak clearly. Your words appear below. You can fix any the computer misheard.':'Speech recognition is not available in this browser. Say your answer aloud, then type what you said.')+'</span></div>'
- +'<textarea class="sxta" id="fbt-'+id+'" rows="5" placeholder="Write here\u2026" aria-label="Your answer" oninput="fbIn(\''+id+'\')">'+sxH(dr)+'</textarea><div class="fbbar"><span class="sxsub" id="fbwc-'+id+'"></span><span class="fbbtns"><button class="btn ghost" onclick="fbCheck(\''+id+'\')">Quick check</button><button class="btn" id="fbai-'+id+'" onclick="fbAI(\''+id+'\')" hidden>\u2728 Teacher feedback from Claude</button></span></div>'
+ +'<textarea class="sxta" id="fbt-'+id+'" rows="5" placeholder="Write here\u2026" aria-label="Your answer" oninput="fbIn(\''+id+'\')">'+sxH(dr)+'</textarea><div class="fbbar"><span class="sxsub" id="fbwc-'+id+'"></span><span class="fbbtns"><button class="btn ghost" onclick="fbCheck(\''+id+'\')">Quick check</button><button class="btn" id="fbai-'+id+'" onclick="fbAI(\''+id+'\')" hidden>\u2728 Teacher feedback</button></span></div>'
  +'<div id="fbo-'+id+'" aria-live="polite"></div><div id="fba-'+id+'" aria-live="polite"></div><p class="sxsub fbnote" id="fbn-'+id+'">Quick check runs on this device and catches common mistakes only.</p></div>'}
-function fbInit(id){fbIn(id,1);fbUse().then(function(s){var b=$("#fbai-"+id),n=$("#fbn-"+id);if(s&&b){b.hidden=false;if(n)n.innerHTML="Quick check runs on this device and catches common mistakes only. <b>Teacher feedback</b> asks Claude to mark your answer against CEFR criteria, using your own Claude account. Every correction must quote your exact words."}})}
+function fbInit(id){fbIn(id,1);fbUse().then(function(s){var b=$("#fbai-"+id),n=$("#fbn-"+id);if(s&&b){b.hidden=false;if(n)n.innerHTML="Quick check runs on this device and catches common mistakes only. <b>Teacher feedback</b> "+(s.gem?"sends your answer to Google\u2019s Gemini AI, which marks it against CEFR criteria. Please don\u2019t include your name, address or other private details.":"asks Claude to mark your answer against CEFR criteria, using your own Claude account.")+" Every correction must quote your exact words."}})}
 function fbIn(id,init){var t=$("#fbt-"+id);if(!t)return;var n=(t.value.match(/[A-Za-z\u00C0-\u024F']+/g)||[]).length,w=$("#fbwc-"+id);if(w)w.textContent=n+" word"+(n==1?"":"s");if(!init)try{localStorage.setItem(FBST[id].ctx.store,t.value)}catch(e){}}
 function fbMode(id,m){var S=FBST[id];S.sp=!!m;$$("#fbw-"+id+" .fbmode button").forEach(function(b,i){b.classList.toggle("on",i==m)});$("#fbsp-"+id).hidden=!m;$("#fbt-"+id).placeholder=m?"Your spoken words appear here\u2026":"Write here\u2026";if(!m)fbStop(id)}
 function fbStop(id){var S=FBST[id];if(S&&S.rec){try{S.rec.stop()}catch(e){}}}
@@ -65,32 +72,13 @@ function fbCheck(id){var S=FBST[id],t=$("#fbt-"+id).value;if(!t.trim()){$("#fbo-
  var r=fbLocal(t,{k:S.ctx.k,min:S.ctx.min||(S.ctx.mode=="placement"?60:0),speech:S.sp});
  $("#fbo-"+id).innerHTML='<div class="fbq"><b>Quick check</b><ul>'+r.out.map(function(o){return'<li><span>'+o[0]+'</span><span>'+o[1]+'</span></li>'}).join("")+'</ul>'+(r.iss.length?'<p class="fbh">Things to look at</p><ul class="fbis">'+r.iss.map(function(o){return'<li><b>'+sxH(o[0])+'</b> '+sxH(o[1])+'</li>'}).join("")+'</ul>':'<p class="fbh">No common mistakes found. That doesn\u2019t mean there are none.</p>')+'</div>'}
 function fbNorm(t){return String(t).toLowerCase().replace(/[\u2018\u2019]/g,"'").replace(/[\u201C\u201D]/g,'"').replace(/\s+/g," ").trim()}
-function fbPrompt(S,t){var c=S.ctx,sp=S.sp;
- return["You are an experienced English teacher (CELTA and DELTA qualified) and a trained Cambridge speaking and writing examiner in Adelaide, Australia. Mark a learner's "+(sp?"SPOKEN answer. It is an automatic speech-recognition transcript, so ignore punctuation, capital letters and obvious recognition errors, and do not comment on pronunciation, which you cannot hear":"WRITTEN answer")+".",
- "Context: "+(c.topic?"lesson topic \""+c.topic+"\"":"general task")+(c.level?", learner working at about "+c.level:"")+".",c.rule?"Grammar point of the lesson: "+c.rule:"","Task given to the learner: "+c.task,
- "Mark against these CEFR-based analytic criteria, giving each a CEFR level (A1, A2, B1, B2, C1 or C2):",
- "1. Task: Does it answer the task fully, with relevant ideas and enough detail?",
- "2. Grammatical accuracy: How many errors, and do they block meaning? A2 = frequent basic errors; B1 = good control of familiar structures, errors with complex ones; B2 = few errors that do not cause misunderstanding; C1 = consistently high accuracy.",
- "3. Grammatical range: Simple sentences only (A1-A2), some linking and subordination (B1), a range of complex structures (B2), flexible and natural use (C1+).",
- "4. Vocabulary: Basic everyday words (A2), enough to talk about familiar topics (B1), good range with some precise and less common words (B2), wide range with idiomatic and collocational control (C1+).",
- "5. "+(sp?"Coherence and fluency (from the transcript only: linking, organisation, fillers and restarts if visible)":"Organisation: Linking words, paragraphing, logical order")+".",
- "Strict rules:",
- "- Base every judgement only on the learner's text. Do not invent errors.",
- "- Each correction must copy the learner's words EXACTLY in \"quote\" (a short continuous phrase from their text, same spelling) and give the corrected phrase in \"fix\".",
- "- Australian English is correct: do not change Australian spelling or vocabulary (colour, organise, arvo, footy).",
- "- If the text has fewer than 25 words, set \"overall\" to null and explain that the sample is too short to estimate a level.",
- "- Be warm and encouraging, but honest. Write for a learner at this level: short, clear sentences.",
- "- Give at most 8 corrections, the most important first. Give exactly 2 strengths and 2 specific next steps.",
- "- \"rewrite\" is a natural improved version that keeps the learner's ideas, written about one level higher.",
- c.rule?"- In \"target\", say whether the learner used the lesson's grammar point and whether it was correct, quoting it.":"- Set \"target\" to null.",
- "Reply with JSON only, in exactly this shape:",
- '{"overall":"B1","confidence":"low|medium|high","summary":"one or two sentences","criteria":[{"name":"Task","level":"B1","note":"one sentence with evidence"},{"name":"Grammatical accuracy","level":"","note":""},{"name":"Grammatical range","level":"","note":""},{"name":"Vocabulary","level":"","note":""},{"name":"'+(sp?"Coherence and fluency":"Organisation")+'","level":"","note":""}],"target":{"used":true,"correct":true,"note":"","quotes":[""]},"corrections":[{"quote":"","fix":"","why":"","type":"grammar|vocabulary|spelling|punctuation|word order|style"}],"strengths":["",""],"next":["",""],"rewrite":""}',
- "Learner's "+(sp?"transcript":"text")+" (between the lines):","-----",t,"-----"].filter(Boolean).join("\n")}
+/*@include plus/rubric.js*/
+function fbPrompt(S,t){return fbRubric(S.ctx,S.sp,t)}
 function fbAI(id){var S=FBST[id],t=$("#fbt-"+id).value.trim(),out=$("#fba-"+id),b=$("#fbai-"+id);if(!t){out.innerHTML='<div class="sxfb hint"><b>Write or say something first.</b></div>';return}
  fbUse().then(function(sample){if(!sample){b.hidden=true;out.innerHTML='<p class="sxsub">Teacher feedback needs this page to be open on claude.ai while you are signed in.</p>';return}
   if(S.busy){if(S.ctl)S.ctl.abort();return}S.busy=1;S.ctl=new AbortController();b.textContent="\u25A0 Stop";var tk=++FBSN;
-  out.innerHTML='<div class="fbai"><p class="fbth"><span class="fbdot"></span> Claude is reading your answer and marking it against the criteria. This can take up to a minute.</p></div>';
-  sample.json(fbPrompt(S,t),{signal:S.ctl.signal,modelTier:"default"}).then(function(r){if(tk==FBSN)fbShow(id,r,t)},function(e){var m={not_granted:"You chose not to allow Claude for this page. Quick check still works.",rate_limited:"Too many requests just now. Please wait a minute and try again.",cancelled:"Stopped.",invalid_json:"The feedback came back in the wrong format. Please try again.",sampling_disabled:"Asking Claude is turned off for this account.",session_expired:"Your session has expired. Reload the page and sign in again."}[e&&e.code]||"Feedback is not available right now. Please try again later.";out.innerHTML='<p class="sxsub">'+m+'</p>';if(e&&e.code=="not_granted")b.hidden=true}).then(function(){S.busy=0;b.textContent="\u2728 Teacher feedback from Claude"})})}
+  out.innerHTML='<div class="fbai"><p class="fbth"><span class="fbdot"></span> '+fbWho()+' is reading your answer and marking it against the criteria. This can take up to a minute.</p></div>';
+  sample.json(sample.gem?{text:t,speech:S.sp,task:S.ctx.task||"",topic:S.ctx.topic||"",level:S.ctx.level||"",rule:S.ctx.rule||""}:fbPrompt(S,t),{signal:S.ctl.signal,modelTier:"default"}).then(function(r){if(tk==FBSN)fbShow(id,r,t)},function(e){var m={not_granted:"You chose not to allow Claude for this page. Quick check still works.",rate_limited:"Lots of people are asking for feedback right now. Please try again in a few minutes. Quick check still works.",cancelled:"Stopped.",invalid_json:"The feedback came back in the wrong format. Please try again.",sampling_disabled:"Asking Claude is turned off for this account.",session_expired:"Your session has expired. Reload the page and sign in again.",too_long:"Your answer is too long for teacher feedback. Try a shorter piece (under about 600 words).",network:"Could not reach the feedback service. Check your internet connection and try again."}[e&&e.code]||"Feedback is not available right now. Please try again later.";out.innerHTML='<p class="sxsub">'+m+'</p>';if(e&&e.code=="not_granted")b.hidden=true}).then(function(){S.busy=0;b.textContent="\u2728 Teacher feedback"})})}
 function fbShow(id,r,t){var LV6=["A1","A2","B1","B2","C1","C2"],ok=function(l){return LV6.indexOf(l)>=0},nt=fbNorm(t),drop=0;r=r||{};
  var cor=(r.corrections||[]).filter(function(c){var q=c&&c.quote&&fbNorm(c.quote);if(q&&nt.indexOf(q)>=0&&c.fix&&fbNorm(c.fix)!=q)return true;drop++;return false}).slice(0,8);
  var h='<div class="fbai"><div class="fbtop"><span class="lvl" style="--lc:'+(LC[r.overall]||"#e5e7eb")+'">'+(ok(r.overall)?r.overall:"?")+'</span><div><p class="lvkick">'+(ok(r.overall)?"Estimated level of this answer":"Not enough to estimate a level")+(r.confidence?' \u00B7 '+sxH(r.confidence)+' confidence':'')+'</p><p>'+sxH(r.summary||"")+'</p></div></div>';
@@ -102,7 +90,7 @@ function fbShow(id,r,t){var LV6=["A1","A2","B1","B2","C1","C2"],ok=function(l){r
  if(r.strengths&&r.strengths.length)h+='<p class="fbh">What you did well</p><ul class="fbl">'+r.strengths.slice(0,2).map(function(x){return'<li>'+sxH(x)+'</li>'}).join("")+'</ul>';
  if(r.next&&r.next.length)h+='<p class="fbh">Next steps</p><ul class="fbl">'+r.next.slice(0,2).map(function(x){return'<li>'+sxH(x)+'</li>'}).join("")+'</ul>';
  if(r.rewrite)h+='<details class="sxd"><summary>See an improved version</summary><p class="fbrw">'+sxH(r.rewrite)+'</p><button class="sxs" onclick="sxSay(this.previousElementSibling.textContent,\'f\',this)" aria-label="Listen to the improved version">\uD83D\uDD0A</button></details>';
- h+='<p class="sxsub fbnote">Marked by Claude with a CEFR-based rubric. It is a teacher-style estimate from one short sample, not an official exam score.'+(FBST[id].sp?' Pronunciation is not judged, because Claude only sees the transcript.':'')+'</p></div>';
+ h+='<p class="sxsub fbnote">Marked by '+fbWho()+' with a CEFR-based rubric. It is a teacher-style estimate from one short sample, not an official exam score.'+(FBST[id].sp?' Pronunciation is not judged, because the AI only sees the transcript.':'')+'</p></div>';
  $("#fba-"+id).innerHTML=h}
 /* read-aloud check: what the speech recogniser understood, word by word */
 function fbRead(target,btn){if(!FBSR){vNote("Speech recognition is not available in this browser. Try Chrome, Edge or Safari.");return}cvKill();

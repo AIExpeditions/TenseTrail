@@ -11,7 +11,9 @@ An English grammar website for adult learners (A1 to C1), set in everyday Adelai
 | `src/app.js` | Routing, pages, Tense Studio, the lesson engine and audio |
 | `src/voices.js` | Accent choice and studio voices (Kokoro in a web worker) |
 | `src/lessons/*.js` | Lesson content for each open grammar area (one file per area) |
-| `tools/build.py` | Joins everything into one self-contained file |
+| `src/plus/rubric.js` | The CEFR rubric used for AI teacher feedback |
+| `worker/` | Small Cloudflare Worker that keeps the Gemini key secret ([setup](worker/README.md)) |
+| `tools/build.py` | Joins everything into one self-contained file, and builds the Worker |
 | `docs/index.html` | The built site. GitHub Pages serves this folder |
 | `notes/` | Project brief and research on the lesson format |
 
@@ -34,4 +36,5 @@ This writes `docs/index.html`. Commit the built file with your source changes so
 
 - Audio has an accent choice (Australian, British, American) in the 🔊 menu. British and American can use studio voices: [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) (Apache 2.0) running in the browser through [kokoro-js](https://www.npmjs.com/package/kokoro-js), about 90 MB downloaded once. Australian uses the best Australian voice on the device, because no free open model speaks Australian English yet.
 - Progress is saved in each learner's browser only.
+- Teacher feedback on writing and speaking uses Google Gemini's free tier through the Worker in `worker/`. It stays hidden until the Worker is deployed and its address is set in `src/plus/feedback.js`. See [worker/README.md](worker/README.md) for limits and privacy.
 - Lessons, answer keys and video picks were written and checked by Claude. A teacher should review them.
