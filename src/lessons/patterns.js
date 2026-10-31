@@ -30,7 +30,7 @@ var VX=[
  pr:"Write about three places you went this week and why you went there.",
  md:"On Monday I went to the gym to do a yoga class. On Wednesday I went to the Central Market to buy fruit. On Friday I went to the cinema to see a new film.",
  ck:["I used to + verb to give reasons.","I didn't use for before a verb.","I tried in order to or so as not to."],
- vd:["197ylt8XhpI","Grammar: How to use infinitive verbs to give reasons","BBC Learning English",""]},
+ vd:["DPmjYD6Qi5I","Learn English Grammar: Infinitives of Purpose","English with Alex · engVid",""]},
 
 {t:"Verbs followed by -ing or infinitive: change of meaning",lv:"B1",e:"🔀",
  nt:["I [[stopped to buy]] a coffee.","I [[stopped buying]] coffee. It's too expensive.","[[Remember to lock]] the door!","I [[remember locking]] the door. I'm sure."],
@@ -62,7 +62,7 @@ var VX=[
  pr:"Write about a problem you had recently. What did you worry about? Who did you talk to? What did it depend on?",
  md:"Last month I worried about my visa. I talked to an agent and applied for an extension. Everything depended on my employer's letter, but in the end I succeeded in getting it.",
  ck:["Each verb has its correct preposition.","After prepositions I used a noun or -ing.","I didn't add a preposition after discuss, enter or call."],
- vd:["tPKTpR1VS4I","English Grammar Rules: Verbs + Dependent Prepositions","SmartClass by Robotel",""]},
+ vd:["s_VjtqfAdX0","PREPOSITIONS IN ENGLISH: Learn 20 Verbs with Prepositions","English with Alex · engVid",""]},
 
 {t:"Phrasal verbs",lv:"B1",e:"🧗",
  nt:["Can you [[pick me up]] at eight?","I [[get up]] at six every day.","She [[gave up]] smoking.","We [[ran out of]] milk."],

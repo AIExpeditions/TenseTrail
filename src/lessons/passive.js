@@ -62,7 +62,7 @@ var PX=[
  pr:"Think about the last week. Report what three people said to you, using different reporting verbs: advise, promise, offer, suggest or remind.",
  md:"My manager reminded me to send the report. My friend offered to drive me to the airport. My sister suggested going to the Central Market on Saturday.",
  ck:["I used at least three different reporting verbs.","After tell, ask and advise I used a person + to.","After suggest I used -ing or that + subject + verb."],
- vd:["Zp1mUbva2yI","Live English Class: Common reporting verbs","BBC Learning English",""]},
+ vd:["Pu_3OgQxe2s","6 Minute Vocabulary: How to use English reporting verbs like 'insist', 'demand' and 'advise'","BBC Learning English",""]},
 
 {t:"Advanced passives review",lv:"C1",e:"🔁",
  nt:["The report [[must be finished]] by Friday.","I hate [[being interrupted]] when I'm working.","She expects [[to be promoted]] this year.","We [[had our roof repaired]] after the storm."],
@@ -78,7 +78,7 @@ var PX=[
  pr:"Write about a job at home or work that was done badly or late. Use a modal passive, a causative (have or get something done) and a passive -ing form.",
  md:"Last month we had our hot water system replaced. It should have been installed in a day, but it took a week. I hate being left without hot water in winter!",
  ck:["I used a modal passive like should have been done.","I used have or get + object + past participle.","I used being + past participle after a verb or preposition."],
- vd:["5ROLwV66ypY","THE PASSIVE VOICE (Use, Form & Complex Structures that will make your discourse more advanced)","My English Guides",""]},
+ vd:["gSCHPqp_igs","Where to Use PASSIVE VOICE - Advanced English Grammar","Learn English Lab",""]},
 
 {t:"Patterns with reporting verbs",lv:"C1",e:"📰",
  nt:["[[It is said that]] the house is haunted.","The singer [[is believed to be]] living in Byron Bay.","The thieves [[are thought to have escaped]] by car.","She [[accused him of lying]]."],

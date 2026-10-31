@@ -14,7 +14,7 @@ var WX=[
  pr:"Write a short message to a friend. Use a question, a list and one exclamation mark.",
  md:"Hi Sam! Are you free on Saturday? We're having a barbie at the beach. Can you bring sausages, bread and drinks? See you there.",
  ck:["I ended statements with a full stop.","I ended questions with a question mark.","I used commas in a list."],
- vd:["7ZiwmFHb2uM","Punctuation : Full stops, question marks and exclamation marks","Teacher's Notes",""]},
+ vd:["gfYq2ng9s4E","English Punctuation Guide - English Writing Lesson","Oxford Online English",""]},
 
 {t:"Capital letters and apostrophes",lv:"B1",e:"🔠",
  nt:["[[I]] moved to [[A]]delaide in [[M]]arch.","[[S]]he speaks [[V]]ietnamese and [[E]]nglish.","[[Kylie's]] car is in the garage.","[[It's]] cold, and the dog wants [[its]] blanket."],

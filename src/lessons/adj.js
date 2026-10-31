@@ -14,7 +14,7 @@ var AX=[
  pr:"Write about your week. Use always, usually, sometimes and never.",
  md:"I always get up at seven. I usually take the bus to work. I sometimes have lunch in the park. I'm never home before six. On Sundays I often visit my family.",
  ck:["I put the adverb before the main verb.","I put the adverb after be.","I used at least four different adverbs."],
- vd:["IKrb4JVmGp8","Adverbs of Frequency in English | Always, Usually, Often, Sometimes, Rarely, Never","GoKelisi",""]},
+ vd:["vAHD0rqlj8I","Adverbs of Frequency in English - Meaning, Word Order and Examples","Woodward English",""]},
 
 {t:"Comparative adjectives",lv:"A2",e:"⚖️",
  nt:["Sydney is [[bigger than]] Adelaide.","My car is [[older than]] yours.","This dress is [[more expensive than]] that one.","Today is [[better than]] yesterday."],
@@ -62,7 +62,7 @@ var AX=[
  pr:"Write about yourself. What are you good at, interested in and afraid of?",
  md:"I'm good at cooking and I'm interested in photography. I'm bad at singing! I'm afraid of snakes. I'm excited about my holiday next month.",
  ck:["I used the right preposition after each adjective.","I used a noun or -ing after the preposition.","I used at least four pairs."],
- vd:["X5n2-fA0RI0","Adjectives with prepositions - English grammar lesson","Crown Academy of English",""]},
+ vd:["gN5HOpQDkOA","Adjectives and Prepositions | Learn British English with Lucy","English with Lucy",""]},
 
 {t:"Adjectives ending in -ed and -ing",lv:"A2",e:"😮",
  nt:["The film was [[boring]].","I was [[bored]].","The news is [[surprising]].","We were [[surprised]]."],
@@ -78,7 +78,7 @@ var AX=[
  pr:"Write about a trip or event. How did you feel? What was it like?",
  md:"Last month I went to the Fringe Festival. The shows were amazing and the music was exciting. I was a bit tired at the end. The queue for food was annoying, but I wasn't bored at all.",
  ck:["I used -ed for feelings.","I used -ing for things that cause feelings.","I used at least three pairs."],
- vd:["WGD1kIjUZWk","- ed & - ing Adjectives - interesting, interested, etc - ENGLISH GRAMMAR (B1 level)","English with Vicky",""]},
+ vd:["eFlQAEd_AKA","I am BORED or I am BORING? | Use -ED vs -ING Adjectives Correctly!","English with Lucy",""]},
 
 {t:"Modifying comparatives",lv:"B1",e:"📏",
  nt:["The train is [[much faster]] than the bus.","My flat is [[a bit bigger]] than yours.","Petrol is [[far more expensive]] now.","She's [[slightly older]] than me."],
@@ -110,7 +110,7 @@ var AX=[
  pr:"Describe a very hot or very cold day you remember. Use normal and extreme adjectives.",
  md:"Last January it was absolutely boiling in Adelaide. It was forty-five degrees! I was very hot and really tired. The beach was absolutely packed. The water was quite cold, which was lovely.",
  ck:["I used very with normal adjectives.","I used absolutely with extreme adjectives.","I didn't mix them up."],
- vd:["aR2NdeLNpU0","GRADABLE and NON-GRADABLE ADJECTIVES | HOW TO ENGLISH","how to English",""]},
+ vd:["_eGg9kc4u7g","Extreme Adjectives in English: English Grammar Lesson","Espresso English",""]},
 
 {t:"Intensifiers: so and such",lv:"B1",e:"✨",
  nt:["The coffee was [[so]] good.","It was [[such]] good coffee.","She's [[so]] kind.","She's [[such a]] kind person."],
@@ -142,7 +142,7 @@ var AX=[
  pr:"Write about your job or a family member's job. Use as and like.",
  md:"My aunt works as a nurse at the Royal Adelaide Hospital. She looks like my mum, but she talks like a comedian. As you can guess, her patients love her. She treats them like family.",
  ck:["I used as for jobs and roles.","I used like for similar to.","I used look like or sound like."],
- vd:["69IZZDivcZY","Comparing with As and Like - Learn English Grammar","Oxford English Now",""]}
+ vd:["6nDEvB5eWDU","English Grammar: Comparing with LIKE & AS","Adam's English Lessons · engVid",""]}
 ];
 
 /* ---- Adjectives and adverbs: mini lessons ---- */

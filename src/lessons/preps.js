@@ -14,7 +14,7 @@ var RX=[
  pr:"Write about your day. Use and, but, because and so.",
  md:"I got up early because I had work. It was cold, so I wore a coat. I worked hard and had lunch with a friend. I was tired but happy at the end of the day.",
  ck:["I used because for a reason.","I used so for a result.","I used but for a difference."],
- vd:["p-jEUqB8qjQ","Learn English Linking Words: and, but, or, because, so | 70 Daily Sentences for Beginners","Easy English with Fi",""]},
+ vd:["rC1eKv7omas","And, But, So, Or, Because (conjunctions)","Mark Kulek ESL",""]},
 
 {t:"Prepositions of place: in, on, at",lv:"A2",e:"📍",
  nt:["The milk is [[in]] the fridge.","Your keys are [[on]] the table.","I'll meet you [[at]] the bus stop.","She lives [[in]] Adelaide."],
@@ -62,7 +62,7 @@ var RX=[
  pr:"Write about something you did even though it was difficult.",
  md:"Although I was nervous, I gave a speech at my friend's wedding. Despite the noise, everyone listened. I forgot one line in spite of practising all week, but everyone laughed. Even though it was scary, I'm glad I did it.",
  ck:["I used although with a subject and verb.","I used despite or in spite of with a noun or -ing.","I used a comma when the linker started the sentence."],
- vd:["wI6kh21WnJ8","Despite, in spite of, although, though, even though - Learn English Grammar","Oxford English Now",""]},
+ vd:["no_LhGoOvVs","English Grammar: Contrast Words, Although & Despite","Daniel Byrnes",""]},
 
 {t:"Contrasting ideas (advanced)",lv:"C1",e:"⚡",
  nt:["Sydney is huge, [[whereas]] Adelaide feels like a country town.","The plan was risky. [[Nevertheless]], it worked.","[[Much as]] I love the beach, I can't stand the crowds.","It was a success, [[albeit]] a small one."],
@@ -94,7 +94,7 @@ var RX=[
  pr:"Rewrite a short paragraph that repeats the same words. Use one, so, not, an auxiliary and ellipsis.",
  md:"Many people moved to Adelaide during the pandemic. Some came for work; others didn't need to, as they worked remotely. Will the trend continue? Experts think so. If it does, the city will need more housing, and affordable ones in particular.",
  ck:["I replaced a noun with one or ones.","I used so or not after think, hope or expect.","I used an auxiliary or left out words to avoid repetition."],
- vd:["Q2nEU8YaJso","Cambridge C1 Grammar Ellipsis & Substitution - Essential English Grammar for CAE Advanced Exam","i-Speak English",""]}
+ vd:["kbd_CajdXaw","How to use SO & NEITHER in English: \"So do I\", \"Neither am I\"...","English with Emma · engVid",""]}
 ];
 
 /* ---- Prepositions and linking words: mini lessons ---- */

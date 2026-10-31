@@ -46,7 +46,7 @@ var NX=[
  pr:"Imagine you are showing a friend around your home or street. Write five sentences with this, that, these and those.",
  md:"This is my kitchen. These plants are from my mum. That window looks onto the garden. Those trees are lemon trees. That's my neighbour's cat!",
  ck:["I used this and these for near things.","I used that and those for far things.","Each word matches one or many."],
- vd:["No44YiCZwdY","'This', 'That', 'These' and 'Those' - English Grammar Lesson (Elementary)","Maltalingua English Language School",""]},
+ vd:["RDVsQWJLlpM","This, that, these, those - Demonstratives","Crown Academy of English",""]},
 
 {t:"Articles: a, an, the",lv:"A1",e:"🅰️",
  nt:["I've got [[a]] dog and [[a]] cat.","[[The]] dog is called Max.","She's [[an]] engineer.","Can you close [[the]] door, please?"],
@@ -78,7 +78,7 @@ var NX=[
  pr:"Write about your likes and dislikes in general, and then about specific things in your home or city.",
  md:"I love coffee and books. The coffee at my local café is excellent. I don't like crowds, but the crowds at the Fringe are fun.",
  ck:["I used no article for things in general.","I used the for specific things.","I wrote go to work, at home and by bus with no article."],
- vd:["cLuY1eK9LkY","Elementary English #20: \"The\" Article & Zero Article | Easy English at Home","Easy English at Home",""]},
+ vd:["azrYbrC-xXg","English Grammar: When NOT to use an article – 9 rules","Adam's English Lessons · engVid",""]},
 
 {t:"Countable and uncountable nouns",lv:"A2",e:"🧂",
  nt:["I'd like [[an apple]] and [[some water]].","How [[many eggs]] do we need?","How [[much milk]] is there?","There [[isn't any bread]]."],
@@ -110,7 +110,7 @@ var NX=[
  pr:"Write about your week. What did you have a few of? What did you have a little of? What did you have very little of?",
  md:"This week I met a few new people at work. I had a little free time on Saturday. I had very little sleep on Thursday because of the storm.",
  ck:["I used a few and few with countable nouns.","I used a little, little and a bit of with uncountable nouns.","I showed the positive and negative meanings."],
- vd:["oY9dTdwT-0o","English Class: How to use ‘few’, ‘a few’, ‘little’ and ‘a little’","BBC Learning English",""]},
+ vd:["gCklrNN80vI","Talking About Quantity in English - A FEW, A LITTLE, FEW, LITTLE","English with Alex · engVid",""]},
 
 {t:"Possessive 's",lv:"A2",e:"🏷️",
  nt:["This is [[Mei's]] bike.","My [[parents']] house is in Unley.","The [[children's]] toys are everywhere.","[[Tom and Bec's]] wedding was lovely."],
@@ -126,7 +126,7 @@ var NX=[
  pr:"Write about four things in your home that belong to different people in your family.",
  md:"My husband's guitar is in the living room. My kids' bikes are in the garage. My mother's photos are on the wall. The dog's ball is under the sofa.",
  ck:["I used 's for one owner.","I used s' for plural owners ending in s.","I used 's for children, men, women and people."],
- vd:["dUSIVjzibIE","English possessive with 's, possession in English, using apostrophe s - how to use apostrophes","Antonia Romaker - English and Russian online",""]},
+ vd:["1LmIxiETWgM","Apostrophe S - Possessive Nouns in English","Woodward English",""]},
 
 {t:"Reflexive pronouns",lv:"B1",e:"🪞",
  nt:["I cut [[myself]] while I was cooking.","Did you enjoy [[yourselves]] at the party?","She taught [[herself]] to play the guitar.","We built the deck [[ourselves]]."],
@@ -158,7 +158,7 @@ var NX=[
  pr:"Write about your home or your week. What do you have enough of? What isn't big, quick or warm enough?",
  md:"I don't get enough exercise during the week. My flat isn't big enough for a dining table. But I have enough time on Sundays to walk along the beach.",
  ck:["I put enough after adjectives and adverbs.","I put enough before nouns.","I used to + verb or for + person after enough."],
- vd:["a3ogx7ufSH8","English Grammar Lesson - Using 'Enough' with Adjectives, Adverbs and Nouns. ( Learn English)","Learn English | Let's Talk - Free English Lessons",""]},
+ vd:["q4xfTdojGEM","How To Use TOO & ENOUGH | English Grammar Lesson","mmmEnglish",""]},
 
 {t:"Possession and noun modifiers",lv:"C1",e:"🏛️",
  nt:["the [[city's]] history","the end [[of the film]]","a [[coffee]] cup","a [[ten-minute]] walk"],
@@ -174,7 +174,7 @@ var NX=[
  pr:"Describe a project, event or place in your city. Use 's, of, a noun + noun, and a number modifier.",
  md:"The city's new tram line is a three-year project. The cost of the work is about two billion dollars. There will be a new tram stop outside the Central Market's main entrance.",
  ck:["I used 's for people, organisations and places.","I used of for things and long phrases.","My number modifiers are singular with a hyphen."],
- vd:["WG5sMDKdPrM","Possession with OF in English Grammar: When to Use \"Of\" VS Apostrophe S ('s)","Sparkle English",""]}
+ vd:["gOrEF0RPpv0","Don't Miss This! Introduction to Compound Nouns","English Rankers",""]}
 ];
 /* ---- Nouns, pronouns and articles: mini lessons ---- */
 var NXL=[
