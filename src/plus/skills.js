@@ -61,7 +61,7 @@ function skLesson(k,i){var T=SKT[i],X=T[k];SKS={k:k,i:i,ok:0,n:0};SKQ={};
  var h='<a class="back" href="#/worksheets/'+SKSL[k]+'">← '+SKN[k]+'</a><div class="sxdots">'+SKT.map(function(t,j){var d=skLoad().d[k+j];return'<a class="'+(j==i?"on":"")+(d?" dn":"")+'" href="#/worksheets/'+SKSL[k]+'/'+j+'" title="'+sxH(t[k].ti)+'" style="--lc:'+LC[t.lv]+'">'+(j+1)+'</a>'}).join("")+'</div>';
  h+='<div class="sxlv"><span class="lv" style="--lc:'+LC[T.lv]+'">'+T.lv+'</span> <span>'+T.e+' '+sxH(T.t)+' · about 20 minutes</span></div><p class="skgoal">🎯 '+sxH(T.can[k])+'</p>';
  h+='<div class="skth"><span>Same theme in other skills:</span>'+["r","l","s","w"].filter(function(x){return x!=k}).map(function(x){return'<a class="chip" href="#/worksheets/'+SKSL[x]+'/'+i+'">'+SKE[x]+' '+SKN[x]+'</a>'}).join("")+'</div>';
- h+='<nav class="sxbar" aria-label="Lesson steps"><span class="sxbn" id="sxbn">Step 1 of 8</span>'+SKSTEP[k].map(function(t,j){return'<button onclick="sxJump('+(j+1)+')" data-s="'+(j+1)+'"'+(j?'':' class="on"')+'><b>'+(j+1)+'</b><span>'+t+'</span></button>'}).join("")+'</nav>';
+ h+='<nav class="sxbar" aria-label="Lesson steps">'+SKSTEP[k].map(function(t,j){return'<button onclick="sxJump('+(j+1)+')" data-s="'+(j+1)+'"'+(j?'':' class="on"')+'><b>'+(j+1)+'</b><span>'+t+'</span></button>'}).join("")+'</nav>';
  SXPOR=function(n){return skPor(n,i)};try{h+={r:skR,l:skL,s:skS,w:skW}[k](T,i)}finally{SXPOR=null}
  return skHero(k,i,'<div class="sklesson">'+h+'</div>')}
 function skRem(k,i,extra){var T=SKT[i],d=skLoad().d[k+i],nx=i<SKT.length-1;
