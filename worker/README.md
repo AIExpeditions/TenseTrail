@@ -25,7 +25,7 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
 
 | Name | Type | What it does |
 |---|---|---|
-| `GEMINI_MODEL` | Text | Which model to use. Default `gemini-flash-latest`, Google's alias for its newest Flash model. |
+| `GEMINI_MODEL` | Text | Which models to try, in order, separated by commas. Default `gemini-flash-latest,gemini-3.5-flash,gemini-flash-lite-latest`. If one is unavailable or overloaded, the next is tried. |
 | `ALLOWED_ORIGINS` | Text | Comma-separated site addresses. Default `https://aiexpeditions.github.io`. Add a custom domain here if you get one. |
 | `RL` | Rate limiting binding | Caps requests per learner. In *Settings* > *Bindings* > *Add* > *Rate limiting*, name it `RL`, limit 5, period 60 seconds. |
 
@@ -34,6 +34,12 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
 - **Limits.** Google sets free-tier limits per project and changes them often. Check yours in AI Studio under *Usage and limits*. Recently it was roughly 10 requests a minute and a few hundred to about 1,500 a day for the Flash models. When the limit is hit, learners see "please try again in a few minutes" and Quick check still works.
 - **Privacy.** On the free tier Google may use what is sent to improve its products, and people may review it. The page tells learners this and asks them not to include private details. If that matters for a class, turn on billing for the Google project (paid use is not used for training), and the cost for short answers is small.
 - **Regions.** The free tier isn't offered in every country. Australia is supported.
+
+## If feedback doesn't work
+
+Open your Worker's address with `?check` on the end in a browser, for example `https://tensetrail-feedback.<your-name>.workers.dev/?check`. It shows whether the key is set and what Google answers for each model, with how long each took. Error messages on the site also show a short "Details" line you can copy.
+
+Each check uses up to three requests from your free allowance, so only open it when you need it.
 
 ## Change the rubric
 
