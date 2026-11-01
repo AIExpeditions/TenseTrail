@@ -178,6 +178,18 @@ Counts come from the Return YouTube Dislike API, which mirrors YouTube's public 
 | Capital letters and apostrophes | B1 | YDB2Maro5H8 | How to Use Apostrophes Properly: The Definitive Guide / English Grammar & Punctuation Lesson | English with Lucy | 251,078 | 9,583 |
 | British and American English | B1 | BG017jvhB7I | Differences between American & British spelling | Business English Benjamin · engVid | 137,769 | 2,149 |
 
+## Guided path, stage 1 (added 1 November 2026)
+
+Ali chose Option B, "Mastery path", from `reports/Guided learning path design.md` (project files). Stage 1 is built (`src/plus/path.js`):
+- One trail of all 101 lessons (69 grammar, 12 tenses, 20 English Skills) in 18 units across A1 to C1, each unit with an "I can" goal. Skills lessons sit after the grammar they use. Nothing is locked.
+- The start comes from the learner's choice or the latest Find Your Level result. Lessons below the start show as "Placed out".
+- A Today card: reviews due first (by area, opening the area review directly), then one new lesson. If more than 40 review questions are due, it says "Just reviews today". When the day's lesson is passed and no reviews are due, it says "Done for today" and offers an extra.
+- Lesson states: Not started, Started, Passed (16/20 practice, 12/15 Tense Studio, English Skills lessons when finished), Placed out, Review due.
+- The review box now runs 1, 3, 7, 14, 30, 60, 120, 240 days, drops back two boxes after a miss (not to box 1), and shifts dates by up to 10% so reviews spread out.
+- Streak and weekly goal on the page, and "Save my progress": a backup code to copy and restore on another device.
+
+Next: stage 2 (mixed reviews of look-alike pairs, lesson "Secure" state, unit checkpoints) and stage 3 (retest pools, Gemini unit tasks, goal-based order).
+
 ## Roadmap
 
 1. Grammar map complete (all 10 areas). Next: teacher review of the new content, and related-topic links between areas.
