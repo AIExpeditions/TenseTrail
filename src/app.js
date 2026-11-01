@@ -429,11 +429,12 @@ function skillCards(){var S=[["🎯","Find Your Level","An adaptive placement te
 /*@include lessons/preps.js*/
 /*@include lessons/writing.js*/
 /* ---- Sentences and questions: engine ---- */
-var SXK="tt_sx_v1",SXI=[1,3,7,14,30],SXT=0,SXS=null,SXDAY=864e5;
+var SXK="tt_sx_v1",SXI=[1,3,7,14,30,60,120,240],SXT=0,SXS=null,SXDAY=864e5;
 function sxH(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
 function sxM(t){return sxH(t).replace(/\[\[(.+?)\]\]/g,"<mark>$1</mark>")}
 function sxC(t){return String(t).replace(/\[\[|\]\]/g,"")}
 function sxLoad(){try{var o=JSON.parse(localStorage.getItem(SXK));if(o&&o.c)return o}catch(e){}return{c:{}}}
+function sxGap(b){var d=SXI[b-1]*SXDAY;return b>1?Math.round(d*(.9+Math.random()*.2)):d}
 function sxSave(o){try{localStorage.setItem(SXK,JSON.stringify(o))}catch(e){}}
 function sxNorm(t){return String(t).toLowerCase().replace(/[\u2019\u2018]/g,"'").replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim()}
 function sxCap(t){return t.charAt(0).toUpperCase()+t.slice(1)}
@@ -461,7 +462,7 @@ function sxPage(k){var c=SX[k],S=sxLoad().c[k]||{},h='<a class="back" href="#/wo
  h+=sxSec(6,"Write it down","Write your own sentences, or switch to Speak and say them. Then check your work.",fbWidget("w",{task:c.pr,k:k,topic:c.t,level:c.lv,rule:c.rm,store:SXD+k})+'<p class="fbh">Checklist</p><div class="sxck">'+c.ck.map(function(x,i){return'<label><input type="checkbox" onchange="sxCk()"> '+sxH(x)+'</label>'}).join("")+'</div><p class="sxwin" id="sxwin" hidden>\uD83C\uDF89 Great! You checked your own writing.</p><button class="btn ghost" onclick="sxModel('+k+')">Show a model answer</button><p class="sxmod" id="sxmod" hidden></p>');
  var v=c.vd;
  h+=sxSec(7,"Watch and learn more","One extra video from an outside teacher, if you want a different explanation.",'<a class="sxv" href="https://www.youtube.com/watch?v='+v[0]+'" target="_blank" rel="noopener noreferrer" data-ytt="'+sxH(v[1])+'" data-ytc="'+sxH(v[2])+'"><span class="pl">\u25B6</span><span><b>'+sxH(v[1])+'</b><small>'+sxH(v[2])+' \u00B7 plays right here, no need to leave the page</small></span></a>'+(v[3]?'<p class="sxvn">'+sxH(v[3])+'</p>':'')+'<p class="sxvn">Tip: pause at the examples and say them aloud. Teachers\u2019 accents and speed vary, so choose subtitles if you like.</p>');
- var rv=S.box?'You are in review box '+S.box+' of 5. Next review: <b>'+sxDate(S.due)+'</b>.':'When you finish the practice, this lesson joins your review list. You will see it again after 1, 3, 7, 14 and 30 days, because remembering something at spaced times makes it last.';
+ var rv=S.box?'You are in review box '+S.box+' of '+SXI.length+'. Next review: <b>'+sxDate(S.due)+'</b>.':'When you finish the practice, this lesson joins your review list. You will see it again after 1, 3, 7, 14 and 30 days, because remembering something at spaced times makes it last.';
  h+=sxSec(8,"Remember","",'<p class="sxrem">'+rv+'</p><a class="btn ghost" href="#/worksheets/grammar/'+SXA+'">Go to my review list</a>');
  h+='<div class="sxnav">'+(k>0?'<a class="btn ghost" href="#/worksheets/grammar/'+SXA+'/'+(k-1)+'">\u2190 '+sxH(SX[k-1].t)+'</a>':'<span></span>')+(k<SX.length-1?'<a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(k+1)+'">'+sxH(SX[k+1].t)+' \u2192</a>':'<a class="btn" href="#/worksheets/grammar">Back to the map</a>')+'</div>';
  return pg(c.e,c.t,"Level "+c.lv+". Notice it, learn it, hear it, practise it, use it.",h)}
@@ -532,7 +533,7 @@ function sxEnd(){var s=SXS,el=$(s.sel),st=sxLoad(),now=Date.now(),n=s.items.leng
   var msg=s.ok>=n*.85?"Excellent work! You are ready to use it.":s.ok>=n*.65?"Good job! Check the rule once more and try again for a higher score.":"Good effort. Read the rule and the common mistakes again, then try once more.";
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>'+msg+'</p><p class="sxrem">Saved. You will review this lesson '+sxDate(o.due)+'.</p><div class="sxbt"><button class="btn ghost" onclick="sxStart('+s.k+')">Try again</button>'+(s.k<SX.length-1?' <a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(s.k+1)+'">Next lesson \u2192</a>':'')+'</div></div>';
   var d=$$(".sxdots a")[s.k];if(d)d.classList.add("dn")}
- else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(5,(o.box||1)+1)}else o.box=1;o.due=now+SXI[o.box-1]*SXDAY;st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
+ else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(SXI.length,(o.box||1)+1)}else o.box=Math.max(1,(o.box||1)-2);o.due=now+sxGap(o.box);st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>Review finished. Each lesson moves to its next box.</p><ul class="sxrl">'+lines.join("")+'</ul><a class="btn" href="#/worksheets/grammar/'+SXA+'" onclick="setTimeout(render,0)">Back to the lessons</a></div>'}
  SXS=null}
 function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){var pool=sxItemsFor(+k).filter(function(x){return x.t!="bd"&&x.t!="dc"});pool=sxShuf2(pool).slice(0,2);items=items.concat(pool)}});
@@ -593,7 +594,7 @@ function sxGen(k){var G=SXG[k],sc,vi,n=0;do{sc=Math.floor(Math.random()*G.length
  var gb=$("#sxgbtn");if(gb)gb.textContent="✨ Generate another example";sxDl("g",0,true)}
 
 var PAGES={};
-PAGES.home=function(){var J=[["🎓","Students","Your space to learn, track and celebrate.","students","#ffd9a8"],["🍎","Teachers","Tools for your classroom, ready to use.","teachers","#ffc9c2"],["🎯","Find Your Level","A short adaptive test that finds your level and where to start.","level","#d8ccff"],["🧭","Guided path","A friendly route through all 12 tenses.","path","#b9e6ff"],["🖨️","English Skills","Grammar, reading, writing, speaking and listening.","worksheets","#bff2de"],["📚","Library","Browse every lesson in one place.","library","#fff0a8"]];
+PAGES.home=function(){var J=[["🎓","Students","Your space to learn, track and celebrate.","students","#ffd9a8"],["🍎","Teachers","Tools for your classroom, ready to use.","teachers","#ffc9c2"],["🎯","Find Your Level","A short adaptive test that finds your level and where to start.","level","#d8ccff"],["🧭","Guided path","Your daily plan and trail from A1 to C1.","path","#b9e6ff"],["🖨️","English Skills","Grammar, reading, writing, speaking and listening.","worksheets","#bff2de"],["📚","Library","Browse every lesson in one place.","library","#fff0a8"]];
  var A=["You are doing great","Mistakes mean you are learning","Small steps add up","Be proud of today","Every word counts","Keep going, you have got this"];
  return'<section class="hero" id="hero"><div class="mesh"><i></i><i></i><i></i></div><div class="wrap hg"><div><p class="hello"><span id="hi">Welcome</span> <em>to TenseTrail</em></p><h1 class="sp">English that feels easy, kind and yours</h1><p class="lead rv">Friendly lessons, gentle practice and plenty of celebration. Made for adults who learn at their own pace.</p><div class="row rv" style="--i:2"><a class="btn" href="#/worksheets/grammar">Start with Grammar</a><button class="btn ghost" onclick="toHow()">See how it works</button></div></div>'
  +'<div class="vis" aria-hidden="true"><div class="vc a" data-d="24"><svg viewBox="0 0 90 90"><circle class="rg0" cx="45" cy="45" r="36"/><circle class="rg1" cx="45" cy="45" r="36"/></svg><b>70%</b><small>Today&rsquo;s goal</small></div><div class="vc b" data-d="-30">🔥 <b>5</b> day streak</div><div class="vc c" data-d="40">🎉 You&rsquo;re doing great!</div><div class="vc d" data-d="-18"><small>Present Perfect</small>I have learned so much!</div></div></div></section>'
@@ -605,7 +606,6 @@ PAGES.students=function(){return pg("🎓","Students","A calm place to learn, pr
 PAGES.teachers=function(){return pg("🍎","Teachers","Ready-made lessons and practice for your adult learners.",cards([["🖨️","Worksheets for every lesson","Every Grammar Studio lesson has a Worksheet PDF button: six kinds of questions plus an answer key. The questions change each time.","#ffd9a8"],["📽️","Presentation mode","Press Present on any lesson for big-text slides: notice, rule, mistakes with reveal, dialogue, quiz and writing task. Use the arrow keys or swipe.","#b9e6ff"],["📄","Cheat sheets and area tests","Each area has a two-page cheat sheet and a 20-question test with a certificate.","#bff2de"],["🎯","Placement test","Send learners to Find Your Level for an adaptive CEFR estimate and a starting lesson.","#fff0a8"],["✍️","Writing and speaking feedback","Learners get quick checks on their device, plus rubric-based teacher feedback from an AI marker on the site itself.","#ffc9c2"],["📈","Class insights","Class codes, assignments and results need accounts and a server. They are planned for later.","#d8ccff"]])+SOON)};
 PAGES.level=function(){return lvPage()};
 PAGES.skills=function(){return PAGES.worksheets({})};
-PAGES.path=function(){return pg("🧭","Guided path","Follow the trail from Present Simple to Future Perfect Continuous. Score 12 out of 15 to earn a tick.",tg("path"))};
 PAGES.library=function(){return pg("📚","Library","Every tense in one place. Choose one and dive in.",tg("lib"))};
 function soonPage(k){var K={reading:["📖","Reading"],writing:["✍️","Writing"],speaking:["🎤","Speaking"],listening:["🎧","Listening"]}[k];return pg(K[0],K[1]+" worksheets","These are on the way, and we are excited to share them. Grammar is ready for you today.",SOON)}
 PAGES.worksheets=function(r){if(r.a=="grammar"){
@@ -660,7 +660,7 @@ function obs(){var io=new IntersectionObserver(function(es){es.forEach(function(
 function after(r){clearInterval(hit);$$(".sp").forEach(split);obs();pillTo(act());
  if($("#hi")){var i=0;hit=setInterval(function(){i=(i+1)%HI.length;var e=$("#hi");if(!e)return;e.style.animation="none";e.offsetWidth;e.style.animation="";e.textContent=HI[i]},2400)}
  if(r.n=="worksheets"&&r.a=="grammar"&&XA[r.b]&&r.c!==undefined&&r.c!==""&&$(".sxbar")){ttSeen(r.b,+r.c);fbInit("w");sxBar()}
- skAfter(r);if(typeof apPre=="function")apPre(r);
+ skAfter(r);if(typeof apPre=="function")apPre(r);if(typeof ptAfter=="function")ptAfter(r);
  if(r.n=="worksheets"&&r.a=="grammar"){if(r.b=="studio")gdraw();else if(!r.b)gmapDraw();var hr=$(".cr.hl");if(hr)setTimeout(function(){hr.scrollIntoView({behavior:"smooth",block:"center"})},600)}}
 function render(){var r=route(),f=PAGES[r.n]||PAGES.home,run=function(){app.innerHTML=f(r);scrollTo(0,0);after(r)};if(document.startViewTransition&&!rm&&started)document.startViewTransition(run);else run();started=1}
 addEventListener("hashchange",render);addEventListener("hashchange",cvKill);addEventListener("pagehide",cvKill);addEventListener("resize",function(){pillTo(act())});
@@ -678,6 +678,7 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/skills.js*/
 /*@include plus/audio.js*/
 /*@include plus/video.js*/
+/*@include plus/path.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
 
