@@ -6,7 +6,7 @@
  Settings (Cloudflare dashboard > Worker > Settings > Variables and Secrets):
    GEMINI_API_KEY   secret, required. A free key from https://aistudio.google.com/apikey
    GEMINI_MODEL     optional. One model name, or several separated by commas to try in order.
-                    Defaults to gemini-flash-latest, gemini-3.5-flash, gemini-flash-lite-latest.
+                    Defaults to gemini-flash-lite-latest, gemini-flash-latest, gemini-3.5-flash (fastest first).
    ALLOWED_ORIGINS  optional, comma separated. Defaults to https://aiexpeditions.github.io
  Optional binding: a Rate Limiting binding named RL (see worker/README.md) caps requests per learner.
  Test page: open the Worker's address with ?check on the end in a browser. It sends one tiny
@@ -33,7 +33,7 @@ function reply(body, status, origin) {
 }
 function str(v, n) { return typeof v == "string" ? v.slice(0, n) : ""; }
 function models(env) {
-  return (env.GEMINI_MODEL || "gemini-flash-latest,gemini-3.5-flash,gemini-flash-lite-latest").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+  return (env.GEMINI_MODEL || "gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
 }
 /* One call to Gemini. Returns {ok, text} or {ok:false, status, msg}. */
 async function gemini(env, model, prompt, think) {

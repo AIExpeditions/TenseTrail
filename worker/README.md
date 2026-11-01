@@ -25,7 +25,7 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
 
 | Name | Type | What it does |
 |---|---|---|
-| `GEMINI_MODEL` | Text | Which models to try, in order, separated by commas. Default `gemini-flash-latest,gemini-3.5-flash,gemini-flash-lite-latest`. If one is unavailable or overloaded, the next is tried. |
+| `GEMINI_MODEL` | Text | Which models to try, in order, separated by commas. Default `gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash`. If one is unavailable or overloaded, the next is tried. |
 | `ALLOWED_ORIGINS` | Text | Comma-separated site addresses. Default `https://aiexpeditions.github.io`. Add a custom domain here if you get one. |
 | `RL` | Rate limiting binding | Caps requests per learner. In *Settings* > *Bindings* > *Add* > *Rate limiting*, name it `RL`, limit 5, period 60 seconds. |
 
