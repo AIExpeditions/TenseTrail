@@ -12,7 +12,8 @@
    GEMINI_MODEL     optional. One model name, or several separated by commas to try in order.
                     Defaults to gemini-flash-lite-latest, gemini-flash-latest, gemini-3.5-flash (fastest first).
    ALLOWED_ORIGINS  optional, comma separated. Defaults to https://aiexpeditions.github.io
- Required binding: a Rate Limiting binding named RL (see worker/README.md) caps requests per learner.
+ Required binding: a Rate Limiting binding named RL caps requests per learner. It can only be added
+   with Wrangler: worker/wrangler.toml sets it up (see worker/README.md).
    Without it the Worker refuses to mark, so nobody can drain the free quota. To run without it
    anyway (for example while testing), add a Text variable ALLOW_NO_RL with the value 1.
    CHECK_KEY        optional secret. Lets ?check=<CHECK_KEY> send a test request to each model.

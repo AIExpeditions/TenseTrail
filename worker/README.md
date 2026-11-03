@@ -21,7 +21,11 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
 2. **Create the Worker.** Sign up free at [dash.cloudflare.com](https://dash.cloudflare.com), go to *Workers & Pages* > *Create* > *Create Worker* (the "Hello World" one), name it `tensetrail-feedback`, and press *Deploy*.
 3. **Paste the code.** Press *Edit code*, delete everything, paste the whole of [`feedback-worker.js`](feedback-worker.js), and press *Deploy*.
 4. **Add the key.** In the Worker, open *Settings* > *Variables and Secrets* > *Add*, choose type **Secret**, name `GEMINI_API_KEY`, paste the key, and save.
-5. **Add the rate limit.** In the Worker, open *Settings* > *Bindings* > *Add* > *Rate limiting*, name it `RL`, limit 5, period 60 seconds, and save. The Worker refuses to mark without it, so nobody can use up your free allowance.
+5. **Add the rate limit.** Cloudflare only lets you add a rate limit from its Wrangler tool, not from the dashboard, so [`wrangler.toml`](wrangler.toml) in this folder sets it up (an `RL` binding, 5 requests per learner per minute). Deploy once with it, using either way below. Until then, add a Text variable `ALLOW_NO_RL` = `1`, or the Worker refuses to mark.
+   - **From GitHub (no software to install).** In Cloudflare, open *My Profile* > *API Tokens* > *Create Token* and use the **Edit Cloudflare Workers** template. Copy the token. Copy your *Account ID* from the Workers & Pages overview page (right-hand side). In GitHub, open the repository's *Settings* > *Secrets and variables* > *Actions* and add two secrets, `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. Then open *Actions* > *Deploy feedback Worker* > *Run workflow*. From then on, the Worker redeploys by itself whenever `feedback-worker.js` changes on `main`, so you never paste code again.
+   - **From your computer** (needs [Node.js](https://nodejs.org/)). In this folder run `npx wrangler login`, then `npx wrangler deploy`.
+
+   Either way, your key, `CHECK_KEY` and Text variables stay as they are (`keep_vars` in `wrangler.toml`). When `?check` shows "RL rate limit: bound", delete `ALLOW_NO_RL`.
 6. **Send us the address.** It looks like `https://tensetrail-feedback.<your-name>.workers.dev`. Put it in `var FBGEM=""` at the top of `src/plus/feedback.js`, run `python3 tools/build.py`, and commit.
 
 ### Optional settings
@@ -45,8 +49,8 @@ Open your Worker's address with `?check` on the end in a browser, for example `h
 
 To also see what Google answers for each model, add a `CHECK_KEY` secret and open `?check=<your CHECK_KEY>`. Each of those checks uses up to three requests from your free allowance, and only someone who knows the key can run it.
 
-If learners see "Teacher feedback isn't set up for this task yet", a task's wording changed on the site after the Worker was last pasted. Run `python3 tools/build.py` and paste the new `feedback-worker.js` into Cloudflare.
+If learners see "Teacher feedback isn't set up for this task yet", a task's wording changed on the site after the Worker was last deployed. Run `python3 tools/build.py` and commit; the GitHub Action redeploys it (or paste the new `feedback-worker.js` into Cloudflare if you haven't set the Action up).
 
 ## Change the rubric
 
-Edit `src/plus/rubric.js`, then run `python3 tools/build.py`. That rebuilds the site and `feedback-worker.js`; paste the new Worker code into Cloudflare again. Do the same whenever you add a lesson or change the wording of a writing or speaking task. Building the Worker needs [Node.js](https://nodejs.org/), which reads the task list from the lesson files (`tools/tasks.mjs`).
+Edit `src/plus/rubric.js`, then run `python3 tools/build.py`. That rebuilds the site and `feedback-worker.js`; commit, and the Action redeploys the Worker (without the Action, paste the new code into Cloudflare again). Do the same whenever you add a lesson or change the wording of a writing or speaking task. Building the Worker needs [Node.js](https://nodejs.org/), which reads the task list from the lesson files (`tools/tasks.mjs`).
