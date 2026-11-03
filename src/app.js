@@ -494,22 +494,29 @@ function sxRun(items,sel,mode,k){SXS={items:items,i:0,ok:0,res:[],sel:sel,mode:m
 function sxFull(it){var d=it.d;if(it.t=="fx")return d[1][d[2]];if(it.t=="fix")return d[1];if(it.t=="dc")return d[0];if(it.t=="mc")return d[0].indexOf("___")>=0?sxCap(d[0].replace("___",d[1][d[2]])):d[1][d[2]];if(it.t=="bd")return d[0];var q=d[0].replace(/\s*\([^)]*\)\s*$/,"");return sxCap(q.replace("___",d[1][0]))}
 function sxShuf(a,ans){var b=a.slice(),n=0;do{for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}n++}while(n<12&&b.join(" ")==ans);return b}
 function sxShow(){var s=SXS;if(!s)return;var it=s.items[s.i],el=$(s.sel);if(!it){sxEnd();return}if(it.a&&XA[it.a]&&XA[it.a].x!==SX)sxUse(it.a);s.lock=0;
- var pct=Math.round(s.i/s.items.length*100),lab={mc:"Choose",fx:"Which is correct?",bd:"Build the sentence",gp:"Type the missing word",fix:"Correct the mistake",dc:"Listen and type"}[it.t],h='<div class="sxpb"><i style="width:'+pct+'%"></i></div><div class="sxqh"><span>Question '+(s.i+1)+' of '+s.items.length+'</span><b>'+lab+(s.mode!="c"?" \u00B7 "+sxH(SX[it.k].t):"")+'</b></div><div class="sxq" key="'+s.i+'">';
+ var pct=Math.round(s.i/s.items.length*100),lab={mc:"Choose",fx:"Which is correct?",bd:"Build the sentence",gp:"Type the missing word",fix:"Correct the mistake",dc:"Listen and type"}[it.t],h='<div class="sxpb"><i style="width:'+pct+'%"></i></div><div class="sxqh" id="sxqh" tabindex="-1"><span>Question '+(s.i+1)+' of '+s.items.length+'</span><b>'+lab+(s.mode!="c"?" \u00B7 "+sxH(SX[it.k].t):"")+'</b></div><div class="sxq" key="'+s.i+'">';
  if(it.t=="mc"||it.t=="fx"){var st=it.d[0].indexOf("___")>=0?sxH(it.d[0]).replace("___",'<span class="sxbl">\u2003\u2003</span>'):sxH(it.d[0]);h+='<p class="sxst2">'+st+'</p><div class="sxos">'+it.d[1].map(function(o,i){return'<button class="sxo" onclick="sxMc('+i+')">'+sxH(o)+'</button>'}).join("")+'</div>'}
- else if(it.t=="bd"){s.bk=sxShuf(it.d[0].split(" "),it.d[0]);s.an=[];h+='<p class="sxst2">Tap the words in the right order.</p><div class="sxan" id="sxan"></div><div class="sxbk" id="sxbk"></div><div class="sxbt"><button class="btn" onclick="sxBdCheck()">Check</button> <button class="btn ghost" onclick="sxBdReset()">Start again</button></div>'}
+ else if(it.t=="bd"){s.bk=sxShuf(it.d[0].split(" "),it.d[0]);s.an=[];h+='<p class="sxst2" id="sxbdh">Tap the words in the right order.</p><div class="sxan" id="sxan" role="group" aria-label="Your sentence"></div><div class="sxbk" id="sxbk" role="group" aria-labelledby="sxbdh"></div><p class="vh" id="sxbds" aria-live="polite"></p><div class="sxbt"><button class="btn" onclick="sxBdCheck()">Check</button> <button class="btn ghost" onclick="sxBdReset()">Start again</button></div>'}
  else if(it.t=="fix"){h+='<p class="sxst2"><span class="sxbad">'+sxH(it.d[0])+'</span></p><p class="sxsub">This sentence has a mistake. Type the correct sentence.</p><input class="sxin sxw" id="sxin" autocomplete="off" autocapitalize="sentences" spellcheck="false" aria-label="The correct sentence" onkeydown="if(event.key===\'Enter\')sxTy()"><div class="sxbt"><button class="btn" onclick="sxTy()">Check</button></div>'}
  else if(it.t=="dc"){h+='<p class="sxst2">'+sxH(it.d[1])+'</p><div class="sxbt"><button class="btn ghost sxs2" onclick="sxDcPlay(this)">🔊 Play</button> <span class="sxsub" id="sxdcn">You can play it 3 times.</span></div><input class="sxin sxw" id="sxin" autocomplete="off" autocapitalize="sentences" spellcheck="false" aria-label="The sentence you heard" onkeydown="if(event.key===\'Enter\')sxTy()"><div class="sxbt"><button class="btn" onclick="sxTy()">Check</button></div>'}
  else{h+='<p class="sxst2">'+sxH(it.d[0]).replace("___",'<input class="sxin" id="sxin" autocomplete="off" autocapitalize="none" spellcheck="false" aria-label="Your answer" onkeydown="if(event.key===\'Enter\')sxGp()">')+'</p><div class="sxbt"><button class="btn" onclick="sxGp()">Check</button></div>'}
- h+='</div><div class="sxf" id="sxf" aria-live="polite"></div>';el.innerHTML=h;if(it.t=="bd")sxBdDraw();if(it.t=="gp"||it.t=="fix"){var i2=$("#sxin");if(i2)i2.focus({preventScroll:true})}s.dcn=0}
+ h+='</div><div class="sxf" id="sxf" aria-live="polite"></div>';el.innerHTML=h;if(it.t=="bd")sxBdDraw();var i2=(it.t=="gp"||it.t=="fix")&&$("#sxin");if(i2)i2.focus({preventScroll:true});else{var qh=$("#sxqh");if(qh)qh.focus({preventScroll:true})}s.dcn=0}
 function sxFb(ok,it,note){var s=SXS;if(s.lock)return;s.lock=1;s.res.push({k:it.k,a:it.a,ok:ok});if(ok)s.ok++;var full=sxFull(it),last=s.i>=s.items.length-1;s.last=full;
  $("#sxf").innerHTML='<div class="sxfb '+(ok?"ok":"no")+'"><b>'+(ok?"\u2713 Correct!":"\u2717 Not quite.")+'</b>'+(ok?"":' <span>Answer: <b>'+sxH(full)+'</b></span>')+'<p>'+sxH(note)+'</p><div class="sxbt"><button class="sxs" onclick="sxSay(SXS.last,\'f\',this)" aria-label="Listen to the sentence">\uD83D\uDD0A</button><button class="btn" onclick="sxNext()">'+(last?"See my result":"Next")+'</button></div></div>';
  setTimeout(function(){var b=$$("#sxf .btn")[0];if(b&&SXS&&SXS.lock)b.focus({preventScroll:true})},250)}
 function sxMc(i){var s=SXS,it=s.items[s.i];if(s.lock)return;var ok=i==it.d[2];$$(".sxo").forEach(function(b,j){b.disabled=true;if(j==it.d[2])b.classList.add("ok");else if(j==i)b.classList.add("no")});sxFb(ok,it,it.d[3])}
-function sxBdDraw(){var s=SXS;$("#sxan").innerHTML=s.an.map(function(w,i){return'<button class="sxt on" onclick="sxBdPop('+i+')">'+sxH(w[0])+'</button>'}).join("")||'<span class="sxhint">Your sentence appears here</span>';
- $("#sxbk").innerHTML=s.bk.map(function(w,i){return s.an.some(function(a){return a[1]==i})?'<button class="sxt used" disabled>'+sxH(w)+'</button>':'<button class="sxt" onclick="sxBdAdd('+i+')">'+sxH(w)+'</button>'}).join("")}
-function sxBdAdd(i){var s=SXS;if(s.lock)return;s.an.push([s.bk[i],i]);sxBdDraw()}
-function sxBdPop(i){var s=SXS;if(s.lock)return;s.an.splice(i,1);sxBdDraw()}
-function sxBdReset(){var s=SXS;if(s.lock)return;s.an=[];sxBdDraw()}
+/* fo says where focus goes after a redraw: {add:i} the next unused word after bank word i (or Check),
+   {bank:i} bank word i, {first:1} the first unused word. Without fo (first draw) focus is left alone. */
+function sxBdDraw(fo){var s=SXS;$("#sxan").innerHTML=s.an.map(function(w,i){return'<button class="sxt on" onclick="sxBdPop('+i+')" aria-label="Remove '+sxH(w[0])+'">'+sxH(w[0])+'</button>'}).join("")||'<span class="sxhint">Your sentence appears here</span>';
+ $("#sxbk").innerHTML=s.bk.map(function(w,i){return s.an.some(function(a){return a[1]==i})?'<button class="sxt used" disabled>'+sxH(w)+'</button>':'<button class="sxt" data-i="'+i+'" onclick="sxBdAdd('+i+')">'+sxH(w)+'</button>'}).join("");
+ var st=$("#sxbds");if(st)st.textContent=fo?(s.an.length?"Your sentence: "+s.an.map(function(a){return a[0]}).join(" "):"Your sentence is empty."):"";
+ if(!fo)return;var free=$$("#sxbk .sxt[data-i]"),t=null;
+ if(fo.add!=null)t=free.filter(function(b){return+b.dataset.i>fo.add})[0]||free[0]||$("#sxbk").parentNode.querySelector(".sxbt .btn");
+ else if(fo.bank!=null)t=free.filter(function(b){return+b.dataset.i==fo.bank})[0];
+ if(!t)t=free[0];if(t)t.focus({preventScroll:true})}
+function sxBdAdd(i){var s=SXS;if(s.lock)return;s.an.push([s.bk[i],i]);sxBdDraw({add:i})}
+function sxBdPop(i){var s=SXS;if(s.lock)return;var w=s.an.splice(i,1)[0];sxBdDraw({bank:w[1]})}
+function sxBdReset(){var s=SXS;if(s.lock)return;s.an=[];sxBdDraw({first:1})}
 function sxBdCheck(){var s=SXS,it=s.items[s.i];if(s.lock)return;if(s.an.length<s.bk.length){$("#sxf").innerHTML='<div class="sxfb hint"><b>Use all the words first.</b></div>';return}
  var n=sxNorm(s.an.map(function(a){return a[0]}).join(" ")),ok=[it.d[0]].concat(it.d[1]).some(function(a){return sxNorm(a)==n});sxFb(ok,it,SX[it.k].rm)}
 function sxGp(){var s=SXS,it=s.items[s.i];if(s.lock)return;var inp=$("#sxin"),v=sxNorm(inp.value);if(!v){$("#sxf").innerHTML='<div class="sxfb hint"><b>Type your answer first.</b></div>';return}inp.disabled=true;sxFb(it.d[1].some(function(a){return sxNorm(a)==v}),it,it.d[2])}
@@ -659,12 +666,15 @@ function toHow(){$("#how").scrollIntoView({behavior:"smooth"})}
 function route(){var h=location.hash.replace(/^#\/?/,"").split("/");return{n:h[0]||"home",a:h[1],b:h[2],c:h[3]}}
 function split(el){el.innerHTML=el.textContent.split(" ").map(function(w,i){return'<span class="wm"><span class="w" style="--w:'+i+'">'+w+'</span></span>'}).join(" ")}
 function obs(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.12});$$(".rv:not(.in)").forEach(function(e){io.observe(e)})}
+/* Name each page in the browser tab and move focus to its heading, so screen readers hear the new page. */
+function pgTitle(r){var h=app.querySelector("h1"),t=h?h.textContent.replace(/\s+/g," ").trim():"";document.title=(t&&r.n!="home"?t+" \u00B7 ":"")+"TenseTrail";
+ if(started&&h){if(!h.hasAttribute("tabindex"))h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}}
 function after(r){clearInterval(hit);$$(".sp").forEach(split);obs();pillTo(act());
  if($("#hi")){var i=0;hit=setInterval(function(){i=(i+1)%HI.length;var e=$("#hi");if(!e)return;e.style.animation="none";e.offsetWidth;e.style.animation="";e.textContent=HI[i]},2400)}
  if(r.n=="worksheets"&&r.a=="grammar"&&XA[r.b]&&r.c!==undefined&&r.c!==""&&$(".sxbar")){ttSeen(r.b,+r.c);fbInit("w");sxBar()}
  skAfter(r);if(typeof apPre=="function")apPre(r);if(typeof ptAfter=="function")ptAfter(r);
  if(r.n=="worksheets"&&r.a=="grammar"){if(r.b=="studio")gdraw();else if(!r.b)gmapDraw();var hr=$(".cr.hl");if(hr)setTimeout(function(){hr.scrollIntoView({behavior:"smooth",block:"center"})},600)}}
-function render(){var r=route(),f=PAGES[r.n]||PAGES.home,run=function(){app.innerHTML=f(r);scrollTo(0,0);after(r)};if(document.startViewTransition&&!rm&&started)document.startViewTransition(run);else run();started=1}
+function render(){var r=route(),f=PAGES[r.n]||PAGES.home,run=function(){app.innerHTML=f(r);scrollTo(0,0);after(r);pgTitle(r)};if(document.startViewTransition&&!rm&&started)document.startViewTransition(run);else run();started=1}
 addEventListener("hashchange",render);addEventListener("hashchange",cvKill);addEventListener("pagehide",cvKill);addEventListener("resize",function(){pillTo(act())});
 addEventListener("scroll",function(){$("#nav").classList.toggle("s",scrollY>20)},{passive:true});
 var mx=0,my=0,cx=0,cy=0;
@@ -673,6 +683,7 @@ if(!rm)(function lp(){cx+=(mx-cx)*.06;cy+=(my-cy)*.06;$$("[data-d]").forEach(fun
 function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=innerWidth,H=c.height=innerHeight,cl=["#ffc83d","#ff7a6b","#7fe3c0","#b7a4ff","#0fa3a3"],ps=[],i;for(i=0;i<150;i++)ps.push({x:W/2,y:H*.45,vx:(Math.random()-.5)*18,vy:Math.random()*-15-4,r:Math.random()*6+3,c:cl[i%5],a:Math.random()*6,va:(Math.random()-.5)*.4});var t0=performance.now();(function f(t){x.clearRect(0,0,W,H);ps.forEach(function(p){p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=p.va;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r,-p.r/2,p.r*2,p.r);x.restore()});if(t-t0<2600)requestAnimationFrame(f);else x.clearRect(0,0,W,H)})(t0)}
 /*@include plus/levelbank.js*/
 /*@include plus/level.js*/
+/*@include plus/fbtasks.js*/
 /*@include plus/feedback.js*/
 /*@include plus/search.js*/
 /*@include plus/teach.js*/
@@ -680,6 +691,7 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/skills.js*/
 /*@include plus/audio.js*/
 /*@include plus/video.js*/
+/*@include plus/pathdata.js*/
 /*@include plus/path.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
