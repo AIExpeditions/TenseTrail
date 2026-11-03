@@ -2730,6 +2730,104 @@ var WXG=[
  {t:"Spelling check",v:[["color","colour"],["center","centre"],["organize","organise"]],ln:[[0,"Is it {0} or {1}?"],[1,"In Australia, we write [[{1}]]."],[0,"So it's the British spelling?"],[1,"Yes, most of the time."]]},
  {t:"Aussie words",v:[["arvo","afternoon"],["servo","petrol station"],["brekkie","breakfast"]],ln:[[0,"What does {0} mean?"],[1,"It means {1}."],[0,"Is that Australian?"],[1,"Yes, it's very [[Aussie]]."]]}]
 ];
+/* ---- Unseen practice sentences (px) ----
+ Six new sentences per lesson that never appear on the lesson page. Practice, reviews and path checks
+ use them for the listening and sentence-building items, so a pass means the learner can build new
+ sentences with the rule, not remember the ones they just read. tools/checks.mjs stops the build if a
+ lesson has fewer than 6, or if one repeats a sentence shown on the page.
+ Keep each sentence short (5 to 11 words) with one natural word order, because building items accept
+ only that order. Index = the lesson's position in its area file. */
+var PXD={
+sentences:[
+ ["Wash your hands before dinner.","My brother drives a blue ute.","Don't touch the hot plate.","We start work at nine.","Let's take the tram to the city.","Please turn off the lights."],
+ ["Where does your sister work?","Did you see the fireworks last night?","Who made this delicious cake?","How often do you go swimming?","Are you coming to the party?","What did the doctor say?"],
+ ["There is a chemist next to the bank.","There are three bedrooms in our house.","Is there a toilet on this train?","There aren't any eggs in the fridge.","Are there any parks near your school?","There was a storm last night."],
+ ["You're from Brisbane, aren't you?","He hasn't finished yet, has he?","The shop opens at nine, doesn't it?","We can't park here, can we?","She was at the meeting, wasn't she?","You won't forget, will you?"],
+ ["The man who lives next door is a chef.","This is the shop where I bought my shoes.","I lost the book that you lent me.","She's the friend whose dog bit me.","The bus which goes to the airport is full.","A vet is someone who looks after animals."],
+ ["My father, who is seventy, still plays tennis.","Glenelg, which is near the city, has a lovely beach.","Our neighbour, whose son is a doctor, is very kind.","We visited Port Lincoln, where my aunt lives.","The car, which we bought last year, keeps breaking down.","She passed the test, which made her parents proud."],
+ ["Looking out of the window, I saw a kangaroo.","Made in Italy, these shoes are very expensive.","Having lost the key, we climbed through the window.","The woman standing at the door is my aunt.","Tired after the trip, she went straight to bed.","Not wanting to be late, I took a taxi."],
+ ["It was my sister who found the wallet.","What I love most is the quiet.","It was on Friday that the parcel arrived.","All we need is a bit of luck.","I did lock the door this morning!","What surprised me was the price."],
+ ["Never have I eaten such a big breakfast.","Seldom do we see snow in Adelaide.","Rarely does the train arrive on time.","Not until midnight did they get home.","Only then did I understand the problem.","Little did we know what was coming."],
+ ["He wanted to stay, but I didn't.","Seen my glasses anywhere?","I'd like to help, but I can't.","Mei can drive, and so can Tom.","Want a lift home?","She said she would call, and she did."]
+],
+modals:[
+ ["My grandma can speak three languages.","Can you help me with this box?","I can't find my phone.","We can meet after work.","Can she come to the party?","They can't swim very well."],
+ ["You should drink more water.","He shouldn't stay up so late.","Should we take a taxi?","You should ask your teacher.","Where should I park the car?","You shouldn't eat so much sugar."],
+ ["My grandpa could speak four languages.","I couldn't find a parking spot.","We managed to get the last two tickets.","She was able to finish the report on time.","As a child, I couldn't swim.","They didn't manage to fix the leak."],
+ ["You have to show your ticket at the gate.","We mustn't make noise after ten.","You don't have to wear a tie.","Are we allowed to take photos here?","I had to work late last night.","Students must hand in their work by Friday."],
+ ["The lights are off. They must be asleep.","She isn't answering. She might be in the shower.","He can't be hungry. He just ate.","That could be the answer.","You must be very proud of your son.","It may be cold in the hills tonight."],
+ ["The car is covered in dust. It must have been windy.","She might have gone to bed early.","He can't have seen us.","They must have left early.","I may have made a mistake.","You couldn't have known about it."],
+ ["The bus will definitely be late today.","It is likely to rain tomorrow.","They probably won't come to the party.","The new café is bound to be busy.","We might move to Darwin next year.","He is unlikely to win the race."],
+ ["I should have studied harder for the test.","You could have told me earlier.","We would have helped you.","She shouldn't have bought that car.","They could have won the game.","I would have called, but my phone was dead."],
+ ["The train should be here soon.","Prices may well rise again next year.","He'll be at work now.","They'll have finished dinner by now.","She can't possibly be fifty!","The plan could well work."]
+],
+conditionals:[
+ ["If you freeze water, it turns to ice.","If the shop is closed, we'll go tomorrow.","If I see Tom, I'll tell him.","If you press this button, the light comes on.","You'll miss the bus if you don't hurry.","If you're hungry, there's some soup."],
+ ["If I won the lottery, I'd buy a house.","If I knew the answer, I'd tell you.","If she had a car, she would drive to work.","What would you do if you lost your job?","If I were taller, I'd play basketball.","We would visit more often if we lived closer."],
+ ["We'll go to the beach unless it's windy.","You can borrow my car as long as you're careful.","Pack a raincoat in case it storms.","I won't call unless there's a problem.","Even if it rains, the match will go ahead.","Bring a map in case your phone dies."],
+ ["If I had known, I would have helped.","If we had left earlier, we wouldn't have missed the train.","She would have passed if she had studied.","If he hadn't been late, he would have got the job.","If I had saved more, I would be rich now.","If you hadn't called, I would still be asleep."],
+ ["I wish I had a garden.","I wish I could sing.","I wish I hadn't sold my old car.","I wish it would stop raining.","If only I had more time!","She wishes she had studied medicine."],
+ ["Had I known, I would have called.","Should you need help, just ask.","Were I in your position, I'd say no.","Had they not helped us, we would have failed.","Should the flight be delayed, we'll wait.","Were it not for you, I'd be lost."],
+ ["It's time we left for the airport.","I'd rather you didn't smoke inside.","He talks as if he knew everything.","Suppose you lost your phone. What would you do?","What if we painted the room blue?","It's high time you cleaned your room."]
+],
+passive:[
+ ["The house was built in 1950.","Coffee is grown in Brazil.","The road is being fixed.","The winners will be told on Monday.","My bike has been stolen.","The letters are delivered every morning."],
+ ["She said she was feeling better.","He told me he lived in Perth.","They said they had finished.","Tom said he would help us.","The teacher told us the test was easy.","My friend said she couldn't come."],
+ ["He asked me where I lived.","She asked if I liked coffee.","They asked when the shop opened.","My mum asked whether I had eaten.","The man asked how much the ticket cost.","I asked her what she was doing."],
+ ["The doctor advised me to rest.","She promised to call me later.","He offered to carry my bags.","They suggested going to the beach.","My boss asked me to stay late.","The guide warned us not to feed the animals."],
+ ["The roof needs to be fixed.","I hate being told what to do.","The work must be finished by Friday.","We had our car washed yesterday.","She got stopped by the police.","The room is going to be painted."],
+ ["It is said that the old mill is haunted.","He is thought to be very rich.","The thief is believed to have left the country.","They accused him of lying.","She thanked me for helping her.","It is expected that the bridge will open soon."]
+],
+patterns:[
+ ["I enjoy cooking for my family.","She decided to learn Spanish.","Do you mind opening the window?","We hope to see you soon.","He wants to buy a new car.","They finished eating at nine."],
+ ["I went to the shop to buy bread.","She called me to say thank you.","We left early to avoid the traffic.","He's learning English to get a better job.","I need a knife for the bread.","They whispered in order not to wake the baby."],
+ ["I stopped eating meat last year.","Remember to buy some bread.","I'll never forget meeting the Prime Minister.","Try turning it off and on again.","She tried to lift the box, but it was too heavy.","I regret telling him the secret."],
+ ["I'm waiting for my sister.","Can you listen to me, please?","Our plans depend on the forecast.","She's thinking about moving to Perth.","We talked about the trip.","He apologised for being late."],
+ ["Please turn down the music.","I gave up smoking last year.","Can you pick me up at six?","She looks after her little brother.","We ran out of petrol on the highway.","The plane took off on time."],
+ ["I used to play the piano.","She's used to getting up early.","You'll get used to the heat.","Did you use to live in Sydney?","I'm not used to driving on the left.","There used to be a park here."],
+ ["My grandpa used to work on a farm.","Every summer we would visit the coast.","She used to have long hair.","In 2010, I started university.","At night, Mum would read us stories.","He used to love horror films."],
+ ["Please turn the TV off.","Please turn it off.","She looked after her sister's kids.","I ran into an old friend at the shops.","Can you put these books away?","We need to sort out this problem."]
+],
+nouns:[
+ ["She's my aunt. Her house is big.","We are students. Our teacher is nice.","They have a dog. Its name is Max.","I love my job.","Is this your car?","He's from India. His wife is from Fiji."],
+ ["I have three brothers.","The boxes are in the garage.","Those men are firefighters.","We need two knives.","The babies are asleep.","Many people came to the party."],
+ ["This bag is very heavy.","Are those your shoes?","These flowers smell lovely.","That house is for sale.","Is this seat free?","Those were the days!"],
+ ["She has a cat and a dog.","The cat is black.","I need an umbrella.","Can you close the window?","He's an artist.","Where's the nearest bank?"],
+ ["Cats sleep a lot.","The cats next door are noisy.","We have dinner at seven.","Life is short.","The life of a farmer is hard.","He goes to work by bus."],
+ ["How many apples do you want?","We don't have much time.","Can I have a glass of water?","There isn't any bread left.","He gave me some useful information.","I have two pieces of news."],
+ ["I have a few friends in Perth.","There's a little rice in the cupboard.","Few people know the answer.","We have little time.","Can I have a bit of help?","She speaks a few languages."],
+ ["This is my mother's car.","The girls' bedroom is upstairs.","The children's shoes are by the door.","We had lunch at Tom's.","My boss's office is small.","The dog's name is Rex."],
+ ["She cut herself on the knife.","We enjoyed ourselves at the party.","He fixed the car himself.","Help yourselves to some food.","I sometimes talk to myself.","The children dressed themselves."],
+ ["Is the room big enough?","We don't have enough plates.","He isn't old enough to drive.","I didn't run fast enough.","There's enough food for everyone.","Is it warm enough for a swim?"],
+ ["The government's decision surprised everyone.","The end of the film was sad.","We bought a ten-dollar ticket.","She works at the car factory.","Have you seen this week's menu?","He has a two-year-old daughter."]
+],
+adj:[
+ ["I usually walk to work.","She's always happy.","We sometimes eat out on Friday.","He never drinks coffee.","They often visit their grandparents.","I'm rarely late for class."],
+ ["My bike is older than my car.","This test is easier than the last one.","Darwin is hotter than Hobart.","The red dress is more expensive.","Her cooking is better than mine.","The weather is worse than yesterday."],
+ ["This is the oldest building in the city.","She's the tallest girl in the class.","It was the best day of my life.","That's the most beautiful beach I know.","He's the funniest person I know.","Winter is the worst season."],
+ ["She's good at fixing bikes.","I'm afraid of spiders.","He's interested in history.","We're worried about the test.","Are you angry with me?","They're proud of their daughter."],
+ ["The lecture was boring.","I was bored at the party.","The results were surprising.","She was surprised by the gift.","The game was exciting.","We were excited about the holiday."],
+ ["This road is much quieter.","My new job is a lot better.","The test was slightly easier than I expected.","Sydney is far bigger than Adelaide.","It's a bit warmer today.","Your phone is much faster than mine."],
+ ["The water was absolutely freezing.","I'm very tired after work.","The soup was absolutely boiling.","The room was very small.","The party was really amazing.","She was completely furious."],
+ ["The coffee was so hot.","It was such a long day.","She's so kind to everyone.","They have such a beautiful garden.","He was so tired that he fell asleep.","It was such a nice surprise."],
+ ["He works as a bus driver.","She looks like her grandmother.","I used my coat as a pillow.","It sounds like a good plan.","As you can see, the room is ready.","He swims like a fish."]
+],
+preps:[
+ ["I was hungry, so I made a sandwich.","She likes tea, but I like coffee.","We stayed home because it was cold.","I have a cat and a dog.","He was tired, but he kept working.","It was late, so we went home."],
+ ["The keys are on the table.","She lives in Melbourne.","I'll meet you at the station.","The shop is on King William Street.","My bag is in the car.","We met at a party."],
+ ["My birthday is in July.","The class starts at nine.","We have a test on Monday.","I was born in 1990.","See you next week.","The shop opens at ten."],
+ ["Although it was cold, we went swimming.","Despite the rain, we had fun.","I went to work even though I was sick.","In spite of the traffic, we arrived on time.","Despite feeling tired, she finished the race.","Although he's rich, he isn't happy."],
+ ["My brother loves sport, whereas I prefer music.","The hotel was old. Even so, we liked it.","Much as I like him, I don't trust him.","The test was difficult. Nevertheless, I passed.","He agreed, albeit slowly.","While some people like winter, others hate it."],
+ ["My phone is broken, so I need a new one.","\"Is the shop open?\" \"I don't think so.\"","I said I would help, and I did.","She can swim, but her brother can't.","I wanted to go, but I wasn't able to.","\"Is he coming?\" \"I think so.\""]
+],
+writing:[
+ ["When does the class start?","I work in a hospital.","Help!","I like apples, bananas and grapes.","What's your name?","It's cold. Close the window."],
+ ["My birthday is in March.","She speaks Arabic and French.","It's my brother's car.","We're going to Melbourne on Friday.","The dog wagged its tail.","The girls' team won."],
+ ["Turn left at the traffic lights.","My favourite colour is green.","We had a barbie in the backyard.","The kids are at the swimming centre.","See you this arvo.","I'll pick up some lollies."]
+]
+};
+(function(){var M={sentences:SX,modals:MX,conditionals:CX,passive:PX,patterns:VX,nouns:NX,adj:AX,preps:RX,writing:WX};
+ Object.keys(PXD).forEach(function(a){PXD[a].forEach(function(p,i){if(p&&M[a]&&M[a][i])M[a][i].px=p})})})();
 /* ---- Sentences and questions: engine ---- */
 var SXK="tt_sx_v1",SXI=[1,3,7,14,30,60,120,240],SXT=0,SXS=null,SXDAY=864e5;
 function sxH(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
@@ -2786,10 +2884,12 @@ function sxArea(c,hi){var st=sxLoad().c,now=Date.now(),due=0,dn=0;SX.forEach(fun
 function sxItemsFor(k){var c=SX[k],T={mc:[],fx:[],gp:[],bd:[],fix:[],dc:[]},strip=function(t){return sxC(t).replace(/[.!?]+$/,"").trim()};
  c.mc.forEach(function(m){T.mc.push({k:k,t:"mc",d:m})});c.gp.forEach(function(m){T.gp.push({k:k,t:"gp",d:m})});c.bd.forEach(function(m){T.bd.push({k:k,t:"bd",d:m})});
  c.ms.forEach(function(m,i){if(i%2==0||sxExp(m[0])==sxExp(m[1])){var r=Math.random()<.5,o=r?[sxC(m[1]),sxC(m[0])]:[sxC(m[0]),sxC(m[1])];T.fx.push({k:k,t:"fx",d:["Which sentence is correct?",o,r?0:1,m[2]]})}else T.fix.push({k:k,t:"fix",d:[sxC(m[0]),sxC(m[1]),m[2]]})});
- var ex=c.ex.map(function(t,i){return[strip(t),i]}).sort(function(a,b){return a[0].split(" ").length-b[0].split(" ").length});
+ /* Listening and building items use the lesson's unseen sentences (px) when it has them, so they test the
+    rule on new sentences; otherwise the examples on the page. */
+ var src=c.px&&c.px.length>=6?c.px:c.ex,ex=src.map(function(t,i){return[strip(t),i]}).sort(function(a,b){return a[0].split(" ").length-b[0].split(" ").length});
  var na=sxNoAu(),dc=function(t){if(na)T.bd.push({k:k,t:"bd",d:[strip(t),[]]});else T.dc.push({k:k,t:"dc",d:[sxC(t),"Listen and type the sentence you hear.",c.rm]})};
- ex.slice(0,2).forEach(function(e){dc(c.ex[e[1]])});dc(c.nt[0]);
- ex.slice(2).forEach(function(e){T.bd.push({k:k,t:"bd",d:[e[0],[]]})});
+ var nd=src===c.px?3:2;ex.slice(0,nd).forEach(function(e){dc(src[e[1]])});if(src!==c.px)dc(c.nt[0]);
+ ex.slice(nd).forEach(function(e){T.bd.push({k:k,t:"bd",d:[e[0],[]]})});
  var ord=SXORD[sxHi(c,sxLoad().c[k])?"hi":"lo"],a=[];
  ord.forEach(function(t){var q=T[t].shift();if(q)a.push(q)});Object.keys(T).forEach(function(t){a=a.concat(T[t])});return a}
 /* Help fades with level: from B2, or once a lesson has been done, practice starts with typed answers
@@ -2868,7 +2968,8 @@ function sxEnd(){var s=SXS,el=$(s.sel),st=sxLoad(),now=Date.now(),n=s.items.leng
  else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(SXI.length,(o.box||1)+1);o.rv=(o.rv||0)+1;o.np=0}else{o.box=Math.max(1,(o.box||1)-2);o.np=1}o.due=now+sxGap(o.box);st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>Review finished. Each lesson moves to its next box.</p><ul class="sxrl">'+lines.join("")+'</ul><a class="btn" href="#/worksheets/grammar/'+SXA+'" onclick="setTimeout(render,0)">Back to the lessons</a></div>'}
  SXS=null}
-function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){var pool=sxItemsFor(+k).filter(function(x){return x.t!="bd"&&x.t!="dc"});pool=sxShuf2(pool).slice(0,2);items=items.concat(pool)}});
+function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){/* reviews: one typed item (production) and one more, building from unseen sentences when the lesson has them */
+var all=sxItemsFor(+k),ty=sxShuf2(all.filter(function(x){return x.t=="gp"||x.t=="fix"})),ot=sxShuf2(all.filter(function(x){return x.t=="mc"||x.t=="fx"||(x.t=="bd"&&SX[k].px)}));items=items.concat(ty.slice(0,1),ot.slice(0,ty.length?1:2))}});
  if(!items.length)return;items=sxShuf2(items).slice(0,10);$("#sxrev").style.display="none";sxRun(items,"#sxr","r")}
 function sxShuf2(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
 
@@ -3082,9 +3183,9 @@ var LVI=[
 {s:"v",l:"B1",q:"The meeting has been ___ until next week.",o:["put off","put out","put up","put on"],x:"Put off means postpone."},
 {s:"v",l:"B1",q:"She has a lot of ___ in teaching.",o:["experience","experiment","expert","experienced"],x:"You need a noun: experience."},
 {s:"v",l:"B1",q:"Prices keep ___. Everything costs more now.",o:["rising","raising","arising","lifting"],x:"Rise has no object. Raise needs one: raise prices."},
-{s:"f",l:"B1",q:"You disagree politely in a meeting. What do you say?",o:["I see your point, but I'm not sure that would work.","You're wrong.","That's a silly idea.","No way."],x:"Acknowledge the idea first, then disagree gently."},
-{s:"f",l:"B1",q:"You want to ask your manager for a day off. What do you say?",o:["Would it be possible to take Friday off?","Give me Friday off.","I want Friday.","Friday I don't come."],x:"Would it be possible is a polite request."},
-{s:"f",l:"B1",q:"A colleague apologises for being a few minutes late. You reply kindly:",o:["No worries, we've only just started.","You're late again!","Why?","It's not good."],x:"No worries is a friendly Australian reply."},
+{s:"f",l:"B1",q:"A colleague suggests finishing the project a week earlier. You think there isn't enough time. What do you say?",o:["I see what you mean, but I'm not sure we'd have enough time.","I see what you mean, so let's do it.","Thanks, that's very kind of you.","Sorry, I didn't catch that."],x:"Disagreeing politely: accept the idea, then give your doubt with but."},
+{s:"f",l:"B1",q:"You want to ask your manager if you can have Friday off. What do you say?",o:["Would it be possible to take Friday off?","Would you like to take Friday off?","Do you mind taking Friday off?","Could I ask you to take Friday off?"],x:"Would it be possible to... asks for something for yourself. The others ask the manager to take the day off."},
+{s:"f",l:"B1",q:"A colleague arrives at a meeting and says, \"Sorry I'm a bit late.\" You reply kindly:",o:["No worries, we've only just started.","No worries, see you tomorrow.","Thanks, same to you.","Yes, please, that would be great."],x:"No worries + a reason not to worry is a friendly reply to an apology."},
 {s:"r",l:"B1",p:"b1w",q:"What problem did nearly half of the workers mention?",o:["Feeling lonely","Spending too long travelling","Working too many days","Not having enough space"],x:"\"Nearly half said they felt lonely.\""},
 {s:"r",l:"B1",p:"b1w",q:"Why do some companies ask staff to come in on the same days?",o:["So that teams can meet in person","To save money on travel","Because workers asked to stay home","Because the office is too small"],x:"\"So that teams can meet in person.\""},
 {s:"l",l:"B1",au:[["m","Mick","Hi, I'm calling about the flat on Wakefield Street. Is it still available?"],["f","Hana","Yes, it is. Inspections are on Saturday at ten, but I could show you on Thursday evening if that's easier."]],q:"When can Mick see the flat?",o:["On Saturday at ten or on Thursday evening","Only on Saturday","Only on Thursday morning","On Wednesday"],x:"Hana offers Saturday at ten or Thursday evening."},
@@ -3104,45 +3205,45 @@ var LVI=[
 {s:"v",l:"B2",q:"It's hard to ___ a balance between work and family.",o:["strike","hit","make","take"],x:"The collocation is strike a balance."},
 {s:"v",l:"B2",q:"The results were ___ disappointing. We expected more.",o:["somewhat","somehow","someday","somewhere"],x:"Somewhat means a little or rather."},
 {s:"v",l:"B2",q:"Can you ___ for me while I'm away? Just answer the phones.",o:["cover","replace","change","swap"],x:"Cover for someone means do their work while they are away."},
-{s:"f",l:"B2",q:"You want to soften criticism of a colleague's report. What do you say?",o:["It's a good start, although a few sections could be clearer.","This report is bad.","Rewrite it.","Who wrote this?"],x:"Start positive, then suggest an improvement."},
-{s:"f",l:"B2",q:"You need to interrupt politely in a meeting. What do you say?",o:["Sorry to interrupt, but could I just add something?","Stop talking.","Wait, me now.","Listen to me."],x:"Apologise, then ask permission to speak."},
-{s:"f",l:"B2",q:"A customer complains that a new kettle doesn't work. As the shop assistant, you say:",o:["I'm really sorry about that. Let me see what I can do.","That's not my problem.","You should have checked it.","Calm down."],x:"Apologise and offer help."},
-{s:"r",l:"B2",p:"b2h",q:"Why do some suburbs stay warmer at night?",o:["Dark surfaces release the heat they absorbed during the day.","There are too many parklands.","Street trees trap warm air.","People use more air conditioning."],x:"Dark roofs and roads absorb heat and release it at night."},
-{s:"r",l:"B2",p:"b2h",q:"What do critics believe?",o:["Planning rules need to be stronger.","Street trees are too expensive.","New developments have plenty of trees.","The problem will solve itself."],x:"\"Without stronger planning rules, the gap... will only widen.\""},
+{s:"f",l:"B2",q:"A colleague's report is good, but some parts are hard to follow. You want to tell them gently. What do you say?",o:["It's a good start, although a few sections could be clearer.","It's a good start, and every section is perfectly clear.","Thanks so much for asking me to write it.","I'm sorry, I haven't had a chance to read it yet."],x:"Start positive, then soften the criticism with although and could."},
+{s:"f",l:"B2",q:"In a meeting you want to add a point while someone is speaking. What do you say?",o:["Sorry to interrupt, but could I just add something?","Sorry, could you speak up a little?","Sorry, I'm afraid I have to leave now.","Sorry, could you say that again?"],x:"Sorry to interrupt, but could I just... asks to join in. The others ask for something else."},
+{s:"f",l:"B2",q:"A customer tells you, the shop assistant, that the kettle they bought yesterday doesn't work. You say:",o:["I'm really sorry about that. Let me see what I can do.","I'm glad you like it. Enjoy!","Thanks for letting us know. Have a nice day!","Thanks, I'll pass that on to the manufacturer one day."],x:"Apologise and offer to help now. Thanking without helping doesn't deal with the complaint."},
+{s:"r",l:"B2",p:"b2h",q:"Why does the writer mention that new housing developments \"often leave little room\" for trees?",o:["To show why a cheap solution is not used more","To argue that new houses should be smaller","To explain why parklands are warmer","To suggest that trees damage new houses"],x:"Trees are cheap, \"yet\" new developments leave no room for them. So a cheap solution isn't being used."},
+{s:"r",l:"B2",p:"b2h",q:"What are the critics most worried about?",o:["Suburbs without trees will keep getting hotter than leafy ones.","Street trees will become too expensive to plant.","Parklands will be replaced by new housing.","Dark roofs will be banned in new suburbs."],x:"\"The gap between leafy and treeless suburbs will only widen\": treeless suburbs fall further behind."},
 {s:"l",l:"B2",au:[["f","Jess","Have you decided whether to take the job in Sydney?"],["m","Carlos","Not yet. The salary's better, obviously, but rent there would eat up most of the difference, and I'd miss being near family."]],q:"What worries Carlos about the Sydney job?",o:["Higher costs and being away from family","The salary is too low","He doesn't like the manager","It is too far from the beach"],x:"Rent would eat up the extra pay, and he would miss his family."},
 {s:"l",l:"B2",au:[["m","Tom","Did the council approve the new bike lane?"],["f","Bec","Sort of. They approved it in principle, but they want another round of community consultation before any money is spent."]],q:"What has happened to the bike lane plan?",o:["It is approved in principle but needs more consultation.","It has been rejected.","Building has started.","The money has been spent."],x:"\"Approved it in principle\" but more consultation first."},
 {s:"l",l:"B2",au:[["f","Hana","I thought the presentation went well."],["m","Mick","It did, mostly. Though I'd have cut the last section. It repeated a lot of what we'd already said."]],q:"What does Mick think about the last section?",o:["It was repetitive.","It was the best part.","It was too short.","It was confusing."],x:"\"It repeated a lot of what we'd already said.\""},
 // C1
 {s:"g",l:"C1",q:"Not only ___ late, but he also forgot the tickets.",o:["was he","he was","did he","he did"],x:"After not only at the start, invert the subject and auxiliary.",t:"sentences"},
-{s:"g",l:"C1",q:"___ I known, I would have called you.",o:["Had","If","Have","Should"],x:"Had I known = If I had known (inverted conditional).",t:"conditionals"},
+{s:"g",l:"C1",q:"\"Had I known about the delay, I would have called you.\" What does this mean?",o:["I didn't know, so I didn't call.","I knew, so I called.","I didn't know, but I called anyway.","I will call if I find out."],x:"Had I known = If I had known: an unreal past. I didn't know and didn't call.",t:"conditionals"},
 {s:"g",l:"C1",q:"It's high time we ___ a decision.",o:["made","make","will make","have made"],x:"It's high time + past simple for the present.",t:"conditionals"},
 {s:"g",l:"C1",q:"___ the report, she realised there was a serious error.",o:["Having read","Read","Having been read","To read"],x:"Having + past participle shows the action came first.",t:"sentences"},
-{s:"g",l:"C1",q:"What I really need ___ a long holiday.",o:["is","are","be","it is"],x:"A what-cleft takes a singular verb: What I need is...",t:"sentences"},
+{s:"g",l:"C1",q:"What I really need ___ a long holiday.",o:["is","are","were","being"],x:"A what-cleft takes a singular verb: What I need is...",t:"sentences"},
 {s:"g",l:"C1",q:"He ___ have been more helpful. He just didn't want to be.",o:["could","must","can't","needn't"],x:"Could have + past participle: a possibility that did not happen.",t:"modals"},
-{s:"g",l:"C1",q:"She is said ___ the best results in the state last year.",o:["to have achieved","having achieved","that she achieved","to achieving"],x:"Is said + perfect infinitive for a past action.",t:"passive"},
-{s:"g",l:"C1",q:"Little ___ that the meeting would change everything.",o:["did they know","they knew","knew they","they did know"],x:"After little at the start, use question-style inversion.",t:"sentences"},
+{s:"g",l:"C1",q:"She is said ___ the best results in the state last year.",o:["to have achieved","to achieve","to be achieving","to have been achieved"],x:"Last year is past, and she did the achieving: is said + to have + past participle.",t:"passive"},
+{s:"g",l:"C1",q:"Little ___ that the meeting would change everything.",o:["did they know","do they know","will they know","have they known"],x:"After little at the start, invert. Would change shows the past, so: did they know.",t:"sentences"},
 {s:"v",l:"C1",q:"The proposal was met with ___ criticism from residents.",o:["scathing","scorching","scalding","scaring"],x:"Scathing criticism is very severe."},
 {s:"v",l:"C1",q:"The minister was forced to ___ after the scandal.",o:["step down","step in","step up","step over"],x:"Step down means resign from a position."},
 {s:"v",l:"C1",q:"Her argument doesn't ___ water.",o:["hold","carry","keep","take"],x:"Doesn't hold water means it is not convincing."},
 {s:"v",l:"C1",q:"The new policy is likely to have ___ consequences.",o:["far-reaching","far-fetched","long-winded","high-pitched"],x:"Far-reaching means having a wide effect."},
 {s:"v",l:"C1",q:"We'll need to ___ the pros and cons carefully.",o:["weigh up","weigh down","weigh in","weigh out"],x:"Weigh up means consider carefully."},
-{s:"f",l:"C1",q:"You want to decline a client's request diplomatically. What do you say?",o:["I'm afraid that won't be possible this time, but I can suggest an alternative.","No, we won't do that.","That's impossible.","Ask someone else."],x:"Soften the refusal and offer an alternative."},
-{s:"f",l:"C1",q:"Which phrase best hedges a claim in an academic essay?",o:["The evidence would seem to suggest that...","It is 100% true that...","Everyone knows that...","Obviously..."],x:"Would seem to suggest is cautious academic language."},
-{s:"f",l:"C1",q:"Which sentence concedes a point in a debate?",o:["Granted, the costs are high, but the long-term benefits outweigh them.","The costs are not high.","You are wrong about the costs.","Costs, whatever."],x:"Granted... but accepts a point before arguing back."},
+{s:"f",l:"C1",q:"A client asks for a big discount you can't give. You want to say no diplomatically. What do you say?",o:["I'm afraid that won't be possible this time, but I can suggest an alternative.","I'd be delighted to help with that. When would suit you?","I'm afraid I'll have to check and get back to you.","That's a great idea. Let's go ahead."],x:"A diplomatic refusal says no clearly but softly, and offers something else. Checking later doesn't refuse."},
+{s:"f",l:"C1",q:"Which sentence makes a careful (hedged) claim in an academic essay?",o:["The evidence would seem to suggest that the policy failed.","The evidence clearly proves that the policy failed.","As everyone knows, the evidence shows the policy failed.","It goes without saying that the policy failed."],x:"Would seem to suggest is cautious. The others present the claim as certain."},
+{s:"f",l:"C1",q:"Which sentence accepts the other side's point before arguing back?",o:["Granted, the costs are high, but the long-term benefits outweigh them.","Given that the costs are high, the project should not go ahead.","Since the costs are high, I'm afraid I can't agree.","The costs are high, so the benefits are limited."],x:"Granted... but concedes a point, then argues back. Given that and since give a reason."},
 {s:"r",l:"C1",p:"c1f",q:"What is the sceptics' main objection?",o:["The firms in the trials may not be typical.","Productivity always falls.","Workers' wellbeing gets worse.","The trials were too long."],x:"Self-selected, enthusiastic firms may not represent everyone."},
 {s:"r",l:"C1",p:"c1f",q:"Why does the writer mention health care?",o:["As a sector where shorter weeks may be harder to apply","As an example of a successful trial","To show that demand is falling","To praise health workers"],x:"Health care has constant demand, so results may not apply."},
 {s:"l",l:"C1",au:[["m","Dave","So, are you backing the proposal or not?"],["f","Sofia","I'm not opposed to it in principle. I just think the timeline's wildly optimistic. If they pushed it back six months, I'd sign off on it tomorrow."]],q:"What is Sofia's position?",o:["She supports the idea but thinks the schedule is unrealistic.","She is completely against it.","She wants it done faster.","She has already signed off."],x:"Not opposed in principle; the timeline is wildly optimistic."},
 {s:"l",l:"C1",au:[["f","Kylie","Did you read the review of the restaurant?"],["m","Arjun","I did. For a critic who's usually so scathing, it was practically a love letter."]],q:"What does Arjun suggest about the review?",o:["It was unusually positive for that critic.","It was very harsh.","It was written as a letter.","It was badly written."],x:"\"Practically a love letter\" from a usually harsh critic."},
 {s:"l",l:"C1",au:[["f","Mei","You'd think after three rounds of interviews they'd have made up their minds."],["m","Dave","You would. Though between you and me, I hear the internal candidate's a shoo-in."]],q:"What does Dave believe?",o:["The internal candidate will almost certainly get the job.","There will be a fourth interview.","Mei will get the job.","Nobody will be hired."],x:"A shoo-in is someone certain to win."},
 // C2
-{s:"g",l:"C2",q:"Were the council ___ the plan, there would be protests.",o:["to approve","approving","approve","approved"],x:"Were + subject + to-infinitive is a formal inverted conditional.",t:"conditionals"},
-{s:"g",l:"C2",q:"Seldom ___ such a convincing argument.",o:["have I heard","I have heard","I heard","did I heard"],x:"After seldom at the start, invert the auxiliary and subject.",t:"sentences"},
+{s:"g",l:"C2",q:"\"Were the council to approve the plan, there would be protests.\" What does this mean?",o:["If the council approved the plan, people would protest.","The council approved the plan, and people protested.","People protested, so the council approved the plan.","The council will approve the plan if people protest."],x:"Were + subject + to-infinitive is a formal, unlikely condition: if the council approved it.",t:"conditionals"},
+{s:"g",l:"C2",q:"Seldom ___ such a convincing argument.",o:["have I heard","I have heard","I heard","I've heard"],x:"After seldom at the start, invert the auxiliary and subject.",t:"sentences"},
 {s:"g",l:"C2",q:"Try as she ___, she couldn't open the jar.",o:["might","could","would","should"],x:"Try as she might = although she tried very hard.",t:"sentences"},
-{s:"g",l:"C2",q:"The project, ___ success depended on volunteers, was eventually abandoned.",o:["whose","which","of which","that's"],x:"Whose shows possession in a relative clause.",t:"sentences"},
+{s:"g",l:"C2",q:"The project, ___ success depended on volunteers, was eventually abandoned.",o:["whose","which","whom","that"],x:"Whose shows possession: the project's success.",t:"sentences"},
 {s:"g",l:"C2",q:"Such ___ the demand that tickets sold out in minutes.",o:["was","did","had","were"],x:"Such + be + noun + that: Such was the demand that...",t:"sentences"},
-{s:"g",l:"C2",q:"I'd sooner you ___ mention it to anyone.",o:["didn't","don't","won't","not"],x:"I'd sooner + subject + past simple, for a present wish.",t:"conditionals"},
-{s:"g",l:"C2",q:"He denied ___ any involvement in the decision.",o:["having had","to have had","have had","that having"],x:"Deny + -ing; having had stresses an earlier time.",t:"patterns"},
-{s:"g",l:"C2",q:"So engrossed ___ in the book that she missed her stop.",o:["was she","she was","did she","she did"],x:"So + adjective at the start triggers inversion.",t:"sentences"},
+{s:"g",l:"C2",q:"I'd sooner you ___ mention it to anyone.",o:["didn't","don't","won't","wouldn't"],x:"I'd sooner + another person + past simple, for a present wish.",t:"conditionals"},
+{s:"g",l:"C2",q:"He denied ___ any involvement in the decision.",o:["having had","to have had","having been had","to have"],x:"Deny + -ing; having had stresses an earlier time. Having been had means being tricked.",t:"patterns"},
+{s:"g",l:"C2",q:"So engrossed ___ in the book that she missed her stop.",o:["was she","she was","is she","were she"],x:"So + adjective at the start triggers inversion, in the past here: was she.",t:"sentences"},
 {s:"v",l:"C2",q:"The speech was full of ___ that said nothing concrete.",o:["platitudes","aptitudes","latitudes","attitudes"],x:"Platitudes are empty, overused remarks."},
 {s:"v",l:"C2",q:"The evidence is ___ at best. We can't draw firm conclusions.",o:["tenuous","tenacious","tedious","tremendous"],x:"Tenuous means very weak or slight."},
 {s:"v",l:"C2",q:"She ___ the committee's concerns with a single sentence.",o:["allayed","alleged","allied","alloyed"],x:"Allay concerns means reduce or calm them."},

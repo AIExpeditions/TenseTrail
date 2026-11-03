@@ -433,6 +433,7 @@ function skillCards(){var S=[["🎯","Find Your Level","An adaptive placement te
 /*@include lessons/adj.js*/
 /*@include lessons/preps.js*/
 /*@include lessons/writing.js*/
+/*@include lessons/px.js*/
 /* ---- Sentences and questions: engine ---- */
 var SXK="tt_sx_v1",SXI=[1,3,7,14,30,60,120,240],SXT=0,SXS=null,SXDAY=864e5;
 function sxH(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
@@ -489,10 +490,12 @@ function sxArea(c,hi){var st=sxLoad().c,now=Date.now(),due=0,dn=0;SX.forEach(fun
 function sxItemsFor(k){var c=SX[k],T={mc:[],fx:[],gp:[],bd:[],fix:[],dc:[]},strip=function(t){return sxC(t).replace(/[.!?]+$/,"").trim()};
  c.mc.forEach(function(m){T.mc.push({k:k,t:"mc",d:m})});c.gp.forEach(function(m){T.gp.push({k:k,t:"gp",d:m})});c.bd.forEach(function(m){T.bd.push({k:k,t:"bd",d:m})});
  c.ms.forEach(function(m,i){if(i%2==0||sxExp(m[0])==sxExp(m[1])){var r=Math.random()<.5,o=r?[sxC(m[1]),sxC(m[0])]:[sxC(m[0]),sxC(m[1])];T.fx.push({k:k,t:"fx",d:["Which sentence is correct?",o,r?0:1,m[2]]})}else T.fix.push({k:k,t:"fix",d:[sxC(m[0]),sxC(m[1]),m[2]]})});
- var ex=c.ex.map(function(t,i){return[strip(t),i]}).sort(function(a,b){return a[0].split(" ").length-b[0].split(" ").length});
+ /* Listening and building items use the lesson's unseen sentences (px) when it has them, so they test the
+    rule on new sentences; otherwise the examples on the page. */
+ var src=c.px&&c.px.length>=6?c.px:c.ex,ex=src.map(function(t,i){return[strip(t),i]}).sort(function(a,b){return a[0].split(" ").length-b[0].split(" ").length});
  var na=sxNoAu(),dc=function(t){if(na)T.bd.push({k:k,t:"bd",d:[strip(t),[]]});else T.dc.push({k:k,t:"dc",d:[sxC(t),"Listen and type the sentence you hear.",c.rm]})};
- ex.slice(0,2).forEach(function(e){dc(c.ex[e[1]])});dc(c.nt[0]);
- ex.slice(2).forEach(function(e){T.bd.push({k:k,t:"bd",d:[e[0],[]]})});
+ var nd=src===c.px?3:2;ex.slice(0,nd).forEach(function(e){dc(src[e[1]])});if(src!==c.px)dc(c.nt[0]);
+ ex.slice(nd).forEach(function(e){T.bd.push({k:k,t:"bd",d:[e[0],[]]})});
  var ord=SXORD[sxHi(c,sxLoad().c[k])?"hi":"lo"],a=[];
  ord.forEach(function(t){var q=T[t].shift();if(q)a.push(q)});Object.keys(T).forEach(function(t){a=a.concat(T[t])});return a}
 /* Help fades with level: from B2, or once a lesson has been done, practice starts with typed answers
@@ -571,7 +574,8 @@ function sxEnd(){var s=SXS,el=$(s.sel),st=sxLoad(),now=Date.now(),n=s.items.leng
  else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(SXI.length,(o.box||1)+1);o.rv=(o.rv||0)+1;o.np=0}else{o.box=Math.max(1,(o.box||1)-2);o.np=1}o.due=now+sxGap(o.box);st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>Review finished. Each lesson moves to its next box.</p><ul class="sxrl">'+lines.join("")+'</ul><a class="btn" href="#/worksheets/grammar/'+SXA+'" onclick="setTimeout(render,0)">Back to the lessons</a></div>'}
  SXS=null}
-function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){var pool=sxItemsFor(+k).filter(function(x){return x.t!="bd"&&x.t!="dc"});pool=sxShuf2(pool).slice(0,2);items=items.concat(pool)}});
+function sxRevStart(){var st=sxLoad().c,now=Date.now(),items=[];Object.keys(st).forEach(function(k){var o=st[k];if(o&&o.box&&o.due<=now&&SX[k]){/* reviews: one typed item (production) and one more, building from unseen sentences when the lesson has them */
+var all=sxItemsFor(+k),ty=sxShuf2(all.filter(function(x){return x.t=="gp"||x.t=="fix"})),ot=sxShuf2(all.filter(function(x){return x.t=="mc"||x.t=="fx"||(x.t=="bd"&&SX[k].px)}));items=items.concat(ty.slice(0,1),ot.slice(0,ty.length?1:2))}});
  if(!items.length)return;items=sxShuf2(items).slice(0,10);$("#sxrev").style.display="none";sxRun(items,"#sxr","r")}
 function sxShuf2(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=b[i];b[i]=b[j];b[j]=t}return b}
 

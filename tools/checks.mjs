@@ -15,7 +15,7 @@ import vm from "node:vm";
 const SRC = join(dirname(fileURLToPath(import.meta.url)), "..", "src");
 const MIN = 8, LEVELS = ["A1", "A2", "B1", "B2", "C1"];
 const AREAS = { sentences: "SX", modals: "MX", conditionals: "CX", passive: "PX", patterns: "VX", nouns: "NX", adj: "AX", preps: "RX", writing: "WX" };
-const files = Object.keys(AREAS).map((a) => "lessons/" + a + ".js").concat(["plus/pathdata.js"]);
+const files = Object.keys(AREAS).map((a) => "lessons/" + a + ".js").concat(["lessons/px.js", "plus/pathdata.js"]);
 const ctx = vm.createContext({});
 vm.runInContext(files.map((f) => readFileSync(join(SRC, f), "utf8")).join("\n;\n"), ctx, { filename: "content-checks" });
 const lv2 = readFileSync(join(SRC, "app.js"), "utf8").match(/var LV2=(\[[^\]]*\])/);
@@ -40,6 +40,7 @@ for (const a in AREAS) ctx[AREAS[a]].forEach((c, i) => {
     c.px.forEach((t) => { if (shown.has(clean(t))) errors.push(`${id} "${c.t}": px sentence is already on the page: ${t}`); });
   }
 });
+for (const a in AREAS) ctx[AREAS[a]].forEach((c, i) => { if (!c.px) warnings.push(`${a}:${i} "${c.t}" has no unseen practice sentences (px) in src/lessons/px.js.`); });
 LEVELS.forEach((l) => { if (count[l] < MIN) errors.push(`Level ${l} has only ${count[l]} lessons (at least ${MIN} needed).`); });
 
 ctx.PTU.forEach((u, ui) => u[3].forEach((r) => {
