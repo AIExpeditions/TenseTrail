@@ -194,7 +194,12 @@ Stage 2 (added 1 November 2026):
 - "Secure": passed, then remembered in two later reviews. Area reviews and practice keep these flags too.
 - Unit checks after each unit with two or more grammar lessons: 18 to 20 mixed questions, pass at 80%. Lessons under 80% in the check are marked "Needs practice" and due tomorrow. The Today card offers the check once every lesson in a unit is passed.
 
-Next: stage 3 (retest pools with a different explanation after a miss, Gemini unit writing tasks, goal-based order and study plan).
+Stage 3 (added 3 November 2026):
+- Under 16/20 in a lesson practice: "Look at it another way" shows the rule cards side by side, the common mistakes (the ones the learner made first) and the learner's missed answers, then a 10-question retest: up to 4 new gap questions made from the lesson's Notice sentences, the missed questions again, and other questions from the lesson. 8/10 passes the lesson on the trail. After two failed retests the lesson is marked "Needs practice" and comes back in tomorrow's review.
+- A unit task for each of the 18 units: a real-life Adelaide writing or speaking task with a word range by level, marked by the AI teacher. After the first feedback the learner is asked to fix it and send it again, and can compare with the first version. The Today card offers it after the unit check (or after the lessons, for a unit without a check).
+- "My plan": goal (getting around, shopping and money, health, work, news and study, general) and study days a week, asked on the welcome card and changeable any time. It shows an estimated finish date for the current level. English Skills lessons for the learner's goal get a "Your goal" tag, and the Today card suggests the next one.
+
+Still to do: new retest question pools written for each lesson (the report suggests about 10 per lesson), so retests rely less on the lesson's own questions.
 
 ## Roadmap
 
