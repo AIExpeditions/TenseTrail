@@ -7,7 +7,8 @@ which GitHub Pages can serve and which can be published as a Claude artifact.
 Also writes worker/feedback-worker.js (the Gemini feedback proxy) from
 worker/feedback-worker.src.js, so it uses the same rubric as the site, and builds
 in the list of feedback tasks (tools/tasks.mjs, which needs Node.js) so the Worker
-only marks tasks the site really sets.
+only marks tasks the site really sets. Before building it runs tools/checks.mjs, which stops
+the build if the content breaks a rule from the audit (level coverage, B2+ hints, path units).
 
 Usage: python3 tools/build.py
 """
@@ -47,7 +48,19 @@ def feedback_tasks():
     return out.stdout
 
 
+def content_checks():
+    """Stop the build if tools/checks.mjs finds a content error (it prints what and where)."""
+    node = shutil.which("node")
+    if not node:
+        raise SystemExit("Node.js is needed for the content checks (tools/checks.mjs). Install it from nodejs.org.")
+    out = subprocess.run([node, str(ROOT / "tools" / "checks.mjs")], capture_output=True, text=True, encoding="utf-8")
+    print((out.stdout + out.stderr).strip())
+    if out.returncode:
+        raise SystemExit("Content checks failed. Fix the errors above, then build again.")
+
+
 def main():
+    content_checks()
     html = expand((SRC / "index.html").read_text(encoding="utf-8"))
     OUT.parent.mkdir(exist_ok=True)
     OUT.write_text(html, encoding="utf-8")

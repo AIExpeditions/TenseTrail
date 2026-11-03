@@ -96,7 +96,7 @@ var AX=[
  ck:["I used much, far or a lot for big differences.","I used a bit or slightly for small differences.","I didn't use very before a comparative."],
  vd:["Fr83ObluJ2A","English Grammar: Modifying Comparatives - a lot, far more, much, a little, slightly","ENGLISH with James · engVid",""]},
 
-{t:"Adjectives: gradable and non-gradable",lv:"B1",e:"🌡️",
+{t:"Adjectives: gradable and non-gradable",lv:"B2",e:"🌡️",
  nt:["It's [[very hot]] today.","It's [[absolutely boiling]]!","The film was [[really good]].","The film was [[absolutely brilliant]]."],
  nq:"Which adjectives can be a little or a lot? Which adjectives are already extreme? Which word goes with each?",
  ru:[["Gradable","These can be more or less: <b>hot, cold, big, tired, good</b>. Use <b>very, a bit, quite, extremely</b>: <b>very tired</b>."],["Non-gradable","These are already extreme: <b>boiling, freezing, huge, exhausted, brilliant, terrible</b>. Use <b>absolutely, completely, totally</b>: <b>absolutely exhausted</b>."],["Don't mix","Not <b>very freezing</b>. Not <b>absolutely cold</b>. Match the adverb to the adjective."],["Really works with both","<b>really cold</b> and <b>really freezing</b> are both fine."]],
@@ -106,7 +106,7 @@ var AX=[
  dl:{ti:"Heatwave",sp:[["Kylie","she"],["Arjun","he"]],ln:[[0,"It's [[absolutely boiling]] today!"],[1,"I know. It's forty-three degrees. I'm [[very hot]] and [[really tired]]."],[0,"Let's go to the beach. The water will be [[quite cold]]."],[1,"Good idea. My flat is [[absolutely tiny]] and there's no air con."],[0,"The beach will be [[absolutely packed]], though."],[1,"I don't care. It'll be [[very nice]] in the water."]]},
  mc:[["I'm ___ starving. Can we eat?",["very","absolutely","a bit"],1,"Starving is extreme: absolutely."],["The water is ___ cold today.",["very","absolutely","completely"],0,"Cold is normal: very."],["Which word works with both types?",["really","very","absolutely"],0,"Really works with both."],["Which sentence is correct?",["Their house is very huge.","Their house is absolutely huge.","Their house is a bit huge."],1,"Huge is extreme: absolutely."]],
  bd:[["The view was absolutely amazing",[]],["I am very tired today",[]]],
- gp:[["The concert was ___ brilliant. (extreme adverb)",["absolutely","totally","completely","really"],"Brilliant is extreme: absolutely."],["It's ___ windy today. (normal adverb)",["very","really","quite","extremely"],"Windy is normal: very."],["After the hike I was ___ exhausted. (extreme adverb)",["completely","absolutely","totally","really"],"Exhausted is extreme: completely."]],
+ gp:[["The concert was ___ brilliant. Everyone was dancing.",["absolutely","totally","completely","really"],"Brilliant is extreme: absolutely."],["It's ___ windy today. Hold on to your hat.",["very","really","quite","extremely"],"Windy is normal: very."],["After the 20-kilometre hike I was ___ exhausted.",["completely","absolutely","totally","really"],"Exhausted is extreme: completely."]],
  pr:"Describe a very hot or very cold day you remember. Use normal and extreme adjectives.",
  md:"Last January it was absolutely boiling in Adelaide. It was forty-five degrees! I was very hot and really tired. The beach was absolutely packed. The water was quite cold, which was lovely.",
  ck:["I used very with normal adjectives.","I used absolutely with extreme adjectives.","I didn't mix them up."],
