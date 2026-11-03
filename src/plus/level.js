@@ -43,18 +43,18 @@ function lvResume(){LV=lvLoadRun();if(!LV){lvSelf();return}var e=lvEst(LV.mu,LV.
 function lvAsk(){var s=LV,n=s.res.length;if(n>=LVMAX||(n>=LVMIN&&s.se<=LVSE)){lvDone();return}var i=lvNextItem();if(i<0){lvDone();return}
  s.cur={i:i,o:lvShuf(LVI[i].o.map(function(_,j){return j})),t:Date.now(),pl:0};lvSaveRun();lvDraw()}
 function lvDraw(){var s=LV,c=s.cur,it=LVI[c.i],n=s.res.length,pr=Math.max(n/LVMAX,Math.min(1,(1.4-s.se)/(1.4-LVSE))*(n/LVMIN<1?n/LVMIN:1));
- var h='<div class="lvi lvq"><div class="sxpb"><i style="width:'+Math.round(Math.min(.97,pr)*100)+'%"></i></div><div class="sxqh"><span>Question '+(n+1)+'</span><b>'+LVSK[it.s]+'</b></div>';
+ var h='<div class="lvi lvq"><div class="sxpb"><i style="width:'+Math.round(Math.min(.97,pr)*100)+'%"></i></div><div class="sxqh" id="lvqh" tabindex="-1"><span>Question '+(n+1)+'</span><b>'+LVSK[it.s]+'</b></div>';
  if(it.p)h+='<div class="lvp">'+sxH(LVP[it.p])+'</div>';
  if(it.au)h+='<div class="lvau"><button class="btn ghost" id="lvpl" onclick="lvPlay()">▶ Play the conversation</button><span class="sxsub" id="lvpn">You can play it twice.</span></div>';
  h+='<p class="sxst2">'+sxH(it.q).replace("___",'<span class="sxbl">  </span>')+'</p><div class="sxos">'+c.o.map(function(j,k){return'<button class="sxo" onclick="lvAns('+j+')"><kbd>'+(k+1)+'</kbd> '+sxH(it.o[j])+'</button>'}).join("")+'<button class="sxo lvdk" onclick="lvAns(-1)"><kbd>0</kbd> I don’t know</button></div>';
  h+='<div class="lvft"><button class="lnk" onclick="lvQuit()">Save and stop for now</button></div></div>';
- $("#lvbox").innerHTML=h;lvTop()}
+ $("#lvbox").innerHTML=h;lvTop();var qh=$("#lvqh");if(qh)qh.focus({preventScroll:true})}
 function lvPlay(){var c=LV&&LV.cur;if(!c)return;var it=LVI[c.i];if(c.on){c.on=0;cvKill();SXT++;if(c.done)c.done();return}if(c.pl>=2)return;c.pl++;cvKill();var my=++SXT,b=$("#lvpl"),n=$("#lvpn");if(n)n.textContent=c.pl>=2?"That was your last play.":"One more play left.";c.on=1;if(b){b.disabled=false;b.textContent="\u23F9 Stop";apCtlOn(b)}
  var done=c.done=function(){c.on=0;if(b){b.disabled=c.pl>=2;b.textContent=c.pl>=2?"No plays left":"▶ Play again"}};
  (function nx(k){if(my!=SXT){done();return}if(k>=it.au.length){done();return}var ln=it.au[k],f=vFor(ln[0]);vTalk(ln[2],{v:f.v,g:ln[0],rate:LVI[c.i].l<"B"?.88:.97,alive:function(){return my==SXT},onend:function(){setTimeout(function(){nx(k+1)},350)},onfail:function(){done();if(n)n.textContent="Audio is not available on this device. Choose I don’t know to skip this question."}})})(0)}
 function lvAns(j){var s=LV;if(!s||!s.cur)return;var c=s.cur;cvKill();SXT++;s.res.push({i:c.i,ok:j==0,c:j,ms:Date.now()-c.t});var e=lvEst(s.mu,s.res);s.th=e.th;s.se=e.se;s.cur=null;lvAsk()}
 function lvQuit(){lvSaveRun();cvKill();SXT++;LV=null;$("#lvbox").innerHTML=lvIntro();obs()}
-function lvKey(e){if(!LV||!LV.cur||!$("#lvbox")||/INPUT|TEXTAREA/.test((e.target||{}).tagName||""))return;var k=e.key;if(k=="0"){lvAns(-1);return}var d=+k;if(d>=1&&d<=LV.cur.o.length)lvAns(LV.cur.o[d-1])}
+function lvKey(e){var q=$(".lvq");if(!LV||!LV.cur||!q||!q.contains(document.activeElement)||e.ctrlKey||e.metaKey||e.altKey||/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||""))return;var k=e.key;if(k=="0"){lvAns(-1);return}var d=+k;if(d>=1&&d<=LV.cur.o.length)lvAns(LV.cur.o[d-1])}
 document.addEventListener("keydown",lvKey);
 function lvDone(){var s=LV,e=lvEst(s.mu,s.res),th=e.th,se=e.se,lvl=lvLevel(th),lo=lvLevel(th-1.28*se),hi=lvLevel(th+1.28*se),sk={},ar={},fast=0,nl=0;
  s.res.forEach(function(r){var it=LVI[r.i],p=lvP(th,it.b),o=sk[it.s]=sk[it.s]||[0,0,0];o[0]+=r.ok?1:0;o[1]++;o[2]+=p;if(it.s!="l"){nl++;if(r.ms<2500&&r.c>=0)fast++}
@@ -70,7 +70,7 @@ function lvResult(){var s=LV,r=s.rec,i;var weak=Object.keys(s.ar).filter(functio
  h+='<h3>Your skills</h3><div class="lvsk">'+Object.keys(LVSK).filter(function(k){return r.sk[k]}).map(function(k){var o=r.sk[k],d=(o[0]-o[2])/o[1],lab=o[1]<2?"Too few questions to say":d>.15?"Stronger than your overall level":d<-.15?"Weaker than your overall level":"In line with your level",cl=o[1]<2?"":d>.15?"up":d<-.15?"dn":"eq";return'<div class="lvs '+cl+'"><b>'+LVSK[k]+'</b><span>'+o[0]+' of '+o[1]+' correct</span><small>'+lab+'</small></div>'}).join("")+'</div>';
  h+='<h3>Where to start</h3><div class="lvrec">'+lvRecs(r.lvl,weak)+'</div>';
  h+='<details class="sxd"><summary>Review your answers</summary><ol class="lvrev">'+s.res.map(function(x){var it=LVI[x.i];return'<li class="'+(x.ok?"ok":"no")+'"><small>'+LVSK[it.s]+' · '+it.l+'</small>'+(it.p?'<p class="lvp sm">'+sxH(LVP[it.p])+'</p>':'')+(it.au?'<p class="lvp sm">'+it.au.map(function(a){return'<b>'+a[1]+':</b> '+sxH(a[2])}).join("<br>")+'</p>':'')+'<p>'+sxH(it.q)+'</p><p>'+(x.ok?'✓ ':'✗ Your answer: '+(x.c<0?'I don’t know':sxH(it.o[x.c]))+'. ')+'<b>'+sxH(it.o[0])+'</b></p><p class="sxsub">'+sxH(it.x)+'</p></li>'}).join("")+'</ol></details>';
- h+='<h3>Add a writing or speaking sample (optional)</h3><p class="sxsub">This test covers grammar, vocabulary, reading and listening. Write or say 60 to 150 words to get a separate estimate for writing or speaking.</p>'+fbWidget("lv",{task:"Describe the place where you live and say what you like and dislike about it. Write or say 60 to 150 words.",level:r.lvl,topic:"General placement sample",mode:"placement"});
+ h+='<h3>Add a writing or speaking sample (optional)</h3><p class="sxsub">This test covers grammar, vocabulary, reading and listening. Write or say 60 to 150 words to get a separate estimate for writing or speaking.</p>'+fbWidget("lv",{task:LVTASK,level:r.lvl,topic:LVTOPIC,mode:"placement"});
  h+='<div class="sxbt" style="margin-top:20px"><button class="btn ghost" onclick="lvSelf()">Take the test again</button> <a class="btn" href="#/worksheets/grammar">Open the Grammar Studio</a></div><p class="sxsub" style="margin-top:12px">Saved on this device. Difficulties are expert estimates, not yet calibrated with real learners, so use this level as a guide.</p></div>';
  $("#lvbox").innerHTML=h;lvTop();fbInit("lv")}
 function lvRecs(lvl,weak){var L2=["A1","A2","B1","B2","C1"],tgt=lvl=="Pre-A1"?"A1":lvl=="C2"?"C1":lvl,out=[],seen={};
