@@ -10,15 +10,15 @@ var PTU=[
  ["A2","Comparing and describing","I can compare things and say how I feel about them.",["g:adj:1","g:adj:2","g:adj:3","g:adj:4","t:2","k:s:1"]],
  ["A2","Advice and plans","I can give advice and talk about plans and their results.",["g:modals:1","g:conditionals:0","g:patterns:0","g:patterns:1","k:w:1"]],
  ["B1","Experiences and habits","I can talk about my experiences and how life used to be.",["t:3","t:6","g:patterns:5","g:patterns:6","g:modals:2","g:sentences:3"]],
- ["B1","Rules and good guesses","I can explain rules and make good guesses about what is happening.",["g:modals:3","k:r:2","k:l:2","g:modals:4","g:modals:5","g:modals:6"]],
- ["B1","Future and conditions","I can talk about future plans and imagine different situations.",["t:9","t:10","g:conditionals:1","g:conditionals:2","k:s:2","k:w:2"]],
- ["B1","Describing in detail","I can describe people, places and things in more detail.",["g:sentences:4","g:sentences:5","g:adj:5","g:adj:6","g:adj:7","g:adj:8","g:nouns:8"]],
- ["B1","Reporting and the passive","I can say what other people said and what was done.",["g:passive:0","g:passive:1","g:passive:2","g:passive:3","g:nouns:9","g:preps:3"]],
+ ["B1","Rules and good guesses","I can explain rules and make good guesses about what is happening.",["g:modals:3","k:r:2","k:l:2","g:modals:4","g:modals:6"]],
+ ["B1","Future and conditions","I can talk about future plans and imagine different situations.",["t:9","g:conditionals:1","g:conditionals:2","k:s:2","k:w:2"]],
+ ["B1","Describing in detail","I can describe people, places and things in more detail.",["g:sentences:4","g:sentences:5","g:adj:5","g:adj:7","g:adj:8","g:nouns:8"]],
+ ["B1","Reporting and the passive","I can say what other people said and what was done.",["g:passive:0","g:passive:1","g:passive:2","g:nouns:9","g:preps:3"]],
  ["B1","Verb patterns and writing","I can use common verb patterns and write clear, correct sentences.",["g:patterns:2","g:patterns:3","g:patterns:4","g:writing:1","g:writing:2"]],
- ["B2","Looking back","I can talk about past regrets and how things could have been different.",["t:7","g:conditionals:3","g:conditionals:4","g:modals:7","k:r:3"]],
- ["B2","Work and the future","I can handle work conversations and talk about long-term plans.",["t:11","k:l:3","k:s:3","k:w:3"]],
+ ["B2","Looking back","I can talk about past regrets, guess what happened and say how things could have been different.",["t:7","g:modals:5","g:modals:7","g:conditionals:3","g:conditionals:4","k:r:3"]],
+ ["B2","Work and the future","I can handle work conversations, report what people said and talk about long-term plans.",["t:10","t:11","g:passive:3","g:adj:6","g:conditionals:6","k:l:3","k:s:3","k:w:3"]],
  ["C1","Formal reporting","I can follow and use the formal language of news and reports.",["g:passive:4","g:passive:5","g:nouns:10","g:sentences:6","k:r:4","k:l:4"]],
- ["C1","Emphasis and nuance","I can add emphasis and talk about unreal and possible situations.",["g:sentences:7","g:sentences:8","g:conditionals:5","g:conditionals:6","g:modals:8","k:s:4"]],
+ ["C1","Emphasis and nuance","I can add emphasis and talk about unreal and possible situations.",["g:sentences:7","g:sentences:8","g:conditionals:5","g:modals:8","k:s:4"]],
  ["C1","Polished writing","I can write smooth, well-linked texts without repeating myself.",["g:preps:4","g:preps:5","g:sentences:9","g:patterns:7","k:w:4"]]
 ];
 /* Unit tasks: one real-life writing or speaking task per unit, marked by the AI teacher (Gemini). */

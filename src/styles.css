@@ -392,3 +392,14 @@ button.ptbig{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointe
 .tag.gl{background:var(--lav);color:#21134d}
 /* visually hidden, still read by screen readers */
 .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+/* practice: rule panel, no-audio option, closed walkthrough at B2+ */
+.sxrw{margin-top:10px}.sxrule{margin-top:6px;padding:10px 14px;border-radius:14px;background:color-mix(in srgb,var(--sky,#9ad) 18%,var(--card));line-height:1.5}
+.sxna{display:flex;gap:8px;align-items:center;margin-top:12px;color:var(--mut);font-size:.92rem}.sxna input{width:18px;height:18px}
+.sxtut{margin-top:12px}.sxtut>summary{font-weight:800;cursor:pointer}
+/* skills Detail: text beside the questions */
+.skdet{display:grid;gap:14px}.skpin>summary{font-weight:800;cursor:pointer;padding:6px 0}.skpt{font-size:.98rem;line-height:1.6;margin:6px 0 0}.skpn{display:inline-block;min-width:1.4em;color:var(--teal-ink)}
+@media(max-width:899px){.skpin{position:sticky;top:64px;z-index:3;background:var(--card);border-radius:16px;padding:4px 12px;box-shadow:0 6px 18px rgba(0,0,0,.08)}.skpin .skpt{max-height:38vh;overflow:auto}}
+@media(min-width:900px){.skdet{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}.skpin{position:sticky;top:90px}.skpin .skpt{max-height:70vh;overflow:auto}}
+.skrule{margin:12px 0}
+/* AI feedback: hint first, answer on request, revise */
+.fbco mark{background:color-mix(in srgb,var(--sun,#ffd166) 55%,transparent);border-radius:4px;padding:0 3px}.fbans{margin-top:6px}.fbans>summary{cursor:pointer;font-weight:800;color:var(--teal-ink)}.fbarea{display:inline-block;margin-top:4px;font-weight:800;color:var(--teal-ink)}

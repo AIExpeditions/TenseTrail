@@ -23,7 +23,7 @@ An English grammar website for adult learners (A1 to C1), set in everyday Adelai
 python3 tools/build.py
 ```
 
-This writes `docs/index.html`. Commit the built file with your source changes so the live site updates. It also rebuilds `worker/feedback-worker.js`, which needs [Node.js](https://nodejs.org/) to read the list of writing and speaking tasks. If a task's wording changed, paste the new Worker code into Cloudflare too ([how](worker/README.md)).
+This writes `docs/index.html`. Commit the built file with your source changes so the live site updates. It also rebuilds `worker/feedback-worker.js`, which needs [Node.js](https://nodejs.org/) to read the list of writing and speaking tasks. If a task's wording changed, the Worker needs redeploying: the GitHub Action in `.github/workflows/deploy-worker.yml` does it on push once its Cloudflare secrets are set, or paste the new code by hand ([how](worker/README.md)).
 
 ## Add a grammar area
 
