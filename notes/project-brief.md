@@ -188,7 +188,13 @@ Ali chose Option B, "Mastery path", from `reports/Guided learning path design.md
 - The review box now runs 1, 3, 7, 14, 30, 60, 120, 240 days, drops back two boxes after a miss (not to box 1), and shifts dates by up to 10% so reviews spread out.
 - Streak and weekly goal on the page, and "Save my progress": a backup code to copy and restore on another device.
 
-Next: stage 2 (mixed reviews of look-alike pairs, lesson "Secure" state, unit checkpoints) and stage 3 (retest pools, Gemini unit tasks, goal-based order).
+Stage 2 (added 1 November 2026):
+- The Today card runs one mixed review across all areas: 4 questions from each due lesson (about half typed), the 7 most overdue lessons per day (28 questions). 75% or more moves a lesson up a box; under 50% drops it back two boxes and marks it "Needs practice".
+- 29 look-alike pairs (for example first vs second conditional, defining vs non-defining relative clauses, used to vs past habits). When one comes up, one question from its partner joins the review, if the partner has been practised.
+- "Secure": passed, then remembered in two later reviews. Area reviews and practice keep these flags too.
+- Unit checks after each unit with two or more grammar lessons: 18 to 20 mixed questions, pass at 80%. Lessons under 80% in the check are marked "Needs practice" and due tomorrow. The Today card offers the check once every lesson in a unit is passed.
+
+Next: stage 3 (retest pools with a different explanation after a miss, Gemini unit writing tasks, goal-based order and study plan).
 
 ## Roadmap
 
