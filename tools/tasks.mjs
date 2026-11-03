@@ -10,7 +10,7 @@ const SRC = join(dirname(fileURLToPath(import.meta.url)), "..", "src");
 const files = [
   "lessons/sentences.js", "lessons/modals.js", "lessons/conditionals.js", "lessons/passive.js",
   "lessons/patterns.js", "lessons/nouns.js", "lessons/adj.js", "lessons/preps.js", "lessons/writing.js",
-  "plus/skilldata.js", "plus/fbtasks.js",
+  "plus/skilldata.js", "plus/pathdata.js", "plus/fbtasks.js",
 ];
 const code = files.map((f) => readFileSync(join(SRC, f), "utf8")).join("\n;\n");
 const ctx = vm.createContext({});

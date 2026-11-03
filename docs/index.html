@@ -389,6 +389,14 @@ button.ptn{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer}
 .ptcp{border-style:dashed}.ptcp.st-pass{border-style:solid}
 .ptrun{scroll-margin-top:90px}.ptrun:not(:empty){background:var(--card);border:1.5px solid var(--line);border-radius:28px;padding:20px;margin-bottom:18px}
 button.ptbig{width:100%;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.ptrt{margin-top:16px;padding:14px 16px;border-radius:18px;background:color-mix(in srgb,var(--sun) 18%,var(--card));text-align:left}.ptrt .btn{margin-top:10px}
+.ptanw h3{margin:0 0 4px}.ptrules{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:12px 0}.ptrules>div{background:var(--bg);border:1.5px solid var(--line);border-radius:16px;padding:12px 14px}.ptrules p{margin:4px 0 0}
+.ptms{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:8px}.ptms li{display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:14px;background:var(--bg);border:1.5px solid var(--line)}.ptms .bad{color:#c0392b;font-weight:700}.ptms .good{color:var(--teal-ink);font-weight:700}.ptms small{color:var(--mut)}
+:root[data-theme="dark"] .ptms .bad{color:#ff9a8c}@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ptms .bad{color:#ff9a8c}}
+.pttask .pthd{margin-bottom:6px}.ptrw{margin-top:12px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--teal) 10%,var(--card))}.ptrw p{white-space:pre-wrap}
+.ptplan{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:10px;color:var(--mut)}.ptplan select{margin-left:6px}
+.ptpb .ptest{display:block;color:var(--mut);font-size:.9rem}.ptpb details{margin-top:4px}.ptpb summary{cursor:pointer;color:var(--teal-ink);font-weight:700;font-size:.9rem}
+.tag.gl{background:var(--lav);color:#21134d}
 /* visually hidden, still read by screen readers */
 .vh{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 </style></head><body>
@@ -2815,10 +2823,11 @@ function sxNext(){var s=SXS;if(!s)return;s.i++;sxShow()}
 function sxEnd(){var s=SXS,el=$(s.sel),st=sxLoad(),now=Date.now(),n=s.items.length;
  if(s.mode=="t"){ttTestEnd(s);SXS=null;return}
  if(s.mode=="p"||s.mode=="u"){ptEnd(s);SXS=null;return}
- ttLog();if(s.mode=="c"){var o=st.c[s.k]||{};if((o.n||9)!=n){o.best=s.ok;o.n=n}else o.best=Math.max(o.best||0,s.ok);if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}if(s.ok>=Math.ceil(n*.8))o.np=0;st.c[s.k]=o;sxSave(st);
+ if(s.mode=="x"){ptRtEnd(s);SXS=null;return}
+ ttLog();if(s.mode=="c"){var o=st.c[s.k]||{};if((o.n||9)!=n){o.best=s.ok;o.n=n}else o.best=Math.max(o.best||0,s.ok);if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}if(s.ok>=Math.ceil(n*.8)){o.np=0;o.rt=0}st.c[s.k]=o;sxSave(st);
   var msg=s.ok>=n*.85?"Excellent work! You are ready to use it.":s.ok>=n*.65?"Good job! Check the rule once more and try again for a higher score.":"Good effort. Read the rule and the common mistakes again, then try once more.";
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>'+msg+'</p><p class="sxrem">Saved. You will review this lesson '+sxDate(o.due)+'.</p><div class="sxbt"><button class="btn ghost" onclick="sxStart('+s.k+')">Try again</button>'+(s.k<SX.length-1?' <a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(s.k+1)+'">Next lesson \u2192</a>':'')+'</div></div>';
-  var d=$$(".sxdots a")[s.k];if(d)d.classList.add("dn")}
+  var d=$$(".sxdots a")[s.k];if(d)d.classList.add("dn");if(s.ok<Math.ceil(n*.8)&&typeof ptRtOffer=="function")ptRtOffer(s)}
  else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(SXI.length,(o.box||1)+1);o.rv=(o.rv||0)+1;o.np=0}else{o.box=Math.max(1,(o.box||1)-2);o.np=1}o.due=now+sxGap(o.box);st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>Review finished. Each lesson moves to its next box.</p><ul class="sxrl">'+lines.join("")+'</ul><a class="btn" href="#/worksheets/grammar/'+SXA+'" onclick="setTimeout(render,0)">Back to the lessons</a></div>'}
  SXS=null}
@@ -3193,7 +3202,7 @@ function lvRecs(lvl,weak){var L2=["A1","A2","B1","B2","C1"],tgt=lvl=="Pre-A1"?"A
  worker/feedback-worker.js. The Worker then marks only these tasks and takes the topic, level and
  grammar rule from this list, not from the request. So if a task's wording changes, rebuild and
  paste the new Worker code into Cloudflare, or feedback for that task stops with "unknown_task".
- Keep this file plain ES5 that only reads lesson and skills data (no DOM, no other site globals). */
+ Keep this file plain ES5 that only reads lesson, skills and path data (no DOM, no other site globals). */
 var LVTASK="Describe the place where you live and say what you like and dislike about it. Write or say 60 to 150 words.",LVTOPIC="General placement sample";
 function skTaskS(S){return"Role-play. "+S.sit+" The partner said: "+S.task.turns.map(function(t){return t[0]}).join(" / ")+". The text below is only the learner's turns."}
 function skTaskW(W){return W.task+" ("+W.ty+", "+W.min+"-"+W.max+" words)"}
@@ -3201,6 +3210,10 @@ function fbTaskList(){var out=[],A={sentences:SX,modals:MX,conditionals:CX,passi
  Object.keys(A).forEach(function(a){A[a].forEach(function(c){out.push({task:c.pr,topic:c.t,level:c.lv,rule:c.rm})})});
  out.push({task:LVTASK,topic:LVTOPIC,level:"",rule:""});
  SKT.forEach(function(T){out.push({task:T.r.resp[0],topic:T.r.ti,level:T.lv,rule:""});out.push({task:skTaskS(T.s),topic:T.s.ti,level:T.lv,rule:""});out.push({task:skTaskW(T.w),topic:T.w.ti,level:T.lv,rule:""})});
+ /* Guided path unit tasks (src/plus/pathdata.js). The rule lists the unit's grammar and tense lessons, as ptTkCtx does. */
+ var TN=["Present","Past","Future"],AS=["Simple","Continuous","Perfect","Perfect Continuous"];
+ var title=function(id){var p=id.split(":");if(p[0]=="g"){var x=A[p[1]]&&A[p[1]][+p[2]];return x&&x.t}if(p[0]=="t"){var i=+p[1];return TN[Math.floor(i/4)]+" "+AS[i%4]}return null};
+ PTU.forEach(function(u,ui){if(!PTTK[ui])return;out.push({task:ptTkText(ui),topic:"Unit "+(ui+1)+": "+u[1],level:u[0],rule:u[3].map(title).filter(Boolean).join("; ")})});
  return out}
 /* ---- Speaking and writing feedback (hybrid) ----
  Layer 1, for everyone, on this device: word and sentence counts, common learner-error patterns,
@@ -3307,7 +3320,7 @@ function fbAI(id){var S=FBST[id],t=$("#fbt-"+id).value.trim(),out=$("#fba-"+id),
  fbUse().then(function(sample){if(!sample){b.hidden=true;out.innerHTML='<p class="sxsub">Teacher feedback needs this page to be open on claude.ai while you are signed in.</p>';return}
   if(S.busy){if(S.ctl)S.ctl.abort();return}S.busy=1;S.ctl=new AbortController();b.textContent="\u25A0 Stop";var tk=++FBSN;
   out.innerHTML='<div class="fbai"><p class="fbth"><span class="fbdot"></span> '+fbWho()+' is reading your answer and marking it against the criteria. This can take up to a minute.</p></div>';
-  sample.json(sample.gem?{text:t,speech:S.sp,task:S.ctx.task||"",topic:S.ctx.topic||"",level:S.ctx.level||"",rule:S.ctx.rule||""}:fbPrompt(S,t),{signal:S.ctl.signal,modelTier:"default"}).then(function(r){if(tk==FBSN)fbShow(id,r,t)},function(e){var m={not_granted:"You chose not to allow Claude for this page. Quick check still works.",rate_limited:"Lots of people are asking for feedback right now. Please try again in a few minutes. Quick check still works.",cancelled:"Stopped.",invalid_json:"The feedback came back in the wrong format. Please try again.",sampling_disabled:"Asking Claude is turned off for this account.",session_expired:"Your session has expired. Reload the page and sign in again.",too_long:"Your answer is too long for teacher feedback. Try a shorter piece (under about 600 words).",network:"Could not reach the feedback service. Check your internet connection and try again.",timeout:"The AI marker took too long to answer. Please try again in a minute.",unknown_task:"Teacher feedback isn't set up for this task yet. Quick check still works."}[e&&e.code]||"Feedback is not available right now. Please try again later.";out.innerHTML='<p class="sxsub">'+m+(e&&e.detail?'<br><small>Details for your teacher: '+sxH(String(e.detail).slice(0,300))+'</small>':'')+'</p>';if(e&&e.code=="not_granted")b.hidden=true}).then(function(){S.busy=0;b.textContent="\u2728 Teacher feedback"})})}
+  sample.json(sample.gem?{text:t,speech:S.sp,task:S.ctx.task||"",topic:S.ctx.topic||"",level:S.ctx.level||"",rule:S.ctx.rule||""}:fbPrompt(S,t),{signal:S.ctl.signal,modelTier:"default"}).then(function(r){if(tk==FBSN){fbShow(id,r,t);if(typeof ptFbDone=="function")ptFbDone(id,t)}},function(e){var m={not_granted:"You chose not to allow Claude for this page. Quick check still works.",rate_limited:"Lots of people are asking for feedback right now. Please try again in a few minutes. Quick check still works.",cancelled:"Stopped.",invalid_json:"The feedback came back in the wrong format. Please try again.",sampling_disabled:"Asking Claude is turned off for this account.",session_expired:"Your session has expired. Reload the page and sign in again.",too_long:"Your answer is too long for teacher feedback. Try a shorter piece (under about 600 words).",network:"Could not reach the feedback service. Check your internet connection and try again.",timeout:"The AI marker took too long to answer. Please try again in a minute.",unknown_task:"Teacher feedback isn't set up for this task yet. Quick check still works."}[e&&e.code]||"Feedback is not available right now. Please try again later.";out.innerHTML='<p class="sxsub">'+m+(e&&e.detail?'<br><small>Details for your teacher: '+sxH(String(e.detail).slice(0,300))+'</small>':'')+'</p>';if(e&&e.code=="not_granted")b.hidden=true}).then(function(){S.busy=0;b.textContent="\u2728 Teacher feedback"})})}
 function fbShow(id,r,t){var LV6=["A1","A2","B1","B2","C1","C2"],ok=function(l){return LV6.indexOf(l)>=0},nt=fbNorm(t),drop=0;r=r||{};
  var cor=(r.corrections||[]).filter(function(c){var q=c&&c.quote&&fbNorm(c.quote);if(q&&nt.indexOf(q)>=0&&c.fix&&fbNorm(c.fix)!=q)return true;drop++;return false}).slice(0,8);
  var h='<div class="fbai"><div class="fbtop"><span class="lvl" style="--lc:'+(LC[r.overall]||"#e5e7eb")+'">'+(ok(r.overall)?r.overall:"?")+'</span><div><p class="lvkick">'+(ok(r.overall)?"Estimated level of this answer":"Not enough to estimate a level")+(r.confidence?' \u00B7 '+sxH(r.confidence)+' confidence':'')+'</p><p>'+sxH(r.summary||"")+'</p></div></div>';
@@ -3848,11 +3861,9 @@ document.addEventListener("click",function(e){if(e.defaultPrevented||e.button||e
 document.addEventListener("keydown",function(e){var o=$("#ytw");if(!o||o.hidden)return;if(e.key=="Escape"){e.preventDefault();e.stopPropagation();ytClose();return}
  if(e.key=="Tab"){var f=$$("a[href],button,iframe",o.querySelector(".ytbox")),i=f.indexOf(document.activeElement);if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&i==f.length-1){e.preventDefault();f[0].focus()}}},true);
 addEventListener("hashchange",ytClose);
-/* ---- Guided path: one route from A1 to C1 ----
-   Every lesson stays open. The path only recommends an order.
-   Lesson ids: g:<area>:<index> grammar lesson, t:<index> tense, k:<skill>:<topic> English Skills lesson. */
-var PTK="tt_path_v1",PTL=["A1","A2","B1","B2","C1"],PTREV=0;
-var PTLN={A1:"Starting out",A2:"Everyday English",B1:"Independent",B2:"Confident",C1:"Advanced"};
+/* ---- Guided path data: units and unit tasks ----
+   Plain data only, so tools/tasks.mjs can load it to build the feedback Worker's task list.
+   PTU: [level, unit name, can-do, lesson ids]. Lesson ids: g:<area>:<index>, t:<index>, k:<skill>:<topic>. */
 var PTU=[
  ["A1","First sentences","I can say simple sentences about myself and my day.",["g:sentences:0","g:nouns:0","t:0","g:adj:0","g:nouns:1","k:r:0"]],
  ["A1","People and things","I can talk about people, things and what is happening now.",["g:nouns:2","g:nouns:3","t:1","g:modals:0","k:l:0"]],
@@ -3873,6 +3884,33 @@ var PTU=[
  ["C1","Emphasis and nuance","I can add emphasis and talk about unreal and possible situations.",["g:sentences:7","g:sentences:8","g:conditionals:5","g:conditionals:6","g:modals:8","k:s:4"]],
  ["C1","Polished writing","I can write smooth, well-linked texts without repeating myself.",["g:preps:4","g:preps:5","g:sentences:9","g:patterns:7","k:w:4"]]
 ];
+/* Unit tasks: one real-life writing or speaking task per unit, marked by the AI teacher (Gemini). */
+var PTTK=["Write about yourself: your name, where you live in Adelaide, your job or study, and what you usually do on Saturdays.",
+"Describe a photo of your family or friends. Who are they? What are they doing in the photo? What can they do well?",
+"Write a message to a friend. Invite them to the Central Market on Saturday. Say what you will do there. Use and, but, because or so.",
+"Tell the story of your last weekend. Where did you go? What were you doing when something interesting happened? Then write two questions to ask a friend about their weekend.",
+"You are having a barbecue for six friends. Write what you need to buy (how much of each thing) and whose things people are bringing.",
+"Compare two places in or near Adelaide (for example Glenelg and Hahndorf). Which is better for a day out, and why? How did you feel the last time you went?",
+"A friend is moving to Adelaide next month. Give them advice. What should they do first? What will happen if they don't get a metroCARD? What do they need to remember?",
+"How has your life changed since you came to Australia, or since you were a child? What did you use to do? What have you done that you are proud of?",
+"Your neighbour's lights have been off for a week, the mail is piling up and the car is gone. Write what must, might or can't be happening, and what rules people have to follow in your street.",
+"Write about the next five years. What will you be doing? What will you have achieved? What would you do if you won $10,000?",
+"Describe a person who has helped you. Use relative clauses (who, which, where) so a reader can picture them clearly.",
+"Report a conversation you had this week: what the other person said and asked you. Then describe something that was built or changed in your area recently.",
+"Write an email to the organiser of a short course in Adelaide. Say what you enjoy doing and what you are interested in learning, and ask two questions. Check your capitals and apostrophes.",
+"Think of a decision you regret, or a lucky escape. What would have happened if you had acted differently? What do you wish you had done?",
+"Write a short cover letter for a job in Adelaide. Describe your experience, and say what you will have achieved by the end of your first year.",
+"Write a short news report about a local event in Adelaide (real or imagined). Use reporting structures such as \"It is believed that...\" and \"is said to have...\".",
+"Write a persuasive paragraph about a change Adelaide needs. Use emphasis (What we need is..., Never have we...) and at least one sentence about an unreal or possible situation.",
+"Write a smooth, well-linked paragraph about public transport in Adelaide. Avoid repeating words, and use contrast linkers and ellipsis where they sound natural."];
+var PTWD={A1:"30 to 60",A2:"50 to 80",B1:"80 to 120",B2:"120 to 160",C1:"150 to 200"};
+/* The exact task text a unit task sends for teacher feedback (the Worker only marks known texts). */
+function ptTkText(ui){return PTTK[ui]+" Write or say "+PTWD[PTU[ui][0]]+" words."}
+/* ---- Guided path: one route from A1 to C1 ----
+   Every lesson stays open. The path only recommends an order.
+   Lesson ids: g:<area>:<index> grammar lesson, t:<index> tense, k:<skill>:<topic> English Skills lesson. */
+var PTK="tt_path_v1",PTL=["A1","A2","B1","B2","C1"],PTREV=0;
+var PTLN={A1:"Starting out",A2:"Everyday English",B1:"Independent",B2:"Confident",C1:"Advanced"};
 function ptLoad(){try{var o=JSON.parse(localStorage.getItem(PTK));if(o&&typeof o=="object")return o}catch(e){}return{}}
 function ptSave(o){try{localStorage.setItem(PTK,JSON.stringify(o))}catch(e){}}
 function ptLvl(l){return l=="Pre-A1"?"A1":l=="C2"?"C1":PTL.indexOf(l)>=0?l:null}
@@ -3882,28 +3920,29 @@ var PTC=null;
 function ptStores(){var c={},now=Date.now();Object.keys(XA).forEach(function(a){var o=null;try{o=JSON.parse(localStorage.getItem(XA[a].k))}catch(e){}c[a]=o&&o.c?o.c:{}});c._sk=skLoad().d;c._now=now;return c}
 function ptInfo(id,S){var p=id.split(":"),r={id:id,st:"new",due:false};
  if(p[0]=="g"){var A=XA[p[1]],x=A&&A.x[+p[2]];if(!x)return null;var o=S[p[1]][p[2]]||{};r.t=x.t;r.lv=x.lv;r.kind=A.n;r.e="✏️";r.h="#/worksheets/grammar/"+p[1]+"/"+p[2];r.area=p[1];
-  if(o.best!=null){var n=o.n||20;r.sc=o.best+" / "+n;r.st=o.best>=Math.ceil(n*.8)?"pass":"start"}if(o.box&&o.due<=S._now)r.due=true;r.np=!!o.np;r.sec=r.st=="pass"&&(o.rv||0)>=2&&!o.np}
+  if(o.best!=null){var n=o.n||20;r.sc=o.best+" / "+n;r.st=o.best>=Math.ceil(n*.8)||o.rp?"pass":"start";if(o.rp&&o.best<Math.ceil(n*.8))r.sc+=", retest passed"}if(o.box&&o.due<=S._now)r.due=true;r.np=!!o.np;r.sec=r.st=="pass"&&(o.rv||0)>=2&&!o.np}
  else if(p[0]=="t"){var i=+p[1],b=best("c",i);r.t=nm(i);r.lv=LV2[i];r.kind="Tense Studio";r.e="✨";r.h="#/worksheets/grammar/studio/"+i;if(b){r.sc=b+" / 15";r.st=b>=12?"pass":"start"}}
- else{var k=p[1],T=SKT[+p[2]];if(!T||!T[k])return null;r.t=T[k].ti;r.lv=T.lv;r.kind=SKN[k]+" skills";r.e=SKE[k];r.h="#/worksheets/"+SKSL[k]+"/"+p[2];if(S._sk[k+p[2]])r.st="pass"}
+ else{var k=p[1],T=SKT[+p[2]];if(!T||!T[k])return null;r.t=T[k].ti;r.lv=T.lv;r.kind=SKN[k]+" skills";r.e=SKE[k];r.h="#/worksheets/"+SKSL[k]+"/"+p[2];r.topic=T.id;if(S._sk[k+p[2]])r.st="pass"}
  return r}
 function ptAll(){var S=ptStores(),sl=ptStartLv(),si=sl?PTL.indexOf(sl.l):0,out=[];
  PTU.forEach(function(u,ui){u[3].forEach(function(id){var r=ptInfo(id,S);if(!r)return;r.u=ui;if(r.st!="pass"&&PTL.indexOf(r.lv)<si&&PTL.indexOf(u[0])<si)r.st="placed";out.push(r)})});
  var nx=null;out.forEach(function(r){if(!nx&&r.st!="pass"&&r.st!="placed"&&PTL.indexOf(PTU[r.u][0])>=si)nx=r});
  if(!nx)out.forEach(function(r){if(!nx&&r.st!="pass")nx=r});
  return{list:out,next:nx,start:sl,S:S}}
-/* Reviews due today, grouped by grammar area. The area review asks 2 questions per lesson, up to 10. */
 /* Lessons due for review today, most overdue first. Each takes 4 questions in the mixed review. */
 function ptDue(S){var now=S._now,out=[];Object.keys(XA).forEach(function(a){Object.keys(S[a]).forEach(function(k){var o=S[a][k];if(o&&o.box&&o.due<=now&&XA[a].x[k])out.push({a:a,k:+k,due:o.due})})});return out.sort(function(x,y){return x.due-y.due})}
-function ptToday(P){var o=ptLoad(),d=ttDay(),due=ptDue(P.S),nl=Math.min(due.length,PTMAX),q=due.length*4,nx=P.next,cp=ptCpDue(P),h;
+function ptToday(P){var o=ptLoad(),d=ttDay(),due=ptDue(P.S),nl=Math.min(due.length,PTMAX),q=due.length*4,nx=P.next,cp=ptCpDue(P),tk=cp<0?ptTkDue(P):-1,h;
  if(!o.td||o.td.d!=d||!o.td.id){o.td={d:d,id:nx?nx.id:""};ptSave(o)}
  var tl=null;P.list.forEach(function(r){if(r.id==o.td.id)tl=r});
- var done=tl&&tl.st=="pass"&&!due.length&&cp<0,heavy=q>40,min=Math.round(nl*4*.4)+(heavy||done||!nx?0:10);
+ var done=tl&&tl.st=="pass"&&!due.length&&cp<0&&tk<0,heavy=q>40,min=Math.round(nl*4*.4)+(heavy||done||!nx?0:10);
  h='<div class="ptday rv" id="pttoday"><div class="pthd"><small>Today</small><b>'+(done?"Done for today. Well done!":!due.length&&!nx?"You have finished the whole trail!":"About "+Math.max(5,min)+" minutes")+'</b></div>';
  if(due.length){h+='<div class="ptsec"><p><b>1. Review first.</b> '+nl*4+' mixed questions from '+(nl>1?nl+" lessons":"a lesson")+' you have already done'+(due.length>nl?" (the most overdue "+nl+" of "+due.length+")":"")+'. Mixed reviews feel harder than the first practice. That effort is what makes it stick.</p><div class="ptrv"><button class="btn" onclick="ptMix()">Start today\'s review</button></div></div>'}
  if(heavy)h+='<p class="ptnote">Just reviews today. That is great for your memory, and the next lesson will be waiting tomorrow.</p>';
  else if(done){var nn=nx&&nx.id!=tl.id?nx:null;h+='<p class="ptnote">You finished <b>'+sxH(tl.t)+'</b> today.'+(nn?' Want an extra? Next on your trail: <a href="'+nn.h+'">'+sxH(nn.t)+'</a>.':'')+'</p>'}
  else if(cp>=0){h+='<div class="ptsec"><p><b>'+(due.length?"2. Then check a unit.":"Check a unit.")+'</b> You finished every lesson in this unit. A mixed check shows what has stuck.</p><button class="ptbig" onclick="ptCp('+cp+')"><span class="ptbe">🏁</span><span><b>Unit check: '+sxH(PTU[cp][1])+'</b><small>'+ptCpN(cp)+' mixed questions · pass with 80%</small></span><span class="go">Start →</span></button></div>'}
+ else if(tk>=0){h+='<div class="ptsec"><p><b>'+(due.length?"2. Then use it.":"Use what you learned.")+'</b> Write or say a short text for this unit, get feedback, then improve it.</p><button class="ptbig" onclick="ptTask('+tk+')"><span class="ptbe">✍️</span><span><b>Unit task: '+sxH(PTU[tk][1])+'</b><small>Writing or speaking · feedback from your AI teacher</small></span><span class="go">Start →</span></button></div>'}
  else if(nx){var tgt=tl&&tl.st!="pass"?tl:nx;h+='<div class="ptsec"><p><b>'+(due.length?"2. Then learn something new.":"Learn something new.")+'</b> Pass the practice with 16 out of 20 (12 out of 15 in the Tense Studio).</p><a class="ptbig" href="'+tgt.h+'"><span class="ptbe">'+tgt.e+'</span><span><b>'+sxH(tgt.t)+'</b><small>'+sxH(tgt.kind)+' · '+tgt.lv+(tgt.st=="start"?" · started, best "+tgt.sc:"")+'</small></span><span class="go">Start →</span></a></div>'}
+ var gl=ptGoalNext(P);if(gl&&!heavy&&(!nx||gl.id!=nx.id))h+='<p class="ptnote">For your goal: <a href="'+gl.h+'">'+gl.e+' '+sxH(gl.t)+'</a> ('+sxH(gl.kind)+', '+gl.lv+')</p>';
  return h+'</div>'}
 function ptRev(a){PTREV=a;location.hash="#/worksheets/grammar/"+a}
 function ptAfter(r){if(r.n=="path"){var o=ptLoad();if(o.jump){o.jump=0;ptSave(o);ptJump()}}
@@ -3918,11 +3957,11 @@ function ptMap(P){var h="",byU={};P.list.forEach(function(r){(byU[r.u]=byU[r.u]|
   h+='<section class="ptlv rv" id="pt-'+L+'" style="--lc:'+LC[L]+'"><div class="ptlh"><span class="lv">'+L+'</span><div><h2>'+PTLN[L]+'</h2><small>'+ok+' of '+tot+' lessons done</small></div><div class="ptbar" role="img" aria-label="'+pc+'% of '+L+' done"><i style="width:'+pc+'%"></i></div></div>';
   us.forEach(function(ui){var u=PTU[ui],rs=byU[ui]||[],all=rs.length&&rs.every(function(r){return r.st=="pass"||r.st=="placed"});
    h+='<div class="ptu'+(all?" ok":"")+'"><div class="ptuh"><small>Unit '+(ui+1)+'</small><h3>'+sxH(u[1])+'</h3><p>'+(all?"✓ Now you can: ":"Goal: ")+sxH(u[2])+'</p></div><ol class="ptl">'
-   +rs.map(function(r){var now=P.next&&P.next.id==r.id;return'<li><a class="ptn st-'+r.st+(now?" now":"")+(r.due?" due":"")+'" href="'+r.h+'"><span class="ptd" aria-hidden="true">'+(ptIcon(r)||r.e)+'</span><span class="ptt"><b>'+sxH(r.t)+'</b><small>'+sxH(r.kind)+' · '+r.lv+' · '+ptStateTxt(r)+'</small></span>'+(now?'<span class="tag">You are here</span>':'')+(r.due?'<span class="tag due">Review due</span>':r.np?'<span class="tag np">Needs practice</span>':'')+'</a></li>'}).join("")+ptCpNode(P,ui)+'</ol></div>'});
+   +rs.map(function(r){var now=P.next&&P.next.id==r.id;return'<li><a class="ptn st-'+r.st+(now?" now":"")+(r.due?" due":"")+'" href="'+r.h+'"><span class="ptd" aria-hidden="true">'+(ptIcon(r)||r.e)+'</span><span class="ptt"><b>'+sxH(r.t)+'</b><small>'+sxH(r.kind)+' · '+r.lv+' · '+ptStateTxt(r)+'</small></span>'+(now?'<span class="tag">You are here</span>':'')+(r.due?'<span class="tag due">Review due</span>':r.np?'<span class="tag np">Needs practice</span>':'')+(r.topic&&r.topic==ptLoad().goal&&r.st!="pass"?'<span class="tag gl">Your goal</span>':'')+'</a></li>'}).join("")+ptCpNode(P,ui)+ptTkNode(ui)+'</ol></div>'});
   h+='</section>'});
  return h}
-function ptWelcome(){return'<div class="ptday ptwel rv"><div class="pthd"><small>Welcome</small><b>Where should your trail start?</b></div><p>The trail runs from A1 to C1. Every lesson stays open, so you can always go anywhere. The trail just shows a good order and what to do each day.</p><div class="sxbt"><a class="btn" href="#/level">Take the level test (about 10 minutes)</a> <button class="btn ghost" onclick="ptSetStart(\'A1\')">Start at A1</button></div><p class="sxsub">Know your level already? <select aria-label="My level" onchange="if(this.value)ptSetStart(this.value)"><option value="">Choose…</option>'+PTL.map(function(l){return'<option>'+l+'</option>'}).join("")+'</select></p></div>'}
-function ptHabit(){var o=ttAct(),st=ttStreak(o),wk=ttWeek(o),g=o.goal||5;return'<div class="pthab rv"><div><small>Streak</small><b>'+(st?"🔥 "+st+" day"+(st>1?"s":""):"Start today")+'</b></div><div><small>This week</small><b>'+wk+' / '+g+' sessions</b><select aria-label="Weekly goal" onchange="ttGoal(+this.value);render()">'+[3,5,7,10].map(function(x){return'<option'+(x==g?" selected":"")+'>'+x+'</option>'}).join("")+'</select></div></div>'}
+function ptWelcome(){return'<div class="ptday ptwel rv"><div class="pthd"><small>Welcome</small><b>Where should your trail start?</b></div><p>The trail runs from A1 to C1. Every lesson stays open, so you can always go anywhere. The trail just shows a good order and what to do each day.</p><div class="sxbt"><a class="btn" href="#/level">Take the level test (about 10 minutes)</a> <button class="btn ghost" onclick="ptSetStart(\'A1\')">Start at A1</button></div><p class="sxsub">Know your level already? <select aria-label="My level" onchange="if(this.value)ptSetStart(this.value)"><option value="">Choose…</option>'+PTL.map(function(l){return'<option>'+l+'</option>'}).join("")+'</select></p>'+ptPlanForm()+'</div>'}
+function ptHabit(P){var o=ttAct(),st=ttStreak(o),wk=ttWeek(o),g=o.goal||5;return'<div class="pthab rv">'+ptPlanBox(P)+'<div><small>Streak</small><b>'+(st?"🔥 "+st+" day"+(st>1?"s":""):"Start today")+'</b></div><div><small>This week</small><b>'+wk+' / '+g+' sessions</b><select aria-label="Weekly goal" onchange="ttGoal(+this.value);render()">'+[3,5,7,10].map(function(x){return'<option'+(x==g?" selected":"")+'>'+x+'</option>'}).join("")+'</select></div></div>'}
 /* ---- Save my progress: a code the learner can keep and paste back on another device ---- */
 function ptExport(){var o={v:1,d:{}};try{for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.indexOf("tt_")==0&&k!="tt_theme")o.d[k]=localStorage.getItem(k)}}catch(e){}
  var c="";try{c="TT1."+btoa(unescape(encodeURIComponent(JSON.stringify(o))))}catch(e){}var t=$("#ptcode");if(t){t.value=c;t.hidden=false;t.select()}var b=$("#ptcopy");if(b)b.hidden=!c}
@@ -3937,8 +3976,8 @@ function ptBackup(){return'<details class="sxd ptbk rv"><summary>Save my progres
 PAGES.path=function(){var P=ptAll(),sl=P.start,any=P.list.some(function(r){return r.st=="pass"||r.st=="start"}),tot=P.list.length,ok=P.list.filter(function(r){return r.st=="pass"||r.st=="placed"}).length;
  var top=((!sl&&!any)?ptWelcome():ptToday(P))+'<div id="ptrun" class="ptrun"></div>';
  var bar='<div class="ptst rv"><span>Your trail starts at <b>'+(sl?sl.l:"A1")+'</b>'+(sl&&sl.src=="test"?" (from your level test)":"")+'. Change: <select aria-label="Starting level" onchange="ptSetStart(this.value)">'+(sl&&sl.src=="test"?"":'<option value="">From my level test</option>')+PTL.map(function(l){return'<option'+(sl&&sl.l==l?" selected":"")+'>'+l+'</option>'}).join("")+'</select></span><span>'+ok+' of '+tot+' lessons done</span>'+(P.next?'<button class="btn ghost" onclick="ptJump()">Jump to my place</button>':'')+'</div>';
- var how='<details class="sxd rv"><summary>How the trail works</summary><ul class="lvh"><li><b>Nothing is locked.</b> The trail suggests a good order. Open any lesson at any time.</li><li><b>Placed out</b> means your starting level is above that lesson. Do it anyway if you want a refresh.</li><li><b>Pass</b> a lesson with 16 out of 20 in its practice (12 out of 15 in the Tense Studio). English Skills lessons count when you finish them.</li><li><b>Reviews come first.</b> Lessons come back after 1, 3, 7, 14, 30, 60, 120 and 240 days. Today\'s review mixes lessons, and look-alike grammar (like <i>for</i> and <i>since</i>, or the second and third conditional) comes back side by side.</li><li><b>Secure ★</b> means you passed the lesson and then remembered it in two reviews on later days. <b>Needs practice</b> means a review or unit check went wrong. It comes back tomorrow.</li><li><b>Unit checks 🏁</b> mix questions from every grammar lesson in a unit. Pass with 80%.</li><li><b>Little and often</b> works best: about 10 to 15 minutes a day.</li></ul></details>';
- return pg("🧭","Guided path","Your trail from A1 to C1: grammar, tenses and real-life skills in one order, with a plan for each day.",top+ptHabit()+bar+ptMap(P)+how+ptBackup())};
+ var how='<details class="sxd rv"><summary>How the trail works</summary><ul class="lvh"><li><b>Nothing is locked.</b> The trail suggests a good order. Open any lesson at any time.</li><li><b>Placed out</b> means your starting level is above that lesson. Do it anyway if you want a refresh.</li><li><b>Pass</b> a lesson with 16 out of 20 in its practice (12 out of 15 in the Tense Studio). English Skills lessons count when you finish them.</li><li><b>Reviews come first.</b> Lessons come back after 1, 3, 7, 14, 30, 60, 120 and 240 days. Today\'s review mixes lessons, and look-alike grammar (like <i>a</i> and <i>the</i>, or the second and third conditional) comes back side by side.</li><li><b>Secure ★</b> means you passed the lesson and then remembered it in two reviews on later days. <b>Needs practice</b> means a review or unit check went wrong. It comes back tomorrow.</li><li><b>Unit checks 🏁</b> mix questions from every grammar lesson in a unit. Pass with 80%.</li><li><b>Unit tasks ✍️</b> ask you to write or speak about real life in Adelaide. Get feedback, fix your text, then send it again.</li><li><b>Missed the pass mark?</b> You get a different explanation and a 10-question retest. Pass it with 8 out of 10. After two tries the trail moves on, and the lesson comes back in tomorrow\'s review.</li><li><b>Little and often</b> works best: about 10 to 15 minutes a day.</li></ul></details>';
+ return pg("🧭","Guided path","Your trail from A1 to C1: grammar, tenses and real-life skills in one order, with a plan for each day.",top+ptHabit(P)+bar+ptMap(P)+how+ptBackup())};
 /* ---- Stage 2: mixed review, look-alike pairs, unit checks ---- */
 var PTMAX=7;
 /* Look-alike pairs: when one comes up for review, one question from its partner joins it (if the partner has been practised). */
@@ -3971,6 +4010,49 @@ function ptEnd(s){var el=$(s.sel),now=Date.now(),by={},keys=[],st={},lines=[];tt
  if(s.mode=="u"){var o=ptLoad();o.cp=o.cp||{};var c=o.cp[s.ui]||{};o.cp[s.ui]={b:Math.max(c.b||0,s.ok),n:n,pass:c.pass||pass,ts:now};ptSave(o);head=pass?'<p><b>Unit passed!</b> Now you can: '+sxH(PTU[s.ui][2])+'</p>':'<p>Not quite 80% yet. Practise the lessons marked below, then take the check again.</p>';if(pass&&typeof boom=="function")try{boom()}catch(e){}}
  else head='<p>Review finished. Each lesson moves to its next review date.</p>';
  el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div>'+head+'<ul class="sxrl">'+lines.join("")+'</ul><button class="btn" onclick="render()">Back to my trail</button></div>'}
+/* ---- Stage 3: retest after a miss, unit tasks, goal and study plan ---- */
+/* After a practice under 80%: a different explanation, then a 10-question retest with new gap questions. */
+function ptRtOffer(s){var el=$(s.sel+" .sxend");if(!el)return;var o=sxLoad().c[s.k]||{},left=2-(o.rt||0);if(left<=0)return;
+ PTW=s.items.filter(function(x,i){return s.res[i]&&!s.res[i].ok});
+ el.insertAdjacentHTML("beforeend",'<div class="ptrt"><b>Not 16 yet?</b> <span>Look at it another way, then take a short retest ('+left+' tr'+(left>1?"ies":"y")+' left).</span> <button class="btn ghost" onclick="ptAnother('+s.k+')">Look at it another way →</button></div>')}
+var PTW=[];
+function ptGap(c){var out=[];c.nt.forEach(function(t){var m=t.match(/\[\[(.+?)\]\]/);if(!m)return;var a=sxC(m[1]);if(!sxNorm(a))return;out.push({t:"gp",d:[sxC(t.replace(m[0],"___")),[a],c.rm]})});return out}
+function ptAnother(k){var c=SX[k],el=$("#sxp");if(!c||!el)return;var miss={};PTW.forEach(function(x){if(x.t=="fix"||x.t=="fx")miss[sxC(x.t=="fix"?x.d[1]:x.d[1][x.d[2]])]=1});
+ var ms=c.ms.slice().sort(function(a,b){return(miss[sxC(b[1])]?1:0)-(miss[sxC(a[1])]?1:0)}).slice(0,4);
+ el.innerHTML='<div class="ptanw"><h3>Let\'s look at it another way</h3><p class="sxsub">'+sxH(c.rm)+'</p><div class="ptrules">'+c.ru.map(function(r){return'<div><b>'+sxH(r[0])+'</b><p>'+r[1]+'</p></div>'}).join("")+'</div>'
+ +'<p class="fbh">Common mistakes to avoid</p><ul class="ptms">'+ms.map(function(m){return'<li><span class="bad">✗ '+sxH(sxC(m[0]))+'</span><span class="good">✓ '+sxH(sxC(m[1]))+'</span><small>'+sxH(m[2])+'</small></li>'}).join("")+'</ul>'
+ +(PTW.length?'<p class="fbh">Your answers to check again</p><ul class="ptms">'+PTW.slice(0,4).map(function(x){return'<li><span class="good">✓ '+sxH(sxFull(x))+'</span></li>'}).join("")+'</ul>':'')
+ +'<div class="sxbt"><button class="btn" onclick="ptRetest('+k+')">Start the retest (10 questions)</button></div></div>';
+ scrollTo({top:el.getBoundingClientRect().top+scrollY-150,behavior:rm?"auto":"smooth"})}
+function ptRetest(k){var c=SX[k];if(!c)return;var g=sxShuf2(ptGap(c)).map(function(x){x.k=k;return x}),seen={},items=g.slice(0,4);
+ PTW.slice(0,3).forEach(function(x){items.push(x)});items.forEach(function(x){seen[JSON.stringify(x.d)]=1});
+ sxShuf2(sxItemsFor(k)).forEach(function(x){if(items.length<10&&x.t!="dc"&&!seen[JSON.stringify(x.d)]){seen[JSON.stringify(x.d)]=1;items.push(x)}});
+ sxRun(sxShuf2(items),"#sxp","x",k)}
+function ptRtEnd(s){var el=$(s.sel),st=sxLoad(),o=st.c[s.k]||{},n=s.items.length,pass=s.ok>=Math.ceil(n*.8),now=Date.now(),nx=s.k<SX.length-1,msg;ttLog();
+ o.rt=(o.rt||0)+1;if(pass){o.rp=1;o.np=0;if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}msg='<p><b>Passed!</b> This lesson now counts as passed on your trail.</p>'}
+ else if(o.rt>=2){o.np=1;o.box=o.box||1;o.due=now+SXDAY;msg='<p>Let\'s move on for now. This lesson is marked <b>Needs practice</b> and comes back in tomorrow\'s review. A break often helps it click.</p>'}
+ else msg='<p>Nearly. Try one more retest, or move on and come back later.</p>';
+ st.c[s.k]=o;sxSave(st);if(pass&&typeof boom=="function")try{boom()}catch(e){}
+ el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div>'+msg+'<div class="sxbt">'+(!pass&&o.rt<2?'<button class="btn ghost" onclick="ptAnother('+s.k+')">Look again and retest</button> ':'')+'<a class="btn ghost" href="#/path">My trail</a>'+(nx?' <a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(s.k+1)+'">Next lesson →</a>':'')+'</div></div>'}
+function ptTkCtx(ui){var u=PTU[ui],S=ptStores();return{task:ptTkText(ui),level:u[0],topic:"Unit "+(ui+1)+": "+u[1],rule:u[3].filter(function(id){return id.indexOf("k:")!=0}).map(function(id){var r=ptInfo(id,S);return r&&r.t}).filter(Boolean).join("; "),store:"tt_fb_pu"+ui}}
+function ptTask(ui){var el=$("#ptrun");if(!el||!PTTK[ui])return;var c=(ptLoad().tk||{})[ui];
+ el.innerHTML='<div class="pttask"><div class="pthd"><small>Unit task · '+PTU[ui][0]+'</small><b>'+sxH(PTU[ui][1])+'</b></div><p class="sxsub">Write it, or switch to Speak and say it. Ask for <b>Teacher feedback</b>, fix what it suggests in your text, then ask again to see how much better it is.'+(c?' You have had feedback '+c.n+' time'+(c.n>1?"s":"")+'.':'')+'</p>'+fbWidget("pu"+ui,ptTkCtx(ui))+'<div class="sxbt"><button class="btn ghost" onclick="render()">Back to my trail</button></div></div>';
+ fbInit("pu"+ui);el.scrollIntoView({behavior:rm?"auto":"smooth",block:"start"})}
+function ptFbDone(id,t){if(String(id).indexOf("pu")!=0)return;var ui=+id.slice(2),o=ptLoad();o.tk=o.tk||{};var c=o.tk[ui]||{n:0};if(!c.first)c.first=t;c.n++;c.ts=Date.now();o.tk[ui]=c;ptSave(o);
+ var a=$("#fba-"+id);if(!a)return;a.insertAdjacentHTML("beforeend",'<div class="ptrw">'+(c.n==1?'<b>Next:</b> fix what the feedback suggests in your text above, then ask for Teacher feedback again.':'<b>Well done for improving it.</b><details><summary>Compare with your first version</summary><p>'+sxH(c.first)+'</p></details>')+'</div>')}
+function ptTkDone(ui){var c=(ptLoad().tk||{})[ui];return c&&c.n>0}
+function ptTkNode(ui){if(!PTTK[ui])return"";var c=(ptLoad().tk||{})[ui];return'<li><button class="ptn pttk st-'+(c?"pass":"new")+'" onclick="ptTask('+ui+')"><span class="ptd" aria-hidden="true">✍️</span><span class="ptt"><b>Unit task</b><small>Write or speak · '+(c?"feedback "+c.n+" time"+(c.n>1?"s":""):"AI teacher feedback")+'</small></span></button></li>'}
+/* The first unit (from the start level on) whose lessons and check are done but whose task is not, or -1. */
+function ptTkDue(P){var o=ptLoad(),cp=o.cp||{},si=P.start?PTL.indexOf(P.start.l):0,byU={},res=-1;P.list.forEach(function(r){(byU[r.u]=byU[r.u]||[]).push(r)});
+ PTU.forEach(function(u,ui){if(res>=0||PTL.indexOf(u[0])<si||ptTkDone(ui))return;var all=(byU[ui]||[]).every(function(r){return r.st=="pass"});if(all&&(!ptCpN(ui)||(cp[ui]&&cp[ui].pass)))res=ui});return res}
+/* Goal and study plan */
+var PTG=[["around","Getting around"],["shopping","Shopping and money"],["health","Health and the GP"],["work","Work"],["news","News and study"],["general","General English"]];
+function ptPlan(k,v){var o=ptLoad();o[k]=v;ptSave(o);render()}
+function ptPlanForm(){var o=ptLoad();return'<div class="ptplan"><label>What do you need English for most? <select aria-label="My goal" onchange="ptPlan(\'goal\',this.value)"><option value="">Choose…</option>'+PTG.map(function(g){return'<option value="'+g[0]+'"'+(o.goal==g[0]?" selected":"")+'>'+g[1]+'</option>'}).join("")+'</select></label><label>Days a week I can study: <select aria-label="Study days a week" onchange="ptPlan(\'days\',+this.value)"><option value="">Choose…</option>'+[2,3,4,5,6,7].map(function(d){return'<option'+(o.days==d?" selected":"")+'>'+d+'</option>'}).join("")+'</select></label></div>'}
+function ptPlanBox(P){var o=ptLoad(),g=null;PTG.forEach(function(x){if(x[0]==o.goal)g=x[1]});var est="";
+ if(o.days&&P&&P.next){var L=PTU[P.next.u][0],left=P.list.filter(function(r){return PTU[r.u][0]==L&&r.st!="pass"&&r.st!="placed"}).length,wk=Math.max(1,Math.ceil(left/o.days)),d=new Date(Date.now()+wk*7*SXDAY);est='<span class="ptest">'+L+' done by about '+d.toLocaleDateString("en-AU",{day:"numeric",month:"long"})+' ('+left+' lesson'+(left==1?"":"s")+' left)</span>'}
+ return'<div class="ptpb"><small>My plan</small><b>'+(o.days?o.days+" days a week":"Set your plan")+(g?" · "+sxH(g):"")+'</b>'+est+'<details><summary>Change</summary>'+ptPlanForm()+'</details></div>'}
+function ptGoalNext(P){var g=ptLoad().goal;if(!g||g=="general"||!P.next)return null;var mx=PTL.indexOf(PTU[P.next.u][0]),best=null;P.list.forEach(function(r){if(!best&&r.topic==g&&r.st!="pass"&&PTL.indexOf(r.lv)<=mx)best=r});return best}
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
 

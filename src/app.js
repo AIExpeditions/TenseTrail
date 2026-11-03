@@ -537,10 +537,11 @@ function sxNext(){var s=SXS;if(!s)return;s.i++;sxShow()}
 function sxEnd(){var s=SXS,el=$(s.sel),st=sxLoad(),now=Date.now(),n=s.items.length;
  if(s.mode=="t"){ttTestEnd(s);SXS=null;return}
  if(s.mode=="p"||s.mode=="u"){ptEnd(s);SXS=null;return}
- ttLog();if(s.mode=="c"){var o=st.c[s.k]||{};if((o.n||9)!=n){o.best=s.ok;o.n=n}else o.best=Math.max(o.best||0,s.ok);if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}if(s.ok>=Math.ceil(n*.8))o.np=0;st.c[s.k]=o;sxSave(st);
+ if(s.mode=="x"){ptRtEnd(s);SXS=null;return}
+ ttLog();if(s.mode=="c"){var o=st.c[s.k]||{};if((o.n||9)!=n){o.best=s.ok;o.n=n}else o.best=Math.max(o.best||0,s.ok);if(!o.box){o.box=1;o.due=now+SXI[0]*SXDAY}if(s.ok>=Math.ceil(n*.8)){o.np=0;o.rt=0}st.c[s.k]=o;sxSave(st);
   var msg=s.ok>=n*.85?"Excellent work! You are ready to use it.":s.ok>=n*.65?"Good job! Check the rule once more and try again for a higher score.":"Good effort. Read the rule and the common mistakes again, then try once more.";
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>'+msg+'</p><p class="sxrem">Saved. You will review this lesson '+sxDate(o.due)+'.</p><div class="sxbt"><button class="btn ghost" onclick="sxStart('+s.k+')">Try again</button>'+(s.k<SX.length-1?' <a class="btn" href="#/worksheets/grammar/'+SXA+'/'+(s.k+1)+'">Next lesson \u2192</a>':'')+'</div></div>';
-  var d=$$(".sxdots a")[s.k];if(d)d.classList.add("dn")}
+  var d=$$(".sxdots a")[s.k];if(d)d.classList.add("dn");if(s.ok<Math.ceil(n*.8)&&typeof ptRtOffer=="function")ptRtOffer(s)}
  else{var by={};s.res.forEach(function(r){by[r.k]=by[r.k]===undefined?r.ok:(by[r.k]&&r.ok)});var lines=[];Object.keys(by).forEach(function(k){var o=st.c[k]||{box:1};if(by[k]){o.box=Math.min(SXI.length,(o.box||1)+1);o.rv=(o.rv||0)+1;o.np=0}else{o.box=Math.max(1,(o.box||1)-2);o.np=1}o.due=now+sxGap(o.box);st.c[k]=o;lines.push('<li class="'+(by[k]?"ok":"no")+'"><b>'+sxH(SX[k].t)+'</b> <span>'+(by[k]?"Remembered. Next review "+sxDate(o.due)+".":"Not yet. See it again "+sxDate(o.due)+".")+'</span></li>')});sxSave(st);
   el.innerHTML='<div class="sxend"><div class="sxscore"><b>'+s.ok+'</b> / '+n+'</div><p>Review finished. Each lesson moves to its next box.</p><ul class="sxrl">'+lines.join("")+'</ul><a class="btn" href="#/worksheets/grammar/'+SXA+'" onclick="setTimeout(render,0)">Back to the lessons</a></div>'}
  SXS=null}
@@ -690,6 +691,7 @@ function boom(){if(rm)return;var c=$("#cf"),x=c.getContext("2d"),W=c.width=inner
 /*@include plus/skills.js*/
 /*@include plus/audio.js*/
 /*@include plus/video.js*/
+/*@include plus/pathdata.js*/
 /*@include plus/path.js*/
 LC.C2="#f9c6e3";LC["Pre-A1"]="#e5e7eb";
 render();
