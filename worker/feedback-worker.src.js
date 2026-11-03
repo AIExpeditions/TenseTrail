@@ -107,10 +107,21 @@ function clean(o, model) {
     summary: str(o.summary, 600),
     criteria: arr(o.criteria, 5).map(function (c) { c = c || {}; return { name: str(c.name, 60), level: lv(c.level), note: str(c.note, 400) }; }),
     target: t ? { used: !!t.used, correct: !!t.correct, note: str(t.note, 400), quotes: arr(t.quotes, 4).map(function (q) { return str(q, 200); }) } : null,
-    corrections: arr(o.corrections, 8).map(function (c) { c = c || {}; return { quote: str(c.quote, 200), fix: str(c.fix, 200), why: str(c.why, 300), type: str(c.type, 30) }; }),
+    corrections: arr(o.corrections, 8).map(function (c) { c = c || {}; return { quote: str(c.quote, 200), hint: str(c.hint, 300), fix: str(c.fix, 200), why: str(c.why, 300), type: str(c.type, 30), cause: FBCAUSE.indexOf(c.cause) >= 0 ? c.cause : "", area: FBAREA.indexOf(c.area) >= 0 ? c.area : "" }; }),
     strengths: arr(o.strengths, 2).map(function (x) { return str(x, 300); }),
     next: arr(o.next, 2).map(function (x) { return str(x, 300); }),
     rewrite: str(o.rewrite, 2000),
+    model: model
+  };
+}
+
+/* The revise-mode answer: one status per earlier problem, no level. */
+function cleanRevise(o, n, model) {
+  o = o && typeof o == "object" ? o : {};
+  var items = Array.isArray(o.items) ? o.items.slice(0, n) : [];
+  return {
+    items: items.map(function (x, i) { x = x || {}; var st = /^(fixed|not yet|removed)$/.test(x.status) ? x.status : "not yet"; return { n: i + 1, status: st, note: str(x.note, 300) }; }),
+    summary: str(o.summary, 400),
     model: model
   };
 }
@@ -144,7 +155,9 @@ export default {
     if (!known) return reply({ error: "unknown_task", detail: "This task is not in the Worker's task list. Rebuild and paste the new Worker code." }, 400, origin);
     var lv = str(b.level, 10);
     var ctx = { task: task, topic: known.topic, level: known.level || (LEVELS.test(lv) ? lv : ""), rule: known.rule };
-    var prompt = fbRubric(ctx, !!b.speech, text);
+    /* Revise mode: the page sends the earlier problems (the learner's own words) and the revised text. */
+    var prev = b.mode == "revise" && Array.isArray(b.prev) ? b.prev.slice(0, 8).map(function (p) { p = p || {}; return { quote: str(p.quote, 200), cause: FBCAUSE.indexOf(p.cause) >= 0 ? p.cause : "" }; }).filter(function (p) { return p.quote; }) : [];
+    var prompt = prev.length ? fbRevise(ctx, prev, text) : fbRubric(ctx, !!b.speech, text);
 
     var g = await ask(env, prompt);
     if (!g.ok) {
@@ -155,6 +168,6 @@ export default {
     try {
       out = JSON.parse(g.text.replace(/^\s*```(?:json)?\s*|\s*```\s*$/g, ""));
     } catch (e) { return reply({ error: "invalid_json", detail: g.model }, 502, origin); }
-    return reply(clean(out, g.model), 200, origin);
+    return reply(prev.length ? cleanRevise(out, prev.length, g.model) : clean(out, g.model), 200, origin);
   }
 };
