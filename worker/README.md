@@ -51,6 +51,17 @@ To also see what Google answers for each model, add a `CHECK_KEY` secret and ope
 
 If learners see "Teacher feedback isn't set up for this task yet", a task's wording changed on the site after the Worker was last deployed. Run `python3 tools/build.py` and commit; the GitHub Action redeploys it (or paste the new `feedback-worker.js` into Cloudflare if you haven't set the Action up).
 
+## Calibrating the placement test (optional)
+
+The placement test's question difficulties are expert estimates. Real answers show which questions are actually harder. Learners can share their answers anonymously from the result page: only the question numbers, right or wrong, and their estimated score. No name, writing, IP address or device details are kept, and records expire after two years. It is off until you switch it on:
+
+1. Create the storage: in this folder run `npx wrangler kv namespace create CAL`, then in [`wrangler.toml`](wrangler.toml) remove the `#` from the three `kv_namespaces` lines and paste the id. Deploy (commit, and the Action does it). `?check` then shows "Calibration storage (CAL): bound".
+2. Switch the box on: set `LVCAL=true` in `src/plus/levelcal.js`, run `python3 tools/build.py`, and commit.
+3. When a few hundred learners have shared, download the answers: open `https://<your worker>/?export=<your CHECK_KEY>` and save the page as `answers.json`. If it ends with a `cursor` that isn't `null`, add `&cursor=<that value>` for the next page and save each page (an array of pages works too).
+4. Run `node tools/calibrate.mjs answers.json`. It writes the measured difficulty of every question with at least 30 answers into `src/plus/levelcal.js` and lists questions whose measured level differs from their label. Build and commit.
+
+Mention the sharing in your privacy notice if you have one. Changing the question bank (adding or removing items) starts a new set, because older answers refer to different question numbers.
+
 ## Change the rubric
 
 Edit `src/plus/rubric.js`, then run `python3 tools/build.py`. That rebuilds the site and `feedback-worker.js`; commit, and the Action redeploys the Worker (without the Action, paste the new code into Cloudflare again). Do the same whenever you add a lesson or change the wording of a writing or speaking task. Building the Worker needs [Node.js](https://nodejs.org/), which reads the task list from the lesson files (`tools/tasks.mjs`).

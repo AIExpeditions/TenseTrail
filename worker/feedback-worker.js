@@ -130,7 +130,8 @@ async function check(env, key) {
   var lines = ["TenseTrail feedback Worker check", "",
     "GEMINI_API_KEY: " + (env.GEMINI_API_KEY ? "set (" + env.GEMINI_API_KEY.length + " characters)" : "MISSING. Add it under Settings > Variables and Secrets as a Secret."),
     "RL rate limit: " + (env.RL ? "bound" : env.ALLOW_NO_RL == "1" ? "NOT bound (ALLOW_NO_RL=1, so marking is open to anyone)" : "MISSING. Marking is switched off until you add it (see worker/README.md)."),
-    "Tasks built in: " + Object.keys(FBTASKS).length, ""];
+    "Tasks built in: " + Object.keys(FBTASKS).length,
+    "Calibration storage (CAL): " + (env.CAL ? "bound" : "not bound (optional)"), ""];
   var live = env.CHECK_KEY && key === env.CHECK_KEY;
   if (!live) lines.push(env.CHECK_KEY ? "Add ?check=<your CHECK_KEY> to also test each model with Google." : "Add a CHECK_KEY secret, then open ?check=<CHECK_KEY> to also test each model with Google.", "");
   if (env.GEMINI_API_KEY && live) for (var m of models(env)) {
@@ -173,12 +174,35 @@ function cleanRevise(o, n, model) {
   };
 }
 
+/* Placement calibration (optional, needs a KV namespace bound as CAL; see worker/README.md).
+   Learners can choose to share their answer pattern: item ids, right or wrong, and the estimated ability.
+   No text, name, IP address or device details are stored. Each record lives in the key's metadata, so
+   the export can list records without reading them one by one. Records expire after two years. */
+async function calSave(env, b, origin) {
+  if (!env.CAL) return reply({ error: "cal_off" }, 503, origin);
+  var r = b && Array.isArray(b.r) ? b.r : [];
+  if (!r.length || r.length > 40) return reply({ error: "bad_request" }, 400, origin);
+  var ok = r.every(function (x) { return Array.isArray(x) && x.length == 2 && Number.isInteger(x[0]) && x[0] >= 0 && x[0] < 1000 && (x[1] === 0 || x[1] === 1); });
+  var th = Number(b.th), v = Number(b.v);
+  if (!ok || !isFinite(th) || th < -6 || th > 6 || !Number.isInteger(v) || v < 1 || v > 1000) return reply({ error: "bad_request" }, 400, origin);
+  var rec = { v: v, th: Math.round(th * 100) / 100, na: b.noau ? 1 : 0, r: r, d: new Date().toISOString().slice(0, 10) };
+  await env.CAL.put("r:" + Date.now() + ":" + Math.random().toString(36).slice(2, 8), "", { metadata: rec, expirationTtl: 63072000 });
+  return reply({ ok: true }, 200, origin);
+}
+/* Export for tools/calibrate.mjs: GET ?export=<CHECK_KEY>[&cursor=...], 1000 records a page. */
+async function calExport(env, qs) {
+  if (!env.CAL || !env.CHECK_KEY || qs.get("export") !== env.CHECK_KEY) return new Response("Not found", { status: 404 });
+  var l = await env.CAL.list({ prefix: "r:", cursor: qs.get("cursor") || undefined, limit: 1000 });
+  return new Response(JSON.stringify({ records: l.keys.map(function (k) { return k.metadata; }).filter(Boolean), cursor: l.list_complete ? null : l.cursor }), { headers: { "Content-Type": "application/json" } });
+}
+
 export default {
   async fetch(req, env) {
     var allowed = (env.ALLOWED_ORIGINS || "https://aiexpeditions.github.io").split(",").map(function (s) { return s.trim(); });
     var origin = req.headers.get("Origin") || "";
     var qs = new URL(req.url).searchParams;
     if (req.method == "GET" && qs.has("check")) return check(env, qs.get("check"));
+    if (req.method == "GET" && qs.has("export")) return calExport(env, qs);
     if (allowed.indexOf(origin) < 0) return new Response("Forbidden", { status: 403 });
     if (req.method == "OPTIONS") return new Response(null, { status: 204, headers: cors(origin) });
     if (req.method != "POST") return reply({ error: "method" }, 405, origin);
@@ -194,6 +218,7 @@ export default {
 
     var b;
     try { b = await req.json(); } catch (e) { return reply({ error: "bad_request" }, 400, origin); }
+    if (qs.has("cal")) return calSave(env, b, origin);
     var text = str(b && b.text, MAXT + 1).trim();
     if (!text) return reply({ error: "bad_request" }, 400, origin);
     if (text.length > MAXT) return reply({ error: "too_long" }, 413, origin);
