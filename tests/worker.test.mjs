@@ -10,19 +10,31 @@ const PLACE = "Describe the place where you live and say what you like and disli
 
 /* Fake Gemini: records each call and answers with `answer` as the model's JSON.
    upstreamStatus is a status for every call, or a list used one call at a time (then 200). */
-let calls, lastPrompt, answer, upstreamStatus;
+let calls, lastPrompt, lastBody, answer, upstreamStatus, groqStatus;
+const next = (s) => Array.isArray(s) ? (s.length ? s.shift() : 200) : s;
 const realFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt) => {
   calls.push(String(url));
-  lastPrompt = JSON.parse(opt.body).contents[0].parts[0].text;
-  const st = Array.isArray(upstreamStatus) ? (upstreamStatus.length ? upstreamStatus.shift() : 200) : upstreamStatus;
+  lastBody = JSON.parse(opt.body);
+  if (String(url).includes("api.groq.com")) {   /* fake Groq (OpenAI-style) */
+    lastPrompt = lastBody.messages[0].content;
+    const st = next(groqStatus);
+    if (st != 200) return new Response('{"error":{"message":"Rate limit reached for model"}}', { status: st });
+    return new Response(JSON.stringify({ choices: [{ message: { content: JSON.stringify(answer) }, finish_reason: "stop" }] }), { status: 200 });
+  }
+  lastPrompt = lastBody.contents[0].parts[0].text;
+  const st = next(upstreamStatus);
   if (st != 200) return new Response('{"error":{"message":"This model is currently experiencing high demand."}}', { status: st });
   return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify(answer) }] } }] }), { status: 200 });
 };
+/* Fake Workers AI binding: answers like a chat model that adds a thinking block and a code fence. */
+const fakeAI = (fail) => ({ runs: 0, async run(model, inp) { this.runs++; this.model = model; lastPrompt = inp.messages[0].content;
+  if (fail) throw new Error(fail);
+  return { response: "<think>hmm</think>```json\n" + JSON.stringify(answer) + "\n```" }; } });
 process.on("exit", () => { globalThis.fetch = realFetch; });
 
 beforeEach(() => {
-  calls = []; lastPrompt = ""; upstreamStatus = 200;
+  calls = []; lastPrompt = ""; lastBody = null; upstreamStatus = 200; groqStatus = 200;
   answer = { overall: "B1", confidence: "high", summary: "ok", criteria: [{ name: "Task", level: "B1", note: "n" }],
     corrections: [{ quote: "he go", fix: "he goes", why: "agreement", type: "grammar" }], strengths: ["a"], next: ["x"], rewrite: "r" };
 });
@@ -237,5 +249,60 @@ test("calibration: saves valid answers, refuses bad ones, export needs the key",
   r = await W.fetch(get("/?export=s3"), e);
   assert.equal(r.status, 200);
   assert.equal((await r.json()).records.length, 1);
+  assert.equal(calls.length, 0);
+});
+
+/* ---- Several providers: Groq first, then Gemini, then Workers AI ---- */
+
+test("Groq is tried first when its key is set, in JSON mode with low reasoning", async () => {
+  const r = await W.fetch(post({ text: "I can cook.", task: TASK }), env({ GROQ_API_KEY: "g" }));
+  const j = await r.json();
+  assert.equal(r.status, 200);
+  assert.equal(j.model, "openai/gpt-oss-120b");
+  assert.equal(calls.length, 1);
+  assert.ok(calls[0].includes("api.groq.com"));
+  assert.deepEqual(lastBody.response_format, { type: "json_object" });
+  assert.equal(lastBody.reasoning_effort, "low");
+  assert.ok(lastPrompt.includes("Can + base verb"), "same locked-down prompt");
+});
+
+test("Groq used up (429) hands over to Gemini", async () => {
+  groqStatus = 429;
+  const j = await (await W.fetch(post({ text: "I can cook.", task: TASK }), env({ GROQ_API_KEY: "g" }))).json();
+  assert.equal(j.model, "gemini-flash-lite-latest");
+});
+
+test("a bad Groq key is skipped for good; when Gemini is busy too, Workers AI answers", async () => {
+  groqStatus = 401; upstreamStatus = 503;
+  const AI = fakeAI();
+  const r = await W.fetch(post({ text: "I can cook.", task: TASK }), env({ GROQ_API_KEY: "bad", AI }));
+  const j = await r.json();
+  assert.equal(r.status, 200);
+  assert.equal(j.model, "@cf/google/gemma-4-26b-a4b-it");
+  assert.equal(j.overall, "B1", "thinking block and code fence removed");
+  assert.equal(calls.filter((u) => u.includes("groq")).length, 1);
+});
+
+test("Workers AI alone is enough; CF_MODEL=off turns it off; no provider at all is refused", async () => {
+  const AI = fakeAI();
+  let r = await W.fetch(post({ text: "I can cook.", task: TASK }), { RL: RL(), AI });
+  assert.equal(r.status, 200);
+  assert.equal(AI.runs, 1);
+  assert.equal(calls.length, 0);
+  r = await W.fetch(post({ text: "I can cook.", task: TASK }), { RL: RL(), AI, CF_MODEL: "off" });
+  assert.equal(r.status, 503);
+});
+
+test("Workers AI out of allowance counts as busy, not broken", async () => {
+  upstreamStatus = 503;
+  const r = await W.fetch(post({ text: "I can cook.", task: TASK }), env({ AI: fakeAI("You have used up your daily free allocation of 10,000 neurons") }));
+  assert.equal(r.status, 429);
+  assert.equal((await r.json()).error, "rate_limited");
+});
+
+test("?check lists the providers in the order they are tried", async () => {
+  const t = await (await W.fetch(get("/?check"), env({ GROQ_API_KEY: "g", AI: fakeAI() }))).text();
+  assert.match(t, /GROQ_API_KEY: set/);
+  assert.match(t, /Models, in the order they are tried: openai\/gpt-oss-120b, gemini-flash-lite-latest, gemini-flash-latest, gemini-3.5-flash, @cf\/google\/gemma-4-26b-a4b-it/);
   assert.equal(calls.length, 0);
 });

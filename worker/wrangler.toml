@@ -27,6 +27,11 @@ class_name = "Usage"
 tag = "v1"
 new_sqlite_classes = ["Usage"]
 
+# Cloudflare Workers AI: the last fallback when Groq and Gemini are busy. No key; the free plan includes
+# 10,000 "neurons" a day (roughly 200 markings) and stops there, so it never costs anything on the free plan.
+[ai]
+binding = "AI"
+
 # Optional: storage for anonymous placement answers that learners choose to share (see worker/README.md,
 # "Calibrating the placement test"). Create it once with: npx wrangler kv namespace create CAL
 # then remove the # from the three lines below and paste the id it printed.

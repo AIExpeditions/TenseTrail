@@ -1,6 +1,16 @@
-# Teacher feedback with Gemini
+# Teacher feedback (Groq, Gemini and Cloudflare)
 
-The writing and speaking boxes have a **✨ Teacher feedback** button. It sends the learner's answer to Google's Gemini, which marks it with the same CEFR rubric the site used for Claude (`src/plus/rubric.js`). Learners stay on the site and need no account.
+The writing and speaking boxes have a **✨ Teacher feedback** button. It sends the learner's answer to an AI model, which marks it with the same CEFR rubric the site used for Claude (`src/plus/rubric.js`). Learners stay on the site and need no account.
+
+The Worker can use three providers, and it tries them in this order. When one is busy, used up for the day or broken, the next one takes over.
+
+| Order | Provider | Speed | Free allowance | What you set up |
+|---|---|---|---|---|
+| 1 | [Groq](https://console.groq.com) (`openai/gpt-oss-120b`) | about 2 to 4 seconds | about 60 markings a day (200,000 tokens) | a `GROQ_API_KEY` secret |
+| 2 | Google Gemini (Flash models) | about 10 to 30 seconds | a few hundred a day, often busy | a `GEMINI_API_KEY` secret |
+| 3 | [Cloudflare Workers AI](https://developers.cloudflare.com/workers-ai/) (`gemma-4-26b`) | about 5 to 15 seconds | about 200 a day (10,000 neurons) | nothing: `wrangler.toml` adds it |
+
+You need at least one. With all three, a learner almost always gets an answer, and usually a fast one. Groq's paid "Developer" tier costs roughly $0.001 a marking if you outgrow the free one.
 
 ## Why there is a Worker
 
@@ -13,7 +23,7 @@ GitHub Pages only serves files, so any API key in the page would be public, and 
 - caps each learner to a few requests a minute (the `RL` binding below, which is required),
 - passes on only the fields the page uses, and says which model marked the answer.
 
-Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemini's free tier.
+Cloudflare's free plan allows 100,000 Worker requests a day, far more than the AI providers' free tiers.
 
 ## Set it up (about 10 minutes, no coding)
 
@@ -26,12 +36,15 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
    - **From your computer** (needs [Node.js](https://nodejs.org/)). In this folder run `npx wrangler login`, then `npx wrangler deploy`.
 
    Either way, your key, `CHECK_KEY` and Text variables stay as they are (`keep_vars` in `wrangler.toml`). When `?check` shows "RL rate limit: bound", delete `ALLOW_NO_RL`.
-6. **Send us the address.** It looks like `https://tensetrail-feedback.<your-name>.workers.dev`. Put it in `var FBGEM=""` at the top of `src/plus/feedback.js`, run `python3 tools/build.py`, and commit.
+6. **Add Groq for fast answers (recommended).** Sign up free at [console.groq.com](https://console.groq.com) (no card needed), open *API Keys* > *Create API Key*, and copy it. In the Worker, add a **Secret** named `GROQ_API_KEY` with that key. From then on Groq marks first, and Gemini and Cloudflare are the backups. `?check` lists the models in the order they are tried.
+7. **Send us the address.** It looks like `https://tensetrail-feedback.<your-name>.workers.dev`. Put it in `var FBGEM=""` at the top of `src/plus/feedback.js`, run `python3 tools/build.py`, and commit.
 
 ### Optional settings
 
 | Name | Type | What it does |
 |---|---|---|
+| `GROQ_MODEL` | Text | Groq models to try, in order, separated by commas. Default `openai/gpt-oss-120b`. |
+| `CF_MODEL` | Text | The Workers AI model. Default `@cf/google/gemma-4-26b-a4b-it`. Set to `off` to stop using Workers AI. |
 | `GEMINI_MODEL` | Text | Which models to try, in order, separated by commas. Default `gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash`. If one is unavailable or overloaded, the next is tried. |
 | `ALLOWED_ORIGINS` | Text | Comma-separated site addresses. Default `https://aiexpeditions.github.io`. Add a custom domain here if you get one. |
 | `CHECK_KEY` | Secret | Any password you choose. Lets `?check=<CHECK_KEY>` also send a test request to each model (see below). |
@@ -47,7 +60,7 @@ Set `DAILY_MAX` a little below your Gemini daily limit (see the next section) so
 ## Things to know about the free tier
 
 - **Limits.** Google sets free-tier limits per project and changes them often. Check yours in AI Studio under *Usage and limits*. Recently it was roughly 10 requests a minute and a few hundred to about 1,500 a day for the Flash models. When the limit is hit, learners see "please try again in a few minutes" and Quick check still works.
-- **Privacy.** On the free tier Google may use what is sent to improve its products, and people may review it. The page tells learners this and asks them not to include private details. If that matters for a class, turn on billing for the Google project (paid use is not used for training), and the cost for short answers is small.
+- **Privacy.** On the free tier Google may use what is sent to improve its products, and people may review it. Groq says it does not keep inference data by default, apart from logs kept up to 30 days for troubleshooting or abuse ([Groq: your data](https://console.groq.com/docs/your-data)). Cloudflare says it does not use Workers AI content to train models ([Cloudflare: privacy](https://developers.cloudflare.com/workers-ai/platform/privacy/)). The page tells learners their answer goes to an AI service and asks them not to include private details. If Google's training matters for a class, turn on billing for the Google project (paid use is not used for training), or leave out `GEMINI_API_KEY`.
 - **Regions.** The free tier isn't offered in every country. Australia is supported.
 
 ## If feedback doesn't work
@@ -56,7 +69,7 @@ Open your Worker's address with `?check` on the end in a browser, for example `h
 
 To also see what Google answers for each model, add a `CHECK_KEY` secret and open `?check=<your CHECK_KEY>`. Each of those checks uses up to three requests from your free allowance, and only someone who knows the key can run it.
 
-If learners see "Google's AI marker is very busy right now" (Details: `HTTP 503 This model is currently experiencing high demand`), Google's servers are overloaded. It is not your key or settings, and it usually passes within minutes to an hour. The Worker already tries each model, waits two seconds and tries them all once more before giving up. If it happens often, put a less busy model first in `GEMINI_MODEL`.
+If learners see "The AI marker is very busy right now" (Details: `HTTP 503 This model is currently experiencing high demand`), every provider was overloaded at once. It is not your key or settings, and it usually passes within minutes. The Worker already tries each model, waits two seconds and tries them all once more before giving up. If it happens often, add `GROQ_API_KEY` (step 6) so there are more providers to fall back on.
 
 If learners see "Teacher feedback isn't set up for this task yet", a task's wording changed on the site after the Worker was last deployed. Run `python3 tools/build.py` and commit; the GitHub Action redeploys it (or paste the new `feedback-worker.js` into Cloudflare if you haven't set the Action up).
 
