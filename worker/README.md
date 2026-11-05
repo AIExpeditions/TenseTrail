@@ -36,6 +36,13 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
 | `ALLOWED_ORIGINS` | Text | Comma-separated site addresses. Default `https://aiexpeditions.github.io`. Add a custom domain here if you get one. |
 | `CHECK_KEY` | Secret | Any password you choose. Lets `?check=<CHECK_KEY>` also send a test request to each model (see below). |
 | `ALLOW_NO_RL` | Text | Set to `1` only if you really want the Worker to mark without the `RL` rate limit, for example while testing. |
+| `DAILY_MAX` | Text | The most AI markings per day for the whole site (default `800`, counted in UTC days). See "Daily cap" below. |
+
+### Daily cap
+
+The `RL` limit stops one learner sending too many requests, but many learners together could still use up the Gemini free allowance for the day. So the Worker also counts markings per day for the whole site, in a small Durable Object called `USAGE`. `wrangler.toml` sets it up, and it is on Cloudflare's free plan, so there is nothing to do: it appears on the next deploy. When the day's total reaches `DAILY_MAX` (default 800), learners see "Teacher feedback has reached its limit for today. Please try again tomorrow." Quick check still works. `?check` shows how many markings were used today. If the counter ever fails, marking carries on rather than stopping.
+
+Set `DAILY_MAX` a little below your Gemini daily limit (see the next section) so learners get the friendly message instead of a Google error.
 
 ## Things to know about the free tier
 
@@ -45,7 +52,7 @@ Cloudflare's free plan allows 100,000 Worker requests a day, far more than Gemin
 
 ## If feedback doesn't work
 
-Open your Worker's address with `?check` on the end in a browser, for example `https://tensetrail-feedback.<your-name>.workers.dev/?check`. It shows whether the key and the rate limit are set, and how many tasks are built in. Error messages on the site also show a short "Details" line you can copy.
+Open your Worker's address with `?check` on the end in a browser, for example `https://tensetrail-feedback.<your-name>.workers.dev/?check`. It shows whether the key and the rate limit are set, how many of today's markings are used, and how many tasks are built in. Error messages on the site also show a short "Details" line you can copy.
 
 To also see what Google answers for each model, add a `CHECK_KEY` secret and open `?check=<your CHECK_KEY>`. Each of those checks uses up to three requests from your free allowance, and only someone who knows the key can run it.
 

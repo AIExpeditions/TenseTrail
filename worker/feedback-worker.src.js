@@ -16,6 +16,10 @@
    Without it the Worker refuses to mark, so nobody can drain the free quota. To run without it
    anyway (for example while testing), add a Text variable ALLOW_NO_RL with the value 1.
    CHECK_KEY        optional secret. Lets ?check=<CHECK_KEY> send a test request to each model.
+   DAILY_MAX        optional. Most AI markings per day for the whole site (default 800, UTC days).
+ Daily cap: a Durable Object named USAGE (set up by worker/wrangler.toml) counts AI calls per day for the
+   whole site, so many learners together can't use up the Gemini quota. When the cap is reached, learners
+   see "try again tomorrow". Without the binding there is no daily cap (only the per-learner RL limit).
  Test page: open the Worker's address with ?check on the end in a browser. It shows the settings
  (the key itself is never shown). With ?check=<CHECK_KEY> it also sends one tiny request to each
  model and shows what Google answered.
@@ -24,7 +28,38 @@
  src/plus/rubric.js, which holds the rubric. */
 /*@include plus/rubric.js*/
 /*@tasks*/
-var MAXT = 4000, LEVELS = /^(Pre-A1|A1|A2|B1|B2|C1|C2)$/;
+var MAXT = 4000, LEVELS = /^(Pre-A1|A1|A2|B1|B2|C1|C2)$/, DAILY = 800;
+
+/* The daily counter: one Durable Object for the whole site, so the count is exact (KV is not).
+   GET /?take=<max> adds one if today's count is below max; /?peek only reads. Keys older than a week are removed. */
+export class Usage {
+  constructor(state) { this.state = state; }
+  async fetch(req) {
+    var q = new URL(req.url).searchParams, day = new Date().toISOString().slice(0, 10), key = "d:" + day;
+    var n = (await this.state.storage.get(key)) || 0;
+    if (q.has("take")) {
+      var max = Number(q.get("take")) || DAILY;
+      if (n >= max) return Response.json({ ok: false, n: n, max: max });
+      n++;
+      await this.state.storage.put(key, n);
+      if (n == 1) {
+        var old = await this.state.storage.list({ prefix: "d:", end: "d:" + new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10) });
+        if (old.size) await this.state.storage.delete([...old.keys()]);
+      }
+      return Response.json({ ok: true, n: n, max: max });
+    }
+    return Response.json({ ok: true, n: n });
+  }
+}
+function dailyMax(env) { var m = Number(env.DAILY_MAX); return m > 0 ? Math.floor(m) : DAILY; }
+/* Take one from today's allowance. {ok:true} when there is no USAGE binding (no daily cap). */
+async function take(env) {
+  if (!env.USAGE) return { ok: true };
+  try {
+    var r = await env.USAGE.get(env.USAGE.idFromName("site")).fetch("https://usage/?take=" + dailyMax(env));
+    return await r.json();
+  } catch (e) { return { ok: true }; } /* never block marking because the counter failed */
+}
 
 function cors(origin) {
   return {
@@ -79,11 +114,16 @@ async function ask(env, prompt) {
   }
   return last;
 }
+async function peek(env) {
+  try { var r = await (await env.USAGE.get(env.USAGE.idFromName("site")).fetch("https://usage/?peek")).json(); return r.n + " of " + dailyMax(env) + " used today (UTC)"; }
+  catch (e) { return "bound, but the counter could not be read: " + (e && e.message); }
+}
 async function check(env, key) {
   var lines = ["TenseTrail feedback Worker check", "",
     "GEMINI_API_KEY: " + (env.GEMINI_API_KEY ? "set (" + env.GEMINI_API_KEY.length + " characters)" : "MISSING. Add it under Settings > Variables and Secrets as a Secret."),
     "RL rate limit: " + (env.RL ? "bound" : env.ALLOW_NO_RL == "1" ? "NOT bound (ALLOW_NO_RL=1, so marking is open to anyone)" : "MISSING. Marking is switched off until you add it (see worker/README.md)."),
     "Tasks built in: " + Object.keys(FBTASKS).length,
+    "Daily cap (USAGE): " + (env.USAGE ? await peek(env) : "not bound, so there is no daily total (see worker/README.md)"),
     "Calibration storage (CAL): " + (env.CAL ? "bound" : "not bound (optional)"), ""];
   var live = env.CHECK_KEY && key === env.CHECK_KEY;
   if (!live) lines.push(env.CHECK_KEY ? "Add ?check=<your CHECK_KEY> to also test each model with Google." : "Add a CHECK_KEY secret, then open ?check=<CHECK_KEY> to also test each model with Google.", "");
@@ -184,6 +224,8 @@ export default {
     var prev = b.mode == "revise" && Array.isArray(b.prev) ? b.prev.slice(0, 8).map(function (p) { p = p || {}; return { quote: str(p.quote, 200), cause: FBCAUSE.indexOf(p.cause) >= 0 ? p.cause : "" }; }).filter(function (p) { return p.quote; }) : [];
     var prompt = prev.length ? fbRevise(ctx, prev, text) : fbRubric(ctx, !!b.speech, text);
 
+    var day = await take(env);
+    if (!day.ok) return reply({ error: "daily_limit", detail: "Daily cap of " + day.max + " reached" }, 429, origin);
     var g = await ask(env, prompt);
     if (!g.ok) {
       var code = g.status == 429 ? "rate_limited" : g.status == 0 && /longer/.test(g.msg) ? "timeout" : "upstream";
