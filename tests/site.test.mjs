@@ -69,7 +69,8 @@ async function open(hash = "#/", { width = 1200, height = 900, theme = "light", 
 
 const PAGES = ["#/", "#/worksheets", "#/worksheets/grammar", "#/worksheets/grammar/modals", "#/worksheets/grammar/modals/0",
   "#/worksheets/grammar/conditionals/6", "#/worksheets/grammar/studio/3", "#/level", "#/worksheets/reading", "#/worksheets/reading/2",
-  "#/worksheets/speaking/2", "#/worksheets/writing/4", "#/worksheets/listening/1", "#/path", "#/about"];
+  "#/worksheets/speaking/2", "#/worksheets/writing/4", "#/worksheets/listening/1", "#/path", "#/about",
+  "#/teachers", "#/teachers/attendance", "#/teachers/tools"];
 
 test("every main page renders with a title, a heading and no script errors", async () => {
   const s = await open();
@@ -321,6 +322,126 @@ test("feedback: every task the site can send is one the Worker knows", async () 
     for (const t of tasks) assert.ok(known.includes(t), h + ": " + t.slice(0, 50));
   }
   await done();
+});
+
+/* ---- Teacher hub ---- */
+
+test("teachers: the lesson finder filters by level and words, and opens slides from the hub", async () => {
+  const { page, nav, done } = await open("#/teachers");
+  assert.match(await page.textContent("#thcount"), /All 101 lessons/);
+  await page.click(".thlvs button:has-text('B2')");
+  await page.fill("#thq", "past");
+  await page.waitForTimeout(100);
+  const shown = await page.$$eval(".thr .lv", (e) => e.map((x) => x.textContent));
+  assert.ok(shown.length > 0 && shown.every((l) => l == "B2"), "only B2 lessons: " + shown);
+  await page.selectOption("#thby", "area");
+  assert.ok(await page.isVisible(".thgh button:has-text('Cheat sheet')"));
+  await page.click(".thr button:has-text('Present')");
+  assert.ok(await page.isVisible("#prs"));
+  assert.match(await page.textContent("#prs"), /Basic word order|Should|deductions|Past modals|Can/);
+  await page.evaluate(() => prClose());
+  await done();
+});
+
+test("teachers: every grammar lesson has teacher notes and a problem report form", async () => {
+  const { page, done } = await open("#/worksheets/grammar/modals/1");
+  await page.click("summary:has-text('Teacher notes')");
+  assert.match(await page.textContent(".tnb"), /Look-alike to contrast/);
+  const missing = await page.evaluate(() => Object.keys(XA).flatMap((a) => XA[a].x.map((_, k) => a + ":" + k)).filter((id) => { const p = id.split(":"), n = tnNotes(p[0], +p[1]); return !n || !n.ccq.length || !n.err.length || !TNCX[id]; }));
+  assert.deepEqual(missing, []);
+  await done();
+});
+
+test("teachers: a lesson plan collects lessons and the plan box remembers them", async () => {
+  const { page, nav, done } = await open("#/teachers");
+  await page.click("button[aria-label='Add to lesson plan: Should and shouldn\\'t: advice']");
+  await page.click("button[aria-label='Add to lesson plan: Modals: deductions about the past']");
+  assert.equal(await page.locator("#tnplan li").count(), 2);
+  await nav("#/teachers/tools"); await nav("#/teachers");
+  assert.equal(await page.locator("#tnplan li").count(), 2);
+  assert.deepEqual(await page.evaluate(() => tnStages({}, "rule", 45).reduce((a, r) => a + r[2], 0)), 45, "stages add up to the class length");
+  await done();
+});
+
+test("teachers: attendance register, report, CSV and backup round trip", async () => {
+  const { page, nav, done } = await open("#/teachers/attendance");
+  await page.fill("#thcn", "Monday B1");
+  await page.click(".thdays label:has-text('Mon')");
+  await page.fill("#thnst", "Amira\nCarlos\n<b>Hana</b>");
+  await page.click("button:has-text('Add the class')");
+  await page.waitForTimeout(500);
+  assert.match(page.url(), /#\/teachers\/attendance\/[a-z0-9]+\/register$/);
+  assert.equal(await page.locator(".thsr legend b").count(), 0, "names are escaped, not HTML");
+  await page.click("button:has-text('Mark everyone present')");
+  await page.locator(".thsr").nth(1).locator(".kA input").check();
+  assert.match(await page.textContent("#thsum"), /2 present, 0 late, 1 absent/);
+  await page.selectOption("#thtgs", "g:modals:0");
+  await page.click(".thtaught button:has-text('Add')");
+  await nav(page.url().split("#")[1].replace("register", "report").replace(/^/, "#"));
+  const rows = await page.$$eval(".thtbl tbody tr", (r) => r.map((x) => x.textContent));
+  assert.ok(rows.some((r) => /Carlos.*0%.*Under 80%/.test(r)), rows.join(" | "));
+  const csv = await page.evaluate(() => new Promise((res) => { thDownload = (fn, text) => res(text); thCsv(); }));
+  assert.match(csv, /^﻿Student,\d{4}-\d{2}-\d{2},Present/);
+  assert.match(csv, /\nCarlos,A,0,0,1,0,0\r?\n/);
+  const backup = await page.evaluate(() => JSON.stringify({ app: "TenseTrail attendance", v: 1, data: thLoad() }));
+  await page.evaluate(() => localStorage.removeItem("tt_att_v1"));
+  await nav("#/teachers/attendance");
+  assert.equal(await page.locator(".thcc").count(), 0);
+  await page.click("summary:has-text('Backup')");
+  await page.setInputFiles(".thfile input", { name: "b.json", mimeType: "application/json", buffer: Buffer.from(backup) });
+  await page.waitForFunction(() => /Restored 1 class and 1 register/.test($("#thmsg").textContent));
+  assert.equal(await page.locator(".thcc").count(), 1);
+  await done();
+});
+
+test("teachers: restore ignores junk and keeps the newer copy when merging", async () => {
+  const { page, done } = await open("#/teachers/attendance");
+  const r = await page.evaluate(() => {
+    const bad = thClean({ cls: [{ id: "<img src=x>", name: "x" }, { id: "good1234", name: "<script>", st: [{ id: "st000001", n: "A", res: ["nope"] }], days: [9, 1] }], ses: [{ id: "ses00001", c: "good1234", d: "2026-11-01", m: { st000001: "Z" }, tg: ["javascript:x"] }] });
+    const a = { v: 1, cls: [{ id: "cls00001", name: "Old", st: [], upd: 1 }], ses: [], del: {}, warn: 80 };
+    const b = { v: 1, cls: [{ id: "cls00001", name: "New", st: [], upd: 2 }], ses: [], del: {}, warn: 80 };
+    return { n: bad.cls.length, days: bad.cls[0].days, res: bad.cls[0].st[0].res, m: bad.ses[0].m, tg: bad.ses[0].tg, merged: thMerge(a, b).cls[0].name };
+  });
+  assert.deepEqual(r, { n: 1, days: [1], res: [], m: {}, tg: [], merged: "New" });
+  await done();
+});
+
+test("teachers: result codes round trip and reject typos", async () => {
+  const { page, done } = await open("#/teachers/tools");
+  const r = await page.evaluate(() => {
+    const p = tcPlace({ lvl: "B1", score: 52, ts: Date.now() }, ["modals", "nouns"]), t = tcTest("conditionals", 17, 20);
+    const typo = p.slice(0, 2) + (p[2] == "A" ? "B" : "A") + p.slice(3);
+    return { p: tcRead(p.toLowerCase()), t: tcRead(t), typo: tcRead(typo) };
+  });
+  assert.equal(r.p.lvl, "B1"); assert.equal(r.p.score, 52); assert.deepEqual(r.p.weak, ["modals", "nouns"]);
+  assert.equal(r.t.area, "conditionals"); assert.equal(r.t.ok, 17);
+  assert.equal(r.typo, null);
+  await done();
+});
+
+test("teachers: a review sheet is offered for lessons taught a week ago", async () => {
+  const { page, nav, done } = await open("#/teachers");
+  await page.evaluate(() => { const d = new Date(); d.setDate(d.getDate() - 7); const o = thNew();
+    o.cls.push({ id: "abcd1234", name: "Tue A2", lv: "A2", days: [1], time: "", st: [{ id: "stud0001", n: "Amira", upd: 1 }], upd: 1 });
+    o.ses.push({ id: "sess0001", c: "abcd1234", d: ttDay(d), m: { stud0001: "P" }, tg: ["g:modals:1"], note: "", upd: 1 }); thSave(o); });
+  await nav("#/teachers/attendance/abcd1234/register");
+  assert.match(await page.textContent(".tndue"), /Should and shouldn't: advice \(about a week ago\)/);
+  await done();
+});
+
+test("accessibility: teacher pages in use (register, students, report, notes)", async () => {
+  for (const theme of ["light", "dark"]) {
+    const { page, nav, done } = await open("#/teachers", { theme });
+    const found = [];
+    const scan = async (what) => { for (const v of await axe(page)) found.push(theme + " " + what + " " + v); };
+    await page.evaluate(() => { const o = thNew(); o.cls.push({ id: "abcd1234", name: "Tue A2", lv: "A2", days: [1], time: "18:00", st: [{ id: "stud0001", n: "Amira", upd: 1, res: [tcPlace({ lvl: "A2", score: 30, ts: Date.now() }, [])] }, { id: "stud0002", n: "Carlos", upd: 1 }], upd: 1 });
+      o.ses.push({ id: "sess0001", c: "abcd1234", d: ttDay(), m: { stud0001: "P", stud0002: "A" }, tg: ["g:modals:1"], note: "", upd: 1 }); thSave(o); tnPlanAdd("modals", 1); });
+    await nav("#/teachers"); await scan("lessons with a plan");
+    for (const t of ["register", "students", "report", "settings"]) { await nav("#/teachers/attendance/abcd1234/" + t); await scan(t); }
+    await nav("#/worksheets/grammar/modals/1"); await page.click("summary:has-text('Teacher notes')"); await page.click("summary:has-text('Report a problem')"); await scan("teacher notes");
+    assert.deepEqual(found, []);
+    await done();
+  }
 });
 
 /* ---- Layout ---- */
