@@ -1,15 +1,21 @@
 /* TenseTrail teacher feedback proxy (Cloudflare Worker, free plan).
- The site is static, so it cannot keep an API key secret. This Worker keeps the Gemini key
- as a Cloudflare secret, builds the marking prompt itself (so it cannot be used as a general
+ The site is static, so it cannot keep an API key secret. This Worker keeps the AI keys
+ as Cloudflare secrets, builds the marking prompt itself (so it cannot be used as a general
  chatbot), and only answers requests from the site's own address.
 
  It only marks the site's own writing and speaking tasks: tools/build.py builds the list into
  this file (FBTASKS), and the topic, level and grammar rule come from that list, never from the request.
 
  Settings (Cloudflare dashboard > Worker > Settings > Variables and Secrets):
-   GEMINI_API_KEY   secret, required. A free key from https://aistudio.google.com/apikey
+   At least one AI provider is needed. They are tried in this order, and the next one takes over when one
+   is busy, used up or broken:
+   GROQ_API_KEY     secret, optional. A free key from https://console.groq.com/keys. Fastest (a few seconds).
+   GROQ_MODEL       optional, comma separated. Default openai/gpt-oss-120b.
+   GEMINI_API_KEY   secret, optional. A free key from https://aistudio.google.com/apikey
    GEMINI_MODEL     optional. One model name, or several separated by commas to try in order.
                     Defaults to gemini-flash-lite-latest, gemini-flash-latest, gemini-3.5-flash (fastest first).
+   AI binding       Cloudflare Workers AI, set up by worker/wrangler.toml. No key; a free daily allowance.
+   CF_MODEL         optional. Default @cf/google/gemma-4-26b-a4b-it. Set to off to stop using Workers AI.
    ALLOWED_ORIGINS  optional, comma separated. Defaults to https://aiexpeditions.github.io
  Required binding: a Rate Limiting binding named RL caps requests per learner. It can only be added
    with Wrangler: worker/wrangler.toml sets it up (see worker/README.md).
@@ -22,7 +28,7 @@
    see "try again tomorrow". Without the binding there is no daily cap (only the per-learner RL limit).
  Test page: open the Worker's address with ?check on the end in a browser. It shows the settings
  (the key itself is never shown). With ?check=<CHECK_KEY> it also sends one tiny request to each
- model and shows what Google answered.
+ model and shows what each provider answered.
 
  Do not edit worker/feedback-worker.js by hand: tools/build.py writes it from this file and
  src/plus/rubric.js, which holds the rubric. */
@@ -76,8 +82,19 @@ function reply(body, status, origin) {
   return new Response(JSON.stringify(body), { status: status, headers: h });
 }
 function str(v, n) { return typeof v == "string" ? v.slice(0, n) : ""; }
-function models(env) {
-  return (env.GEMINI_MODEL || "gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+function names(v, d) { return String(v || d).split(",").map(function (s) { return s.trim(); }).filter(Boolean); }
+/* The models to try, in order: Groq (fastest, if GROQ_API_KEY is set), then Gemini (if GEMINI_API_KEY is set),
+   then Cloudflare Workers AI (if the AI binding is there; CF_MODEL=off turns it off). */
+function chain(env) {
+  var c = [];
+  if (env.GROQ_API_KEY) names(env.GROQ_MODEL, "openai/gpt-oss-120b").forEach(function (m) { c.push({ p: "groq", m: m }); });
+  if (env.GEMINI_API_KEY) names(env.GEMINI_MODEL, "gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash").forEach(function (m) { c.push({ p: "gemini", m: m }); });
+  if (env.AI && env.CF_MODEL != "off") names(env.CF_MODEL, "@cf/google/gemma-4-26b-a4b-it").forEach(function (m) { c.push({ p: "cf", m: m }); });
+  return c;
+}
+var WHO = { groq: "Groq", gemini: "Google", cf: "Cloudflare" };
+function failed(p, e, ms) {
+  return { ok: false, status: 0, msg: e && e.name == "TimeoutError" ? WHO[p] + " took longer than " + Math.round(ms / 1000) + " seconds" : "Could not reach " + WHO[p] + ": " + (e && e.message) };
 }
 /* One call to Gemini. Returns {ok, text} or {ok:false, status, msg}. */
 async function gemini(env, model, prompt, think, ms) {
@@ -92,7 +109,7 @@ async function gemini(env, model, prompt, think, ms) {
       body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: cfg }),
       signal: AbortSignal.timeout(ms)
     });
-  } catch (e) { return { ok: false, status: 0, msg: e && e.name == "TimeoutError" ? "Google took longer than " + Math.round(ms / 1000) + " seconds" : "Could not reach Google: " + (e && e.message) }; }
+  } catch (e) { return failed("gemini", e, ms); }
   var raw = await r.text(), data = {};
   try { data = JSON.parse(raw); } catch (e) {}
   if (!r.ok) return { ok: false, status: r.status, msg: ((data.error || {}).message || raw).slice(0, 300) };
@@ -102,43 +119,108 @@ async function gemini(env, model, prompt, think, ms) {
   if (!text) return { ok: false, status: 200, msg: "Empty answer (finishReason " + (c.finishReason || ((data.promptFeedback || {}).blockReason) || "unknown") + ")" };
   return { ok: true, text: text };
 }
-/* Try each model in turn (25 s each); retry once without the thinking setting if a model rejects it.
-   When every model is busy (Google's 503 "high demand", 429, 5xx or a timeout), wait 2 s and go round once
+/* One call to Groq (OpenAI-style API). json=false retries without JSON mode if a model rejects it. */
+async function groq(env, model, prompt, json, ms) {
+  ms = ms || 20000;
+  var body = { model: model, messages: [{ role: "user", content: prompt }], temperature: 0, max_completion_tokens: 4000 };
+  if (/gpt-oss/.test(model)) body.reasoning_effort = "low";
+  if (json) body.response_format = { type: "json_object" };
+  var r;
+  try {
+    r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Authorization": "Bearer " + env.GROQ_API_KEY },
+      body: JSON.stringify(body),
+      signal: AbortSignal.timeout(ms)
+    });
+  } catch (e) { return failed("groq", e, ms); }
+  var raw = await r.text(), data = {};
+  try { data = JSON.parse(raw); } catch (e) {}
+  if (!r.ok) return { ok: false, status: r.status, msg: ((data.error || {}).message || raw).slice(0, 300) };
+  var ch = (data.choices || [])[0] || {}, text = ((ch.message || {}).content || "").trim();
+  if (!text) return { ok: false, status: 200, msg: "Empty answer (finish_reason " + (ch.finish_reason || "unknown") + ")" };
+  return { ok: true, text: text };
+}
+/* One call to Cloudflare Workers AI through the AI binding (no key; free daily allowance). */
+async function workersAI(env, model, prompt, ms) {
+  ms = ms || 25000;
+  var out;
+  try {
+    out = await Promise.race([
+      env.AI.run(model, { messages: [{ role: "user", content: prompt }], max_tokens: 3000, temperature: 0 }),
+      new Promise(function (_, no) { setTimeout(function () { var e = new Error("timeout"); e.name = "TimeoutError"; no(e); }, ms); })
+    ]);
+  } catch (e) {
+    var m = String((e && e.message) || e);
+    if (e && e.name == "TimeoutError") return failed("cf", e, ms);
+    return { ok: false, status: /neuron|quota|limit|capacity/i.test(m) ? 429 : /not found|no such model|invalid model/i.test(m) ? 404 : 502, msg: m.slice(0, 300) };
+  }
+  var text = out && out.response != null ? out.response : (((out && out.choices || [])[0] || {}).message || {}).content;
+  if (text && typeof text == "object") text = JSON.stringify(text);
+  if (!text) return { ok: false, status: 200, msg: "Empty answer" };
+  return { ok: true, text: String(text) };
+}
+async function call(env, x, prompt, ms) {
+  var g;
+  if (x.p == "groq") {
+    g = await groq(env, x.m, prompt, true, ms);
+    if (!g.ok && g.status == 400 && /json|response_format/i.test(g.msg)) g = await groq(env, x.m, prompt, false, ms);
+  } else if (x.p == "cf") g = await workersAI(env, x.m, prompt, ms);
+  else {
+    g = await gemini(env, x.m, prompt, true, ms);
+    if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, x.m, prompt, false, ms);
+  }
+  g.model = x.m;
+  return g;
+}
+/* Try each model in turn (20-25 s each). A bad key or request (400, 401, 403) skips that provider's other
+   models. When every model is busy (503 "high demand", 429, 5xx or a timeout), wait 2 s and go round once
    more: these overloads are often brief. The whole wait stays under about 80 seconds. */
-var BUDGET = 80000;
+var BUDGET = 80000, MS = { groq: 20000, gemini: 25000, cf: 25000 };
 async function ask(env, prompt) {
-  var last = null, list = models(env), t0 = Date.now();
+  var last = null, list = chain(env), t0 = Date.now(), dead = {};
   for (var round = 0; round < 2; round++) {
     for (var i = 0; i < list.length; i++) {
+      if (dead[list[i].p]) continue;
       var left = BUDGET - (Date.now() - t0);
       if (left < 8000) return last;
-      var ms = Math.min(25000, left), g = await gemini(env, list[i], prompt, true, ms);
-      if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, list[i], prompt, false, ms);
-      if (g.ok) { g.model = list[i]; return g; }
-      last = g; last.model = list[i];
-      if (g.status == 400 || g.status == 401 || g.status == 403) return last; /* bad key or request: other models won't help */
+      var g = await call(env, list[i], prompt, Math.min(MS[list[i].p], left));
+      if (g.ok) return g;
+      last = g;
+      if (g.status == 400 || g.status == 401 || g.status == 403 || g.status == 404) dead[list[i].p] = 1;
     }
+    if (list.every(function (x) { return dead[x.p]; })) return last;
     await new Promise(function (r) { setTimeout(r, 2000); });
   }
   return last;
+}
+/* Models sometimes wrap the JSON in a code fence or add a thinking block; keep the outermost {...}. */
+function parseJSON(t) {
+  t = String(t).replace(/<think>[\s\S]*?<\/think>/g, "");
+  var a = t.indexOf("{"), b = t.lastIndexOf("}");
+  return JSON.parse(a >= 0 && b > a ? t.slice(a, b + 1) : t);
 }
 async function peek(env) {
   try { var r = await (await env.USAGE.get(env.USAGE.idFromName("site")).fetch("https://usage/?peek")).json(); return r.n + " of " + dailyMax(env) + " used today (UTC)"; }
   catch (e) { return "bound, but the counter could not be read: " + (e && e.message); }
 }
 async function check(env, key) {
+  var set = function (k) { return env[k] ? "set (" + env[k].length + " characters)" : "not set"; };
+  var c = chain(env);
   var lines = ["TenseTrail feedback Worker check", "",
-    "GEMINI_API_KEY: " + (env.GEMINI_API_KEY ? "set (" + env.GEMINI_API_KEY.length + " characters)" : "MISSING. Add it under Settings > Variables and Secrets as a Secret."),
+    "GROQ_API_KEY: " + set("GROQ_API_KEY"),
+    "GEMINI_API_KEY: " + set("GEMINI_API_KEY"),
+    "Workers AI (AI binding): " + (env.AI ? (env.CF_MODEL == "off" ? "bound, but CF_MODEL=off" : "bound") : "not bound"),
+    "Models, in the order they are tried: " + (c.length ? c.map(function (x) { return x.m; }).join(", ") : "NONE. Add GROQ_API_KEY or GEMINI_API_KEY as a Secret (see worker/README.md)."),
     "RL rate limit: " + (env.RL ? "bound" : env.ALLOW_NO_RL == "1" ? "NOT bound (ALLOW_NO_RL=1, so marking is open to anyone)" : "MISSING. Marking is switched off until you add it (see worker/README.md)."),
     "Tasks built in: " + Object.keys(FBTASKS).length,
     "Daily cap (USAGE): " + (env.USAGE ? await peek(env) : "not bound, so there is no daily total (see worker/README.md)"),
     "Calibration storage (CAL): " + (env.CAL ? "bound" : "not bound (optional)"), ""];
   var live = env.CHECK_KEY && key === env.CHECK_KEY;
-  if (!live) lines.push(env.CHECK_KEY ? "Add ?check=<your CHECK_KEY> to also test each model with Google." : "Add a CHECK_KEY secret, then open ?check=<CHECK_KEY> to also test each model with Google.", "");
-  if (env.GEMINI_API_KEY && live) for (var m of models(env)) {
-    var t = Date.now(), g = await gemini(env, m, 'Reply with this JSON only: {"ok":true}', true);
-    if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, m, 'Reply with this JSON only: {"ok":true}', false);
-    lines.push(m + ": " + (g.ok ? "OK" : "FAILED, HTTP " + g.status + ": " + g.msg) + " (" + ((Date.now() - t) / 1000).toFixed(1) + "s)");
+  if (!live) lines.push(env.CHECK_KEY ? "Add ?check=<your CHECK_KEY> to also test each model." : "Add a CHECK_KEY secret, then open ?check=<CHECK_KEY> to also test each model.", "");
+  if (live) for (var x of c) {
+    var t = Date.now(), g = await call(env, x, 'Reply with this JSON only: {"ok":true}');
+    lines.push(WHO[x.p] + " " + x.m + ": " + (g.ok ? "OK" : "FAILED, HTTP " + g.status + ": " + g.msg) + " (" + ((Date.now() - t) / 1000).toFixed(1) + "s)");
   }
   lines.push("", "Allowed sites: " + (env.ALLOWED_ORIGINS || "https://aiexpeditions.github.io"));
   return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
@@ -207,7 +289,7 @@ export default {
     if (allowed.indexOf(origin) < 0) return new Response("Forbidden", { status: 403 });
     if (req.method == "OPTIONS") return new Response(null, { status: 204, headers: cors(origin) });
     if (req.method != "POST") return reply({ error: "method" }, 405, origin);
-    if (!env.GEMINI_API_KEY) return reply({ error: "upstream", detail: "GEMINI_API_KEY is not set on the Worker" }, 503, origin);
+    if (!chain(env).length) return reply({ error: "upstream", detail: "No AI provider is set up on the Worker (GROQ_API_KEY, GEMINI_API_KEY or the AI binding)" }, 503, origin);
 
     if (env.RL) {
       var ip = req.headers.get("CF-Connecting-IP") || "anon";
@@ -241,7 +323,7 @@ export default {
     }
     var out;
     try {
-      out = JSON.parse(g.text.replace(/^\s*```(?:json)?\s*|\s*```\s*$/g, ""));
+      out = parseJSON(g.text);
     } catch (e) { return reply({ error: "invalid_json", detail: g.model }, 502, origin); }
     return reply(prev.length ? cleanRevise(out, prev.length, g.model) : clean(out, g.model), 200, origin);
   }
