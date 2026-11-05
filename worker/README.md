@@ -56,6 +56,8 @@ Open your Worker's address with `?check` on the end in a browser, for example `h
 
 To also see what Google answers for each model, add a `CHECK_KEY` secret and open `?check=<your CHECK_KEY>`. Each of those checks uses up to three requests from your free allowance, and only someone who knows the key can run it.
 
+If learners see "Google's AI marker is very busy right now" (Details: `HTTP 503 This model is currently experiencing high demand`), Google's servers are overloaded. It is not your key or settings, and it usually passes within minutes to an hour. The Worker already tries each model, waits two seconds and tries them all once more before giving up. If it happens often, put a less busy model first in `GEMINI_MODEL`.
+
 If learners see "Teacher feedback isn't set up for this task yet", a task's wording changed on the site after the Worker was last deployed. Run `python3 tools/build.py` and commit; the GitHub Action redeploys it (or paste the new `feedback-worker.js` into Cloudflare if you haven't set the Action up).
 
 ## Calibrating the placement test (optional)

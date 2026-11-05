@@ -8,13 +8,15 @@ const O = "https://aiexpeditions.github.io";
 const TASK = "Write about yourself. Say three things you can do and two things you can't do. Then write one question with Can I or Can you.";
 const PLACE = "Describe the place where you live and say what you like and dislike about it. Write or say 60 to 150 words.";
 
-/* Fake Gemini: records each call and answers with `answer` as the model's JSON. */
+/* Fake Gemini: records each call and answers with `answer` as the model's JSON.
+   upstreamStatus is a status for every call, or a list used one call at a time (then 200). */
 let calls, lastPrompt, answer, upstreamStatus;
 const realFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt) => {
   calls.push(String(url));
   lastPrompt = JSON.parse(opt.body).contents[0].parts[0].text;
-  if (upstreamStatus != 200) return new Response('{"error":{"message":"busy"}}', { status: upstreamStatus });
+  const st = Array.isArray(upstreamStatus) ? (upstreamStatus.length ? upstreamStatus.shift() : 200) : upstreamStatus;
+  if (st != 200) return new Response('{"error":{"message":"This model is currently experiencing high demand."}}', { status: st });
   return new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: JSON.stringify(answer) }] } }] }), { status: 200 });
 };
 process.on("exit", () => { globalThis.fetch = realFetch; });
@@ -112,14 +114,37 @@ test("placement task accepts a valid level and drops a bad one", async () => {
   assert.ok(!lastPrompt.includes("working at about"));
 });
 
-test("Gemini errors are passed on as upstream / rate_limited", async () => {
-  upstreamStatus = 500;
+test("a busy model falls through to the next one", async () => {
+  upstreamStatus = [503];
+  const r = await W.fetch(post({ text: "hi", task: TASK }), env());
+  assert.equal(r.status, 200);
+  assert.equal((await r.json()).model, "gemini-flash-latest");
+  assert.equal(calls.length, 2);
+});
+
+test("when every model is busy, the Worker goes round once more, then says busy", async () => {
+  upstreamStatus = [503, 503, 503];
   let r = await W.fetch(post({ text: "hi", task: TASK }), env());
-  assert.equal(r.status, 502);
-  upstreamStatus = 429;
+  assert.equal(r.status, 200, "second round succeeds");
+  assert.equal(calls.length, 4);
+  calls = []; upstreamStatus = 503;
   r = await W.fetch(post({ text: "hi", task: TASK }), env());
+  const j = await r.json();
+  assert.equal(r.status, 503);
+  assert.equal(j.error, "busy");
+  assert.match(j.detail, /HTTP 503 This model is currently experiencing high demand/);
+  assert.equal(calls.length, 6, "three models, two rounds");
+});
+
+test("Google's 429 is passed on as rate_limited; a bad key stops at once", async () => {
+  upstreamStatus = 429;
+  let r = await W.fetch(post({ text: "hi", task: TASK }), env());
   assert.equal(r.status, 429);
   assert.equal((await r.json()).error, "rate_limited");
+  calls = []; upstreamStatus = 401;
+  r = await W.fetch(post({ text: "hi", task: TASK }), env());
+  assert.equal(r.status, 502);
+  assert.equal(calls.length, 1);
 });
 
 /* ---- Revise mode ---- */

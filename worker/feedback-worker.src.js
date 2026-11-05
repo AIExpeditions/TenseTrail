@@ -80,7 +80,8 @@ function models(env) {
   return (env.GEMINI_MODEL || "gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
 }
 /* One call to Gemini. Returns {ok, text} or {ok:false, status, msg}. */
-async function gemini(env, model, prompt, think) {
+async function gemini(env, model, prompt, think, ms) {
+  ms = ms || 25000;
   var cfg = { responseMimeType: "application/json", temperature: 0 };
   if (think) cfg.thinkingConfig = { thinkingBudget: 1024 };
   var r;
@@ -89,9 +90,9 @@ async function gemini(env, model, prompt, think) {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
       body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: cfg }),
-      signal: AbortSignal.timeout(40000)
+      signal: AbortSignal.timeout(ms)
     });
-  } catch (e) { return { ok: false, status: 0, msg: e && e.name == "TimeoutError" ? "Google took longer than 40 seconds" : "Could not reach Google: " + (e && e.message) }; }
+  } catch (e) { return { ok: false, status: 0, msg: e && e.name == "TimeoutError" ? "Google took longer than " + Math.round(ms / 1000) + " seconds" : "Could not reach Google: " + (e && e.message) }; }
   var raw = await r.text(), data = {};
   try { data = JSON.parse(raw); } catch (e) {}
   if (!r.ok) return { ok: false, status: r.status, msg: ((data.error || {}).message || raw).slice(0, 300) };
@@ -101,16 +102,23 @@ async function gemini(env, model, prompt, think) {
   if (!text) return { ok: false, status: 200, msg: "Empty answer (finishReason " + (c.finishReason || ((data.promptFeedback || {}).blockReason) || "unknown") + ")" };
   return { ok: true, text: text };
 }
-/* Try each model in turn; retry once without the thinking setting if a model rejects it. */
+/* Try each model in turn (25 s each); retry once without the thinking setting if a model rejects it.
+   When every model is busy (Google's 503 "high demand", 429, 5xx or a timeout), wait 2 s and go round once
+   more: these overloads are often brief. The whole wait stays under about 80 seconds. */
+var BUDGET = 80000;
 async function ask(env, prompt) {
   var last = null, list = models(env), t0 = Date.now();
-  for (var i = 0; i < list.length; i++) {
-    var g = await gemini(env, list[i], prompt, true);
-    if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, list[i], prompt, false);
-    if (g.ok) { g.model = list[i]; return g; }
-    last = g; last.model = list[i];
-    if (g.status == 400 || g.status == 401 || g.status == 403) break; /* bad key or request: other models won't help */
-    if (Date.now() - t0 > 45000) break; /* keep the learner's wait under about 90 seconds */
+  for (var round = 0; round < 2; round++) {
+    for (var i = 0; i < list.length; i++) {
+      var left = BUDGET - (Date.now() - t0);
+      if (left < 8000) return last;
+      var ms = Math.min(25000, left), g = await gemini(env, list[i], prompt, true, ms);
+      if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, list[i], prompt, false, ms);
+      if (g.ok) { g.model = list[i]; return g; }
+      last = g; last.model = list[i];
+      if (g.status == 400 || g.status == 401 || g.status == 403) return last; /* bad key or request: other models won't help */
+    }
+    await new Promise(function (r) { setTimeout(r, 2000); });
   }
   return last;
 }
@@ -228,8 +236,8 @@ export default {
     if (!day.ok) return reply({ error: "daily_limit", detail: "Daily cap of " + day.max + " reached" }, 429, origin);
     var g = await ask(env, prompt);
     if (!g.ok) {
-      var code = g.status == 429 ? "rate_limited" : g.status == 0 && /longer/.test(g.msg) ? "timeout" : "upstream";
-      return reply({ error: code, detail: g.model + ": HTTP " + g.status + " " + g.msg }, code == "rate_limited" ? 429 : 502, origin);
+      var code = g.status == 429 ? "rate_limited" : g.status == 0 && /longer/.test(g.msg) ? "timeout" : g.status >= 500 ? "busy" : "upstream";
+      return reply({ error: code, detail: g.model + ": HTTP " + g.status + " " + g.msg }, code == "rate_limited" ? 429 : code == "busy" ? 503 : 502, origin);
     }
     var out;
     try {

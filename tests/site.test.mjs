@@ -295,6 +295,13 @@ test("feedback: the daily cap shows a clear message", async () => {
   await done();
 });
 
+test("feedback: Google being busy shows a clear message", async () => {
+  const { page, done } = await open("#/worksheets/grammar/modals/0", { worker: "busy" });
+  await page.evaluate(() => { $("#fbt-w").value = "He go to work every day. I can cooking very well."; fbIn("w"); fbAI("w"); });
+  await page.waitForFunction(() => /very busy/.test($("#fba-w").textContent));
+  await done();
+});
+
 test("feedback: per-learner rate limit shows the try-later message", async () => {
   const { page, done } = await open("#/worksheets/grammar/modals/0", { worker: "rate_limited" });
   await page.evaluate(() => { $("#fbt-w").value = "He go to work every day. I can cooking very well."; fbIn("w"); fbAI("w"); });
