@@ -1,7 +1,7 @@
 # Deploys the feedback Worker (worker/feedback-worker.js + worker/wrangler.toml) to Cloudflare
 # whenever either file changes on main, or when run by hand from the Actions tab.
 # It needs two repository secrets: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID (see worker/README.md).
-# Without them it only prints a note and does nothing.
+# Without them it only prints a note and does nothing. The Worker tests run first; if they fail, nothing is deployed.
 name: Deploy feedback Worker
 on:
   push:
@@ -13,15 +13,22 @@ permissions:
 concurrency: deploy-worker
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       HAS_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:
       - name: Skip when Cloudflare is not set up
         if: env.HAS_TOKEN != 'true'
         run: echo "::notice::CLOUDFLARE_API_TOKEN is not set, so the Worker was not deployed. See worker/README.md."
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: env.HAS_TOKEN == 'true'
+      - uses: actions/setup-node@v5
+        if: env.HAS_TOKEN == 'true'
+        with:
+          node-version: 22
+      - name: Worker tests (never deploy a Worker that fails them)
+        if: env.HAS_TOKEN == 'true'
+        run: node --test tests/worker.test.mjs
       - uses: cloudflare/wrangler-action@v3
         if: env.HAS_TOKEN == 'true'
         with:

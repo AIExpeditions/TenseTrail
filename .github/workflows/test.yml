@@ -1,0 +1,38 @@
+# Runs on every pull request and on main: the content checks and build, then the Worker tests and the
+# browser tests (main flows plus an axe-core WCAG 2.2 AA scan in light and dark, desktop and phone).
+# Protect main with this check: Settings > Branches > main > "Require status checks to pass" > "Build and test".
+name: Tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  test:
+    name: Build and test
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium for the browser tests
+        run: npx playwright install --with-deps chromium
+      - name: Build (stops on content errors)
+        run: python3 tools/build.py
+      - name: Built files match the sources
+        run: |
+          if ! git diff --quiet -- docs/index.html worker/feedback-worker.js; then
+            echo "::error::docs/index.html or worker/feedback-worker.js is out of date. Run python3 tools/build.py and commit the result."
+            git diff --stat -- docs/index.html worker/feedback-worker.js
+            exit 1
+          fi
+      - run: npm test

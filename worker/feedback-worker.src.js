@@ -16,6 +16,10 @@
    Without it the Worker refuses to mark, so nobody can drain the free quota. To run without it
    anyway (for example while testing), add a Text variable ALLOW_NO_RL with the value 1.
    CHECK_KEY        optional secret. Lets ?check=<CHECK_KEY> send a test request to each model.
+   DAILY_MAX        optional. Most AI markings per day for the whole site (default 800, UTC days).
+ Daily cap: a Durable Object named USAGE (set up by worker/wrangler.toml) counts AI calls per day for the
+   whole site, so many learners together can't use up the Gemini quota. When the cap is reached, learners
+   see "try again tomorrow". Without the binding there is no daily cap (only the per-learner RL limit).
  Test page: open the Worker's address with ?check on the end in a browser. It shows the settings
  (the key itself is never shown). With ?check=<CHECK_KEY> it also sends one tiny request to each
  model and shows what Google answered.
@@ -24,7 +28,38 @@
  src/plus/rubric.js, which holds the rubric. */
 /*@include plus/rubric.js*/
 /*@tasks*/
-var MAXT = 4000, LEVELS = /^(Pre-A1|A1|A2|B1|B2|C1|C2)$/;
+var MAXT = 4000, LEVELS = /^(Pre-A1|A1|A2|B1|B2|C1|C2)$/, DAILY = 800;
+
+/* The daily counter: one Durable Object for the whole site, so the count is exact (KV is not).
+   GET /?take=<max> adds one if today's count is below max; /?peek only reads. Keys older than a week are removed. */
+export class Usage {
+  constructor(state) { this.state = state; }
+  async fetch(req) {
+    var q = new URL(req.url).searchParams, day = new Date().toISOString().slice(0, 10), key = "d:" + day;
+    var n = (await this.state.storage.get(key)) || 0;
+    if (q.has("take")) {
+      var max = Number(q.get("take")) || DAILY;
+      if (n >= max) return Response.json({ ok: false, n: n, max: max });
+      n++;
+      await this.state.storage.put(key, n);
+      if (n == 1) {
+        var old = await this.state.storage.list({ prefix: "d:", end: "d:" + new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10) });
+        if (old.size) await this.state.storage.delete([...old.keys()]);
+      }
+      return Response.json({ ok: true, n: n, max: max });
+    }
+    return Response.json({ ok: true, n: n });
+  }
+}
+function dailyMax(env) { var m = Number(env.DAILY_MAX); return m > 0 ? Math.floor(m) : DAILY; }
+/* Take one from today's allowance. {ok:true} when there is no USAGE binding (no daily cap). */
+async function take(env) {
+  if (!env.USAGE) return { ok: true };
+  try {
+    var r = await env.USAGE.get(env.USAGE.idFromName("site")).fetch("https://usage/?take=" + dailyMax(env));
+    return await r.json();
+  } catch (e) { return { ok: true }; } /* never block marking because the counter failed */
+}
 
 function cors(origin) {
   return {
@@ -45,7 +80,8 @@ function models(env) {
   return (env.GEMINI_MODEL || "gemini-flash-lite-latest,gemini-flash-latest,gemini-3.5-flash").split(",").map(function (s) { return s.trim(); }).filter(Boolean);
 }
 /* One call to Gemini. Returns {ok, text} or {ok:false, status, msg}. */
-async function gemini(env, model, prompt, think) {
+async function gemini(env, model, prompt, think, ms) {
+  ms = ms || 25000;
   var cfg = { responseMimeType: "application/json", temperature: 0 };
   if (think) cfg.thinkingConfig = { thinkingBudget: 1024 };
   var r;
@@ -54,9 +90,9 @@ async function gemini(env, model, prompt, think) {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": env.GEMINI_API_KEY },
       body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: cfg }),
-      signal: AbortSignal.timeout(40000)
+      signal: AbortSignal.timeout(ms)
     });
-  } catch (e) { return { ok: false, status: 0, msg: e && e.name == "TimeoutError" ? "Google took longer than 40 seconds" : "Could not reach Google: " + (e && e.message) }; }
+  } catch (e) { return { ok: false, status: 0, msg: e && e.name == "TimeoutError" ? "Google took longer than " + Math.round(ms / 1000) + " seconds" : "Could not reach Google: " + (e && e.message) }; }
   var raw = await r.text(), data = {};
   try { data = JSON.parse(raw); } catch (e) {}
   if (!r.ok) return { ok: false, status: r.status, msg: ((data.error || {}).message || raw).slice(0, 300) };
@@ -66,24 +102,36 @@ async function gemini(env, model, prompt, think) {
   if (!text) return { ok: false, status: 200, msg: "Empty answer (finishReason " + (c.finishReason || ((data.promptFeedback || {}).blockReason) || "unknown") + ")" };
   return { ok: true, text: text };
 }
-/* Try each model in turn; retry once without the thinking setting if a model rejects it. */
+/* Try each model in turn (25 s each); retry once without the thinking setting if a model rejects it.
+   When every model is busy (Google's 503 "high demand", 429, 5xx or a timeout), wait 2 s and go round once
+   more: these overloads are often brief. The whole wait stays under about 80 seconds. */
+var BUDGET = 80000;
 async function ask(env, prompt) {
   var last = null, list = models(env), t0 = Date.now();
-  for (var i = 0; i < list.length; i++) {
-    var g = await gemini(env, list[i], prompt, true);
-    if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, list[i], prompt, false);
-    if (g.ok) { g.model = list[i]; return g; }
-    last = g; last.model = list[i];
-    if (g.status == 400 || g.status == 401 || g.status == 403) break; /* bad key or request: other models won't help */
-    if (Date.now() - t0 > 45000) break; /* keep the learner's wait under about 90 seconds */
+  for (var round = 0; round < 2; round++) {
+    for (var i = 0; i < list.length; i++) {
+      var left = BUDGET - (Date.now() - t0);
+      if (left < 8000) return last;
+      var ms = Math.min(25000, left), g = await gemini(env, list[i], prompt, true, ms);
+      if (!g.ok && g.status == 400 && /think/i.test(g.msg)) g = await gemini(env, list[i], prompt, false, ms);
+      if (g.ok) { g.model = list[i]; return g; }
+      last = g; last.model = list[i];
+      if (g.status == 400 || g.status == 401 || g.status == 403) return last; /* bad key or request: other models won't help */
+    }
+    await new Promise(function (r) { setTimeout(r, 2000); });
   }
   return last;
+}
+async function peek(env) {
+  try { var r = await (await env.USAGE.get(env.USAGE.idFromName("site")).fetch("https://usage/?peek")).json(); return r.n + " of " + dailyMax(env) + " used today (UTC)"; }
+  catch (e) { return "bound, but the counter could not be read: " + (e && e.message); }
 }
 async function check(env, key) {
   var lines = ["TenseTrail feedback Worker check", "",
     "GEMINI_API_KEY: " + (env.GEMINI_API_KEY ? "set (" + env.GEMINI_API_KEY.length + " characters)" : "MISSING. Add it under Settings > Variables and Secrets as a Secret."),
     "RL rate limit: " + (env.RL ? "bound" : env.ALLOW_NO_RL == "1" ? "NOT bound (ALLOW_NO_RL=1, so marking is open to anyone)" : "MISSING. Marking is switched off until you add it (see worker/README.md)."),
     "Tasks built in: " + Object.keys(FBTASKS).length,
+    "Daily cap (USAGE): " + (env.USAGE ? await peek(env) : "not bound, so there is no daily total (see worker/README.md)"),
     "Calibration storage (CAL): " + (env.CAL ? "bound" : "not bound (optional)"), ""];
   var live = env.CHECK_KEY && key === env.CHECK_KEY;
   if (!live) lines.push(env.CHECK_KEY ? "Add ?check=<your CHECK_KEY> to also test each model with Google." : "Add a CHECK_KEY secret, then open ?check=<CHECK_KEY> to also test each model with Google.", "");
@@ -184,10 +232,12 @@ export default {
     var prev = b.mode == "revise" && Array.isArray(b.prev) ? b.prev.slice(0, 8).map(function (p) { p = p || {}; return { quote: str(p.quote, 200), cause: FBCAUSE.indexOf(p.cause) >= 0 ? p.cause : "" }; }).filter(function (p) { return p.quote; }) : [];
     var prompt = prev.length ? fbRevise(ctx, prev, text) : fbRubric(ctx, !!b.speech, text);
 
+    var day = await take(env);
+    if (!day.ok) return reply({ error: "daily_limit", detail: "Daily cap of " + day.max + " reached" }, 429, origin);
     var g = await ask(env, prompt);
     if (!g.ok) {
-      var code = g.status == 429 ? "rate_limited" : g.status == 0 && /longer/.test(g.msg) ? "timeout" : "upstream";
-      return reply({ error: code, detail: g.model + ": HTTP " + g.status + " " + g.msg }, code == "rate_limited" ? 429 : 502, origin);
+      var code = g.status == 429 ? "rate_limited" : g.status == 0 && /longer/.test(g.msg) ? "timeout" : g.status >= 500 ? "busy" : "upstream";
+      return reply({ error: code, detail: g.model + ": HTTP " + g.status + " " + g.msg }, code == "rate_limited" ? 429 : code == "busy" ? 503 : 502, origin);
     }
     var out;
     try {
