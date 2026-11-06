@@ -12,6 +12,8 @@ An English grammar website for adult learners (A1 to C1), set in everyday Adelai
 | `src/voices.js` | Accent choice and studio voices (Kokoro in a web worker) |
 | `src/lessons/*.js` | Lesson content for each open grammar area (one file per area) |
 | `src/plus/rubric.js` | The CEFR rubric used for AI teacher feedback |
+| `src/plus/teachers.js` | Teacher hub: lesson finder, attendance register (saved in the browser, with CSV, print and backup files), tools |
+| `src/plus/teachplan.js` | Teacher notes, lesson plans, review and marking sheets, learner result codes, problem reports |
 | `worker/` | Small Cloudflare Worker that keeps the AI keys secret (Groq, Gemini, Workers AI) ([setup](worker/README.md)) |
 | `tools/build.py` | Joins everything into one self-contained file, and builds the Worker |
 | `tests/` | Worker tests and browser tests (main flows and an accessibility scan) |
@@ -53,5 +55,6 @@ The same tests run on every pull request (`.github/workflows/test.yml`). The che
 
 - Audio has an accent choice (Australian, British, American) in the 🔊 menu. British and American can use studio voices: [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) (Apache 2.0) running in the browser through [kokoro-js](https://www.npmjs.com/package/kokoro-js), about 90 MB downloaded once. Australian uses the best Australian voice on the device, because no free open model speaks Australian English yet.
 - Progress is saved in each learner's browser only.
+- The attendance register is saved in each teacher's browser only. Teachers move it between computers with a backup file. Every record has an id and an update time, and deletions are kept as tombstones, so syncing through the Worker can be added later without changing the layout.
 - Teacher feedback on writing and speaking uses free AI tiers (Groq first, then Google Gemini, then Cloudflare Workers AI) through the Worker in `worker/`. It stays hidden until the Worker is deployed and its address is set in `src/plus/feedback.js`. See [worker/README.md](worker/README.md) for limits and privacy.
 - Lessons, answer keys and video picks were written and checked by Claude. A teacher should review them.
